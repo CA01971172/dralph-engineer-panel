@@ -4,7 +4,7 @@ import { resolve } from 'path';
 import { crx } from '@crxjs/vite-plugin';
 
 // manifest.json の内容を定義
-const manifest: chrome.runtime.ManifestV3 = {
+const manifest = {
     manifest_version: 3,
     name: "React TS MUI Chrome Extension (Dynamic)",
     version: "0.1.0",
@@ -23,8 +23,8 @@ const manifest: chrome.runtime.ManifestV3 = {
     },
     content_scripts: [
         {
-            matches: ["<all_urls>"],
-            js: ["src/content/content.ts"], // ソースファイルを直接指定
+            matches: ["https://ccfolia.com/rooms/*"],
+            js: ["src/content/content.tsx"], // ソースファイルを直接指定
             run_at: "document_idle"
         }
     ],
