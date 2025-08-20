@@ -61,21 +61,13 @@ const theme = createTheme({
 export default function App(){
     const [visible, setVisible] = useState<boolean>(false);
     const [visibleAdditions, setVisibleAdditions] = useState<boolean>(false);
-    const draggableRef = useRef<HTMLDivElement>(null);
+    const draggableRef = useRef<HTMLDivElement>(null); // Create a ref for the draggable element
 
-    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-    const [windowSize, setWindowSize] = useState({
-        width: window.innerWidth,
-        height: window.innerHeight,
-    });
+    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+    const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
 
-    // 要素サイズを取得
-    useEffect(() => {
-        if (draggableRef.current) {
-        const rect = draggableRef.current.getBoundingClientRect();
-        setDimensions({ width: rect.width, height: rect.height });
-        }
-    }, [draggableRef.current]);
+    const width: number = 340;
+    const height: number = 138.576;
 
     // wキーで開く・閉じる
     function handleKeyDown(event: KeyboardEvent){
@@ -85,7 +77,8 @@ export default function App(){
     };
 
     function handleWindowResize(){
-        setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+        setWindowWidth(window.innerWidth);
+        setWindowHeight(window.innerHeight);
     }
 
     useEffect(() => {
@@ -99,22 +92,21 @@ export default function App(){
     }, []);
 
     return (
-        <>
-            {visible && dimensions && (
+        <div>
+            {visible && (
                 <ThemeProvider theme={theme}>
                     <Draggable
                         nodeRef={draggableRef as React.RefObject<HTMLElement>} // Pass the ref to Draggable with type assertion
                         defaultPosition={{
-                            x: (windowSize.width - dimensions.width) / 2,
-                            y: -(windowSize.height + (dimensions.height)) / 2
+                            x: (windowWidth - width) / 2,
+                            y: -(windowHeight + (height + 16 * 3)) / 2
                         }}
                         bounds={{
-                            top: 0,
-                            left: 0,
-                            right: windowSize.width - dimensions.width,
-                            bottom: windowSize.height - dimensions.height,
+                            top: -windowHeight,
+                            right: (windowWidth - width),
+                            bottom: -(height + 16 * 3),
+                            left: 0
                         }}
-                        // bounds="parent"
                         cancel=".draggable-disable"
                     >
                         <Paper
@@ -124,19 +116,18 @@ export default function App(){
                                 color: "#fff",
                                 backgroundColor: 'rgba(44, 44, 44, 0.87)',
                                 borderRadius: "0",
-                                minWidth: `${dimensions.width}px`,
-                                minHeight: `${dimensions.height}px`,
+                                minWidth: `${width}px`,
+                                minHeight: `${height}px`,
                                 paddingTop: "16px",
                                 paddingBottom: "32px",
                                 userSelect: "none"
                             }}
                             elevation={10}
                         >
-                            <div style={{width: 400, height: 300, padding: "3rem"}}>text</div>
                         </Paper>
                     </Draggable>
                 </ThemeProvider>
             )}
-        </>
+        </div>
     );
 };
