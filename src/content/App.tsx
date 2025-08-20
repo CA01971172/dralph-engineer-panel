@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Paper, Button } from '@mui/material';
+import { useState, useEffect, useRef } from 'react';
+import { Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Draggable from 'react-draggable';
+import DamageReceived from "./damageReceived/DamageReceived"
 
 const theme = createTheme({
     palette: {
@@ -66,13 +67,16 @@ export default function App(){
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
 
-    const width: number = 340;
-    const height: number = 138.576;
+    const [width, setWidth] = useState<number>(300);
+    const [height, setHeight] = useState<number>(150);
 
     // wキーで開く・閉じる
     function handleKeyDown(event: KeyboardEvent){
         if (event.altKey && event.key === "w") {
             setVisible((prev) => !prev);
+        }
+        if (event.altKey && event.key === "e") {
+            setHeight((prev) => prev + 10)
         }
     };
 
@@ -92,19 +96,19 @@ export default function App(){
     }, []);
 
     return (
-        <div>
+        <>
             {visible && (
                 <ThemeProvider theme={theme}>
                     <Draggable
                         nodeRef={draggableRef as React.RefObject<HTMLElement>} // Pass the ref to Draggable with type assertion
                         defaultPosition={{
                             x: (windowWidth - width) / 2,
-                            y: -(windowHeight + (height + 16 * 3)) / 2
+                            y: -(windowHeight + height) / 2
                         }}
                         bounds={{
                             top: -windowHeight,
                             right: (windowWidth - width),
-                            bottom: -(height + 16 * 3),
+                            bottom: -(height),
                             left: 0
                         }}
                         cancel=".draggable-disable"
@@ -124,10 +128,11 @@ export default function App(){
                             }}
                             elevation={10}
                         >
+                            <DamageReceived/>
                         </Paper>
                     </Draggable>
                 </ThemeProvider>
             )}
-        </div>
+        </>
     );
 };

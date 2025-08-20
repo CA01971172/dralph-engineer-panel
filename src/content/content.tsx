@@ -1,9 +1,6 @@
-
 import React from 'react'; // Reactをインポート
 import { createRoot } from 'react-dom/client'; // createRoot をインポート
 import App from "./App";
-
-console.log("機械技師、起動")
 
 // ポータルを追加するためのルート要素を作成する関数
 function addPortalRoot(): HTMLDivElement{
