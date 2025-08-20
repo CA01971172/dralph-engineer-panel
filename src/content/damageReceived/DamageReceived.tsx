@@ -5,7 +5,7 @@ export default function DamageReceived(){
     const [sliderValue, setSliderValue] = useState<number>(0);
 
     return (
-        <div>
+        <div style={{ width: "100%" }}>
             <DefenseLevelSlider
                 sliderValue={sliderValue}
                 setSliderValue={setSliderValue}

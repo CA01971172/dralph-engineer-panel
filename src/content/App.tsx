@@ -6,53 +6,20 @@ import DamageReceived from "./damageReceived/DamageReceived"
 
 const theme = createTheme({
     palette: {
-        primary: {
-            main: "#fff" // プライマリーカラーを白色に設定
-        },
-        secondary: {
-            main: "rgba(0,0,0,0)" // セカンダリーカラーを無色に設定
-        },
+        primary: { main: "#fff" },
+        secondary: { main: "rgba(0,0,0,0)" },
     },
-    typography: {
-        button: {
-            textTransform: "none",
-            fontWeight: 'bold'
-        },
-    },
+    typography: { button: { textTransform: "none", fontWeight: 'bold' } },
     components: {
-        MuiRadio: {
-            styleOverrides: {
-                root: {
-                    color: 'white', // 非アクティブ時のカラーを白に設定
-                },
-            },
-        },
-        MuiSlider: {
-            styleOverrides: {
-                markLabel: {
-                    color: 'white', // カスタムテキストカラーを指定
-                },
-            },
-        },
-        MuiCheckbox: {
-            styleOverrides: {
-                root: {
-                    color: 'white', // 非アクティブ時のカラーを白に設定
-                },
-            },
-        },
+        MuiRadio: { styleOverrides: { root: { color: 'white' } } },
+        MuiSlider: { styleOverrides: { markLabel: { color: 'white' } } },
+        MuiCheckbox: { styleOverrides: { root: { color: 'white' } } },
         MuiTextField: {
             styleOverrides: {
                 root: {
-                    '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
-                        borderBottomColor: 'white', // 下線の色を白色に設定
-                    },
-                    '& .MuiInput-underline:before': {
-                      borderBottomColor: 'white', // 下線の色を白色に設定
-                    },
-                    '& .MuiInput-input': {
-                      color: 'white' // フォームの文字色を白色に設定
-                    }
+                    '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottomColor: 'white' },
+                    '& .MuiInput-underline:before': { borderBottomColor: 'white' },
+                    '& .MuiInput-input': { color: 'white' }
                 }
             }
         }
@@ -61,25 +28,27 @@ const theme = createTheme({
 
 export default function App(){
     const [visible, setVisible] = useState<boolean>(false);
-    const [visibleAdditions, setVisibleAdditions] = useState<boolean>(false);
-    const draggableRef = useRef<HTMLDivElement>(null); // Create a ref for the draggable element
+    const draggableRef = useRef<HTMLDivElement>(null);
 
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
 
-    const [width, setWidth] = useState<number>(300);
+    const [width, setWidth] = useState<number>(500);
     const [height, setHeight] = useState<number>(150);
+
+    const [bounds, setBounds] = useState({
+        top: 0,
+        left: 0,
+        right: windowWidth - width,
+        bottom: windowHeight - height,
+    });
 
     // wキーで開く・閉じる
     function handleKeyDown(event: KeyboardEvent){
-        if (event.altKey && event.key === "w") {
-            setVisible((prev) => !prev);
-        }
-        if (event.altKey && event.key === "e") {
-            setHeight((prev) => prev + 10)
-        }
-    };
+        if (event.altKey && event.key === "w") setVisible(prev => !prev);
+    }
 
+    // windowリサイズ時
     function handleWindowResize(){
         setWindowWidth(window.innerWidth);
         setWindowHeight(window.innerHeight);
@@ -95,36 +64,50 @@ export default function App(){
         };
     }, []);
 
+    // bounds 更新
+    useEffect(() => {
+        function updateBounds(){
+            if (draggableRef.current){
+                const rect = draggableRef.current.getBoundingClientRect();
+                setBounds({
+                    top: 0 - rect.top,
+                    left: 0 - rect.left,
+                    right: window.innerWidth - rect.right,
+                    bottom: window.innerHeight - rect.bottom,
+                });
+            }
+        }
+
+        updateBounds(); // 初期計算
+
+        // 要素サイズ変化を監視
+        const observer = new ResizeObserver(updateBounds);
+        if (draggableRef.current) observer.observe(draggableRef.current);
+
+        return () => { if (draggableRef.current) observer.unobserve(draggableRef.current); };
+    }, [width, height, windowWidth, windowHeight]);
+
     return (
         <>
             {visible && (
                 <ThemeProvider theme={theme}>
                     <Draggable
-                        nodeRef={draggableRef as React.RefObject<HTMLElement>} // Pass the ref to Draggable with type assertion
-                        defaultPosition={{
-                            x: (windowWidth - width) / 2,
-                            y: -(windowHeight + height) / 2
-                        }}
-                        bounds={{
-                            top: -windowHeight,
-                            right: (windowWidth - width),
-                            bottom: -(height),
-                            left: 0
-                        }}
+                        nodeRef={draggableRef as React.RefObject<HTMLDivElement>}
+                        defaultPosition={{ x: (windowWidth - width) / 2, y: (windowHeight - height) / 2 }}
+                        bounds={bounds}
                         cancel=".draggable-disable"
                     >
                         <Paper
-                            ref={draggableRef} // Pass the ref to the Paper component
+                            ref={draggableRef}
                             style={{
                                 position: "absolute",
                                 color: "#fff",
                                 backgroundColor: 'rgba(44, 44, 44, 0.87)',
-                                borderRadius: "0",
+                                borderRadius: 0,
                                 minWidth: `${width}px`,
                                 minHeight: `${height}px`,
-                                paddingTop: "16px",
-                                paddingBottom: "32px",
-                                userSelect: "none"
+                                userSelect: "none",
+                                pointerEvents: "auto"
                             }}
                             elevation={10}
                         >

@@ -42,23 +42,20 @@ function valueLabelFormat(value: number) {
 
 export default function DefenseLevelSlider({sliderValue, setSliderValue}: Props){
     return (
-        <div>
-            <Slider
-                className="draggable-disable"
-                style={{
-                }}
-                defaultValue={sliderValue}
-                valueLabelFormat={valueLabelFormat}
-                getAriaValueText={(value) => `${value}倍`}
-                step={null}
-                marks={marks}
-                min={-3}
-                max={3}
-                onChange={(_event: Event, newValue: number | number[]) => {
-                    const newSliderValue: number = Array.isArray(newValue) ? newValue[0] : newValue;
-                    setSliderValue(newSliderValue);
-                }}
-            />
-        </div>
+        <Slider
+            className="draggable-disable"
+            defaultValue={sliderValue}
+            valueLabelFormat={valueLabelFormat}
+            getAriaValueText={(value) => `${value}倍`}
+            step={null}
+            marks={marks}
+            min={-3}
+            max={3}
+            sx={{ width: 250, m: 3 }}
+            onChange={(_event: Event, newValue: number | number[]) => {
+                const newSliderValue: number = Array.isArray(newValue) ? newValue[0] : newValue;
+                setSliderValue(newSliderValue);
+            }}
+        />
     );
 };

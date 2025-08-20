@@ -7,7 +7,12 @@ function addPortalRoot(): HTMLDivElement{
     // ポータルを追加するためのルート要素を作成
     const portalRoot = document.createElement('div');
     portalRoot.id = 'portal-root-dralph-engineer-panel';
-    portalRoot.style.position = "relative";
+    portalRoot.style.position = "fixed";
+    portalRoot.style.top = "0";
+    portalRoot.style.left = "0";
+    portalRoot.style.width = "100%";
+    portalRoot.style.height = "100%";
+    portalRoot.style.pointerEvents = "none";
     portalRoot.style.zIndex = "1205";
     document.body.appendChild(portalRoot);
     return portalRoot;
