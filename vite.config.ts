@@ -6,9 +6,9 @@ import { crx } from '@crxjs/vite-plugin';
 // manifest.json の内容を定義
 const manifest = {
     manifest_version: 3,
-    name: "React TS MUI Chrome Extension (Dynamic)",
+    name: "ドラルフ神話機械技師パネル",
     version: "0.1.0",
-    description: "React, TypeScript, MUI で作成された Chrome 拡張機能です。",
+    description: "ドラルフ神話の機械技師関係の処理を行います。",
     icons: {
     //     "16": "icons/icon16.png",
     //     "48": "icons/icon48.png",

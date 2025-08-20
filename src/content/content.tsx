@@ -3,8 +3,6 @@ import React from 'react'; // Reactをインポート
 import { createRoot } from 'react-dom/client'; // createRoot をインポート
 import App from "./App";
 
-console.log("機械技師、起動")
-
 // ポータルを追加するためのルート要素を作成する関数
 function addPortalRoot(): HTMLDivElement{
     // ポータルを追加するためのルート要素を作成
@@ -12,6 +10,8 @@ function addPortalRoot(): HTMLDivElement{
     portalRoot.id = 'portal-root-dralph-engineer-panel';
     portalRoot.style.position = "relative";
     portalRoot.style.zIndex = "1205";
+    // portalRoot.style.width = "100dvw"
+    // portalRoot.style.height = "100dvh"
     document.body.appendChild(portalRoot);
     return portalRoot;
 }
