@@ -3,6 +3,7 @@ import { Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Draggable from 'react-draggable';
 import DamageReceived from "./damageReceived/DamageReceived"
+import Header from './Header';
 
 const theme = createTheme({
     palette: {
@@ -111,6 +112,7 @@ export default function App(){
                             }}
                             elevation={10}
                         >
+                            <Header openSettings={() => console.log("openEditSettings")}/>
                             <DamageReceived/>
                         </Paper>
                     </Draggable>
