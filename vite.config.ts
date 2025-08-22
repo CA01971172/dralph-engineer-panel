@@ -12,7 +12,7 @@ const manifest = {
     icons: {
     //     "16": "icons/icon16.png",
     //     "48": "icons/icon48.png",
-    //     "128": "icons/icon128.png"
+        "128": "icons/icon128.png"
     },
     action: { // ポップアップがない場合でも action は残し、アイコン指定などができます
     //     "default_icon": {
