@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, use } from 'react';
 import { Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Draggable from 'react-draggable';
@@ -23,26 +23,39 @@ const theme = createTheme({
                     '& .MuiInput-input': { color: 'white' }
                 }
             }
+        },
+        MuiPaper: {
+            styleOverrides: {
+                root: {
+                    color: "#fff",
+                    backgroundColor: "rgba(44, 44, 44, 0.87)"
+                }
+            }
         }
-    },
+    }
 });
 
 export default function App(){
     const [visible, setVisible] = useState<boolean>(false);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const draggableRef = useRef<HTMLDivElement>(null);
 
-    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-    const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
-
-    const [width, setWidth] = useState<number>(500);
-    const [height, setHeight] = useState<number>(150);
-
+    const [size, setSize] = useState<{ width: number, height: number }>({ width: 500, height: 150 });
+    const [windowSize, setWindowSize] = useState<{ width: number, height: number }>({ width: window.innerWidth, height: window.innerHeight });
+    const [position, setPosition] = useState<{ x: number, y: number }>(getDefaultPosition());
     const [bounds, setBounds] = useState({
         top: 0,
         left: 0,
-        right: windowWidth - width,
-        bottom: windowHeight - height,
+        right: windowSize.width - size.width,
+        bottom: windowSize.height - size.height,
     });
+
+    function getDefaultPosition(){
+        return {
+            x: (windowSize.width - size.width) / 2,
+            y: (windowSize.height - size.height) / 2,
+        }
+    }
 
     // wキーで開く・閉じる
     function handleKeyDown(event: KeyboardEvent){
@@ -51,8 +64,7 @@ export default function App(){
 
     // windowリサイズ時
     function handleWindowResize(){
-        setWindowWidth(window.innerWidth);
-        setWindowHeight(window.innerHeight);
+        setWindowSize({width: window.innerWidth, height: window.innerHeight});
     }
 
     useEffect(() => {
@@ -66,27 +78,27 @@ export default function App(){
     }, []);
 
     // bounds 更新
-    useEffect(() => {
-        function updateBounds(){
-            if (draggableRef.current){
-                const rect = draggableRef.current.getBoundingClientRect();
-                setBounds({
-                    top: 0 - rect.top,
-                    left: 0 - rect.left,
-                    right: window.innerWidth - rect.right,
-                    bottom: window.innerHeight - rect.bottom,
-                });
-            }
-        }
+    // useEffect(() => {
+    //     function updateBounds(){
+    //         if (draggableRef.current){
+    //             const rect = draggableRef.current.getBoundingClientRect();
+    //             setBounds({
+    //                 top: 0 - rect.top,
+    //                 left: 0 - rect.left,
+    //                 right: window.innerWidth - rect.right,
+    //                 bottom: window.innerHeight - rect.bottom,
+    //             });
+    //         }
+    //     }
 
-        updateBounds(); // 初期計算
+    //     updateBounds(); // 初期計算
 
-        // 要素サイズ変化を監視
-        const observer = new ResizeObserver(updateBounds);
-        if (draggableRef.current) observer.observe(draggableRef.current);
+    //     // 要素サイズ変化を監視
+    //     const observer = new ResizeObserver(updateBounds);
+    //     if (draggableRef.current) observer.observe(draggableRef.current);
 
-        return () => { if (draggableRef.current) observer.unobserve(draggableRef.current); };
-    }, [width, height, windowWidth, windowHeight]);
+    //     return () => { if (draggableRef.current) observer.unobserve(draggableRef.current); };
+    // }, [width, height, windowWidth, windowHeight]);
 
     return (
         <>
@@ -94,7 +106,7 @@ export default function App(){
                 <ThemeProvider theme={theme}>
                     <Draggable
                         nodeRef={draggableRef as React.RefObject<HTMLDivElement>}
-                        defaultPosition={{ x: (windowWidth - width) / 2, y: (windowHeight - height) / 2 }}
+                        defaultPosition={getDefaultPosition()}
                         bounds={bounds}
                         cancel=".draggable-disable"
                     >
@@ -102,17 +114,15 @@ export default function App(){
                             ref={draggableRef}
                             style={{
                                 position: "absolute",
-                                color: "#fff",
-                                backgroundColor: 'rgba(44, 44, 44, 0.87)',
                                 borderRadius: 0,
-                                minWidth: `${width}px`,
-                                minHeight: `${height}px`,
+                                minWidth: `${size.width}px`,
+                                minHeight: `${size.height}px`,
                                 userSelect: "none",
                                 pointerEvents: "auto"
                             }}
                             elevation={10}
                         >
-                            <Header openSettings={() => console.log("openEditSettings")}/>
+                            <Header isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
                             <DamageReceived/>
                         </Paper>
                     </Draggable>
