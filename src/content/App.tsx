@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, use } from 'react';
-import { Paper } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Draggable from 'react-draggable';
 import DamageReceived from "./damageReceived/DamageReceived"
@@ -49,6 +49,8 @@ export default function App(){
         right: windowSize.width - size.width,
         bottom: windowSize.height - size.height,
     });
+
+    const [enableOverload, setEnableOverload] = useState<boolean>(false); // オーバーロード有効化
 
     function getDefaultPosition(){
         return {
@@ -122,8 +124,16 @@ export default function App(){
                             }}
                             elevation={10}
                         >
-                            <Header isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
-                            <DamageReceived/>
+                            <Header
+                                isModalOpen={isModalOpen}
+                                setIsModalOpen={setIsModalOpen}
+                            />
+                            <Box sx={{ p: 2, pt: 0 }}>
+                                <DamageReceived
+                                    enableOverload={enableOverload}
+                                    setEnableOverload={setEnableOverload}
+                                />
+                            </Box>
                         </Paper>
                     </Draggable>
                 </ThemeProvider>
