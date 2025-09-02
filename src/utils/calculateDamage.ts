@@ -5,10 +5,11 @@ export function calculateDamage(
     enableEnergyShield: boolean,
     shieldEnergy: number,
     defenseValue: number,
+    otherDefense: number,
     specialArmors: string[],
     enableOverload: boolean,
     enableBarrierHorn: boolean,
-    enableEmergencyShield: boolean,
+    enableEmergencyShield: boolean
 ){
     const text = `相手が出したダメージを入力してください。\n被ダメージ計算後、${partsName}の耐久値を減少させます。`;
     const inputDamage = prompt(text);
@@ -19,6 +20,10 @@ export function calculateDamage(
     let scaleDivider: number = 1;
     if(defenseValue !== 0){
         scale += "*" + ["25", "50", "75", "100", "150", "175", "200"][defenseValue + 3];
+        scaleDivider *= 100;
+    }
+    if(otherDefense !== 100){
+        scale += `*${otherDefense}`;
         scaleDivider *= 100;
     }
     if(enableOverload){

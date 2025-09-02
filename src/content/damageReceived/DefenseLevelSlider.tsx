@@ -51,7 +51,7 @@ export default function DefenseLevelSlider({sliderValue, setSliderValue}: Props)
             marks={marks}
             min={-3}
             max={3}
-            sx={{ width: 250, m: 3 }}
+            sx={{ width: 250, m: 3, mt: 0 }}
             onChange={(_event: Event, newValue: number | number[]) => {
                 const newSliderValue: number = Array.isArray(newValue) ? newValue[0] : newValue;
                 setSliderValue(newSliderValue);

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import DefenseLevelSlider from "./DefenseLevelSlider";
 import SelectParts from "./SelectParts";
+import CalculateDamage from "./CalculateDamage";
+import { Box } from "@mui/material";
 
 // パワーアーマーの部位名
 const partsNames = [ "頭", "胴体", "右手", "左手", "右足", "左足" ];
@@ -8,12 +10,16 @@ const partsNames = [ "頭", "胴体", "右手", "左手", "右足", "左足" ];
 // 特殊装甲リスト
 const specialArmorList = [
     {
+        armorName: "装甲",
+        enable: true
+    },
+    {
         armorName: "物理装甲",
         enable: false
     },
     {
         armorName: "魔法装甲",
-        enable: true
+        enable: false
     },
     {
         armorName: "息装甲",
@@ -71,13 +77,31 @@ export default function DamageReceived( props: Props ){
 
     return (
         <div style={{ width: "100%" }}>
-            <div>
+            <Box sx={{ gap: 1, display: "flex", justifyContent: "center", alignItems: "center"}}>
                 <SelectParts
                     partsNames={partsNames}
                     partsIndex={partsIndex}
                     setPartsIndex={setPartsIndex}
                 />
-            </div>
+                <CalculateDamage
+                    partsNames={partsNames}
+                    partsIndex={partsIndex}
+                    sliderValue={sliderValue}
+                    specialArmors={specialArmorList.filter(armor => armor.enable).map(armor => armor.armorName)}
+                    enableOverload={enableOverload}
+                    enableEnergyShield={true}
+                    shieldEnergy={0}
+                />
+                <CalculateDamage
+                    partsNames={partsNames}
+                    partsIndex={partsIndex}
+                    sliderValue={sliderValue}
+                    specialArmors={specialArmorList.filter(armor => armor.enable).map(armor => armor.armorName)}
+                    enableOverload={enableOverload}
+                    enableEnergyShield={false}
+                    shieldEnergy={0}
+                />
+            </Box>
             <div>
                 <DefenseLevelSlider
                     sliderValue={sliderValue}

@@ -23,12 +23,8 @@ export default function SelectParts(props: Props){
     };
 
     return (
-        <div
-            className="draggable-disable"
-        >
-            <Button
-                onClick={handleClick}
-            >
+        <span className="draggable-disable">
+            <Button onClick={handleClick}>
                 <span
                     style={{
                         width: "3rem",
@@ -64,6 +60,6 @@ export default function SelectParts(props: Props){
                     </MenuItem>
                 ))}
             </Menu>
-        </div>
+        </span>
     );
 };

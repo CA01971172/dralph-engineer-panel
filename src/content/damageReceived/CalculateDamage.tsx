@@ -10,7 +10,7 @@ type Props = {
     shieldEnergy: number;
 }
 
-export default function DamageReceived( props: Props ){
+export default function CalculateDamage( props: Props ){
     const {
         partsNames,
         partsIndex,
@@ -22,7 +22,10 @@ export default function DamageReceived( props: Props ){
     } = props;
 
     return (
-        <Button>
+        <Button
+            className="draggable-disable"
+            onClick={() => {}}
+        >
             {enableEnergyShield ? "計算(エナシあり)" : "計算(エナシなし)"}
         </Button>
     );
