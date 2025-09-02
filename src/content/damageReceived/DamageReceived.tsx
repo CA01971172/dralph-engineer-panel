@@ -2,7 +2,9 @@ import { useState } from "react";
 import DefenseLevelSlider from "./DefenseLevelSlider";
 import SelectParts from "./SelectParts";
 import CalculateDamage from "./CalculateDamage";
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
+import CheckBoxLabel from "../../ui/CheckBoxLabel";
+import NumberFieldLabel from "../../ui/NumberFieldLabel";
 
 // パワーアーマーの部位名
 const partsNames = [ "頭", "胴体", "右手", "左手", "右足", "左足" ];
@@ -72,6 +74,7 @@ export default function DamageReceived( props: Props ){
 
     const [partsIndex, setPartsIndex] = useState<number>(0); // 選択中のアーマー部位インデックス
     const [sliderValue, setSliderValue] = useState<number>(0); // 防御力段階スライダーの値
+    const [shieldEnergy, setShieldEnergy] = useState<number>(0); // シールドEN
     const [enableEmergencyShield, setEnableEmergencyShield] = useState<boolean>(false); // 緊急シールドの有無
     const [enableBarrierHorn, setEnableBarrierHorn] = useState<boolean>(false); // バリアホーンの有無
 
@@ -108,6 +111,41 @@ export default function DamageReceived( props: Props ){
                     setSliderValue={setSliderValue}
                 />
             </div>
+            <Grid container spacing={1}>
+                <Grid size={6}>
+                    <CheckBoxLabel
+                        label="オーバーロード"
+                        isChecked={enableOverload}
+                        setIsChecked={setEnableOverload}
+                    />
+                </Grid>
+                <Grid size={6}>
+                    <NumberFieldLabel
+                        label="シールドEN"
+                        additionalLabel=""
+                        value={shieldEnergy}
+                        setValue={setShieldEnergy}
+                        emptyValue={0}
+                    />
+                </Grid>
+                <Grid size={6}>
+                    <CheckBoxLabel
+                        label="バリアホーン"
+                        isChecked={enableBarrierHorn}
+                        setIsChecked={setEnableBarrierHorn}
+                    />
+                </Grid>
+                <Grid size={6}>
+                    a
+                </Grid>
+                <Grid size={6}>
+                    <CheckBoxLabel
+                        label="緊急シールド"
+                        isChecked={enableEmergencyShield}
+                        setIsChecked={setEnableEmergencyShield}
+                    />
+                </Grid>
+            </Grid>
         </div>
     );
 };
