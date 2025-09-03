@@ -12,6 +12,8 @@ type Props = {
     shieldEnergy: number;
     enableBarrierHorn: boolean;
     enableEmergencyShield: boolean;
+    name1?: string;
+    name2?: string;
 }
 
 export default function CalculateDamage( props: Props ){
@@ -25,7 +27,9 @@ export default function CalculateDamage( props: Props ){
         enableEnergyShield,
         shieldEnergy,
         enableBarrierHorn,
-        enableEmergencyShield
+        enableEmergencyShield,
+        name1,
+        name2
     } = props;
 
     return (
@@ -41,7 +45,9 @@ export default function CalculateDamage( props: Props ){
                     additionalArmors,
                     enableOverload,
                     enableBarrierHorn,
-                    enableEmergencyShield
+                    enableEmergencyShield,
+                    name1,
+                    name2
                 })
             }}
         >

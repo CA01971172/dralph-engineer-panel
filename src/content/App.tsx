@@ -4,7 +4,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Draggable from 'react-draggable';
 import DamageReceived from "./damageReceived/DamageReceived"
 import Header from './Header';
-import { getAllArmorsWithPcName, StorageData } from '../utils/controlChromeData';
+import { getAllArmorsWithPcName, setStorage, StorageData } from '../utils/controlChromeData';
+import EditModal from './EditModal/EditModal';
 
 const theme = createTheme({
     palette: {
@@ -16,15 +17,6 @@ const theme = createTheme({
         MuiRadio: { styleOverrides: { root: { color: 'white' } } },
         MuiSlider: { styleOverrides: { markLabel: { color: 'white' } } },
         MuiCheckbox: { styleOverrides: { root: { color: 'white' } } },
-        MuiTextField: {
-            styleOverrides: {
-                root: {
-                    '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottomColor: 'white' },
-                    '& .MuiInput-underline:before': { borderBottomColor: 'white' },
-                    '& .MuiInput-input': { color: 'white' }
-                }
-            }
-        },
         MuiPaper: {
             styleOverrides: {
                 root: {
@@ -32,7 +24,42 @@ const theme = createTheme({
                     backgroundColor: "rgba(44, 44, 44, 0.87)"
                 }
             }
-        }
+        },
+        MuiTextField: {
+            styleOverrides: {
+                root: {
+                    // color: "lightgray",
+                    '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottomColor: 'white' },
+                    '& .MuiInput-underline:before': { borderBottomColor: 'white' },
+                    '& .MuiInput-input': { color: 'white' }
+                }
+            }
+        },
+        MuiInputLabel: {
+            styleOverrides: {
+                root: {
+                    color: "gray", // フォーカスされてない時のラベル
+                    "&.Mui-focused": { color: "white" }, // フォーカス時
+                    "&.MuiInputLabel-shrink": { color: "gray" }, // shrink時
+                },
+            },
+        },
+        MuiInput: {
+            styleOverrides: {
+                input: {
+                    color: "lightgray", // 入力文字色
+                    "&::placeholder": {
+                        color: "darkgray", // placeholder
+                        opacity: 1,
+                    },
+                },
+                underline: {
+                    "&:before": { borderBottomColor: "gray" }, // 未フォーカス時の下線
+                    "&:hover:not(.Mui-disabled):before": { borderBottomColor: "white" }, // hover時
+                    "&:after": { borderBottomColor: "white" }, // フォーカス時
+                },
+            },
+        },
     }
 });
 
@@ -134,13 +161,8 @@ export default function App(){
                             }}
                             elevation={10}
                         >
-                            <Header
-                                isModalOpen={isModalOpen}
-                                setIsModalOpen={setIsModalOpen}
-                                data={data}
-                                setData={setData}
-                            />
-                            <Box sx={{ p: 2, pt: 0 }}>
+                            <Header setIsModalOpen={setIsModalOpen}/>
+                            <Box sx={{ p: 2, pt: 0, pb: 4 }}>
                                 <DamageReceived
                                     enableOverload={enableOverload}
                                     setEnableOverload={setEnableOverload}
@@ -154,6 +176,17 @@ export default function App(){
                     </Draggable>
                 </ThemeProvider>
             )}
+            <EditModal
+                theme={theme}
+                isOpen={isModalOpen}
+                closeModal={() => {
+                    setStorage("characterName", data.characterName);
+                    setStorage("powerArmors", data.powerArmors);
+                    setIsModalOpen(false);
+                }}
+                data={data}
+                setData={setData}
+            />
         </>
     );
 };

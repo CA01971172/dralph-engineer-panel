@@ -1,4 +1,4 @@
-import { messageFormQuery, submitFormQuery } from "./documentQueries";
+import { messageFormQuery, nameFormQuery, submitFormQuery } from "./documentQueries";
 
 // フォームのinput要素等の既存の入力内容を削除する関数
 function clearFormValue(element: HTMLInputElement|HTMLTextAreaElement) :void{
@@ -22,6 +22,17 @@ function overrideFormValue(element: HTMLInputElement|HTMLTextAreaElement, value:
 // 特定のbutton要素をプログラムで押下する関数
 function clickTheButton(element: HTMLButtonElement){
     element.click()
+}
+
+// キャラクター名を変更する関数
+export function changeName(characterName: string, isDo: boolean = true): boolean { // キャラ名を編集する関数
+    const nameElm = document.querySelector<HTMLInputElement>(nameFormQuery) as HTMLInputElement;
+    if (nameElm?.value !== characterName) {
+        if(isDo) overrideFormValue(nameElm, characterName);
+        return true;
+    }else{
+        return false;
+    }
 }
 
 // メッセージを変更する関数

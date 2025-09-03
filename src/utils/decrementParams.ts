@@ -1,18 +1,27 @@
 import { messageColumnQuery, nameFormQuery, roomChatQuery } from "./documentQueries";
-import { changeMessage, clickSubmitButton } from "./sendCcfoliaMessage";
+import { changeMessage, changeName, clickSubmitButton } from "./sendCcfoliaMessage";
 
 // 特定のダイスロール結果を元に、パラメータを減少させる関数
-export async function decrementParamsWithResult(role: string, params: string[]): Promise<void>{
+export async function decrementParamsWithResult(role: string, params: string[], name1?: string, name2?: string): Promise<void>{
+    console.log(name1, name2)
+
+    // もし減少先が未指定なら、算出元と同じ名前を指定
+    if(name1 !== undefined && name2 === undefined) name2 = name1;
+    if(name1 === undefined && name2 !== undefined) name1 = name2;
+
+    console.log(name1, name2)
+
+    // キャラクター名を変更する
+    if(name1 !== undefined) changeName(name1);
+
     // 入力内容を変更する
     changeMessage(role);
 
-    // キャラクター名がnull(指定なし)なら、現在の発言キャラクターを取得しておく
-    const characterNameElm: HTMLInputElement | null = document.querySelector(nameFormQuery);
-    const characterName =  characterNameElm?.value || "noname";
+    // キャラクター名(name1)が指定なし(undefined)なら、現在の発言キャラクターを取得しておく
+    const characterName =  (document.querySelector(nameFormQuery) as HTMLInputElement)?.value || "noname";
 
     // ロール結果の監視を開始する
-    let watchPromise: Promise<string> | undefined;
-    watchPromise = watchMessage(characterName);
+    const watchPromise: Promise<string> | undefined = watchMessage(characterName);
 
     // ロール結果の監視をしている間に、ロールを行う
     // 最新のメッセージの要素を取得するために、一番下までスクロールする
@@ -26,6 +35,9 @@ export async function decrementParamsWithResult(role: string, params: string[]):
 
     // ロール結果がマイナスの値なら、パラメータ減少ロールは行わない
     if((!isNaN(Number(roleResult))) && (Number(roleResult) <= 0)) return;
+
+    // キャラクター名を変更する
+    if(name2 !== undefined) changeName(name2);
 
     // 最初のロール結果を使用して、指定されたパラメータを減少させる
     for(let i: number = 0; i < params.length; i++){

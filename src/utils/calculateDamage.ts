@@ -9,7 +9,9 @@ export function calculateDamage({
     additionalArmors,
     enableOverload,
     enableBarrierHorn,
-    enableEmergencyShield
+    enableEmergencyShield,
+    name1,
+    name2
 }: {
     partsName: string,
     enableEnergyShield: boolean,
@@ -19,7 +21,9 @@ export function calculateDamage({
     additionalArmors: string[],
     enableOverload: boolean,
     enableBarrierHorn: boolean,
-    enableEmergencyShield: boolean
+    enableEmergencyShield: boolean,
+    name1?: string,
+    name2?: string
 }){
     const text = `相手が出したダメージを入力してください。\n被ダメージ計算後、${partsName}の耐久値を減少させます。`;
     const inputDamage = prompt(text);
@@ -58,5 +62,5 @@ export function calculateDamage({
 
     // ダメージ計算ロール
     const damageRole = `C(${inputDamage})${scale}${scaleDividerText}${armorsFinalText}`;
-    decrementParamsWithResult(damageRole, [partsName]);
+    decrementParamsWithResult(damageRole, [partsName], name1, name2);
 }
