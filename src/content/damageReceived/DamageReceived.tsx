@@ -49,19 +49,25 @@ export default function DamageReceived( props: Props ){
                     partsNames={partsNames}
                     partsIndex={partsIndex}
                     sliderValue={sliderValue}
-                    specialArmors={armors.filter(armor => armor.enable).map(armor => armor.armorName)}
+                    additionalDefense={additionalDefense}
+                    armors={enableArmor ? armors.filter(armor => armor.enable).map(armor => armor.armorName) : []}
                     enableOverload={enableOverload}
                     enableEnergyShield={true}
                     shieldEnergy={Number(shieldEnergy)}
+                    enableBarrierHorn={enableBarrierHorn}
+                    enableEmergencyShield={enableEmergencyShield}
                 />
                 <CalculateDamage
                     partsNames={partsNames}
                     partsIndex={partsIndex}
                     sliderValue={sliderValue}
-                    specialArmors={armors.filter(armor => armor.enable).map(armor => armor.armorName)}
+                    additionalDefense={additionalDefense}
+                    armors={enableArmor ? armors.filter(armor => armor.enable).map(armor => armor.armorName) : []}
                     enableOverload={enableOverload}
                     enableEnergyShield={false}
                     shieldEnergy={Number(shieldEnergy)}
+                    enableBarrierHorn={enableBarrierHorn}
+                    enableEmergencyShield={enableEmergencyShield}
                 />
             </Box>
             <Grid container spacing={1} sx={{ml: 1, mr: 1}}>

@@ -1,16 +1,26 @@
 import { decrementParamsWithResult } from "./../utils/decrementParams"
 
-export function calculateDamage(
+export function calculateDamage({
+    partsName,
+    enableEnergyShield,
+    shieldEnergy,
+    defenseValue,
+    additionalDefense,
+    armors,
+    enableOverload,
+    enableBarrierHorn,
+    enableEmergencyShield
+}: {
     partsName: string,
     enableEnergyShield: boolean,
     shieldEnergy: number,
     defenseValue: number,
     additionalDefense: number,
-    specialArmors: string[],
+    armors: string[],
     enableOverload: boolean,
     enableBarrierHorn: boolean,
     enableEmergencyShield: boolean
-){
+}){
     const text = `相手が出したダメージを入力してください。\n被ダメージ計算後、${partsName}の耐久値を減少させます。`;
     const inputDamage = prompt(text);
     if(inputDamage === null) return;
@@ -19,7 +29,7 @@ export function calculateDamage(
     let scale: string = ""
     let scaleDivider: number = 1;
     if(defenseValue !== 0){
-        scale += "*" + ["25", "50", "75", "100", "150", "175", "200"][defenseValue + 3];
+        scale += "*" + ["200", "175", "150", "100", "75", "50", "25"][defenseValue + 3];
         scaleDivider *= 100;
     }
     if(additionalDefense !== 100){
@@ -31,7 +41,7 @@ export function calculateDamage(
         scaleDivider *= 100;
     }
     if(enableBarrierHorn){
-        scale += "*50";
+        scale += "*75";
         scaleDivider *= 100;
     }
     if(enableEmergencyShield){
@@ -42,9 +52,9 @@ export function calculateDamage(
 
     // 装甲類の計算
     const energyShieldArmor: string = enableEnergyShield ? `${shieldEnergy}*5` : "";
-    const armors = specialArmors.map(armor => `{${armor}}`).join("+");
-    const armorsText = [energyShieldArmor, armors].join("+");
-    const armorsFinalText = (armorsText !== "") ? `-(${armorsText})` : "";
+    const armorsText: string = armors.map(armor => `{${armor}}`).join("+");
+    const holeArmorsText = [energyShieldArmor, armorsText].filter(Boolean).join("+");
+    const armorsFinalText = (holeArmorsText !== "") ? `-(${holeArmorsText})` : "";
 
     // ダメージ計算ロール
     const damageRole = `C(${inputDamage})${scale}${scaleDividerText}${armorsFinalText}`;
