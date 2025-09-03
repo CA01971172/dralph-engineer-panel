@@ -40,7 +40,7 @@ export default function App(){
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const draggableRef = useRef<HTMLDivElement>(null);
 
-    const [size, setSize] = useState<{ width: number, height: number }>({ width: 500, height: 150 });
+    const [size, setSize] = useState<{ width: number, height: number }>({ width: 400, height: 150 });
     const [windowSize, setWindowSize] = useState<{ width: number, height: number }>({ width: window.innerWidth, height: window.innerHeight });
     const [position, setPosition] = useState<{ x: number, y: number }>(getDefaultPosition());
     const [bounds, setBounds] = useState({
@@ -51,6 +51,7 @@ export default function App(){
     });
 
     const [enableOverload, setEnableOverload] = useState<boolean>(false); // オーバーロード有効化
+    const [shieldEnergy, setShieldEnergy] = useState<string>("0"); // シールドEN
 
     function getDefaultPosition(){
         return {
@@ -117,6 +118,7 @@ export default function App(){
                             style={{
                                 position: "absolute",
                                 borderRadius: 0,
+                                width: `${size.width}px`,
                                 minWidth: `${size.width}px`,
                                 minHeight: `${size.height}px`,
                                 userSelect: "none",
@@ -132,6 +134,8 @@ export default function App(){
                                 <DamageReceived
                                     enableOverload={enableOverload}
                                     setEnableOverload={setEnableOverload}
+                                    shieldEnergy={shieldEnergy}
+                                    setShieldEnergy={setShieldEnergy}
                                 />
                             </Box>
                         </Paper>

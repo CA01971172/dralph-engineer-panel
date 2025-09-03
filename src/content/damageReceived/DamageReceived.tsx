@@ -5,76 +5,35 @@ import CalculateDamage from "./CalculateDamage";
 import { Box, Grid } from "@mui/material";
 import CheckBoxLabel from "../../ui/CheckBoxLabel";
 import NumberFieldLabel from "../../ui/NumberFieldLabel";
+import SelectArmors from "./SelectArmors";
 
 // パワーアーマーの部位名
 const partsNames = [ "頭", "胴体", "右手", "左手", "右足", "左足" ];
 
-// 特殊装甲リスト
-const specialArmorList = [
-    {
-        armorName: "装甲",
-        enable: true
-    },
-    {
-        armorName: "物理装甲",
-        enable: false
-    },
-    {
-        armorName: "魔法装甲",
-        enable: false
-    },
-    {
-        armorName: "息装甲",
-        enable: false
-    },
-    {
-        armorName: "火耐性",
-        enable: false
-    },
-    {
-        armorName: "氷耐性",
-        enable: false
-    },
-    {
-        armorName: "風耐性",
-        enable: false
-    },
-    {
-        armorName: "土耐性",
-        enable: false
-    },
-    {
-        armorName: "雷耐性",
-        enable: false
-    },
-    {
-        armorName: "水耐性",
-        enable: false
-    },
-    {
-        armorName: "光耐性",
-        enable: false
-    },
-    {
-        armorName: "闇耐性",
-        enable: false
-    }
-]
+// 装甲リスト
+const armorsList = ["装甲", "物理装甲", "魔法装甲", "息装甲", "火耐性", "氷耐性", "風耐性", "土耐性", "雷耐性", "水耐性", "光耐性", "闇耐性"]
 
 type Props = {
     enableOverload: boolean;
     setEnableOverload: React.Dispatch<React.SetStateAction<boolean>>;
+    shieldEnergy: string;
+    setShieldEnergy: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function DamageReceived( props: Props ){
     const {
         enableOverload,
-        setEnableOverload
+        setEnableOverload,
+        shieldEnergy,
+        setShieldEnergy
     } = props;
 
     const [partsIndex, setPartsIndex] = useState<number>(0); // 選択中のアーマー部位インデックス
     const [sliderValue, setSliderValue] = useState<number>(0); // 防御力段階スライダーの値
-    const [shieldEnergy, setShieldEnergy] = useState<number>(0); // シールドEN
+    const [additionalDefense, setAdditionalDefense] = useState<string>("100"); // その他軽減倍率
+    // TODO 装甲の適用状態をChromeのローカルストレージに保存できるようにする
+    const [enableArmor, setEnableArmor] = useState<boolean>(true); // 装甲適用の有無
+    const [armors, setArmors] = useState<{armorName: string, enable: boolean}[]>(armorsList.map(armor => ({ armorName: armor, enable: false }))); // 有効な装甲リスト
     const [enableEmergencyShield, setEnableEmergencyShield] = useState<boolean>(false); // 緊急シールドの有無
     const [enableBarrierHorn, setEnableBarrierHorn] = useState<boolean>(false); // バリアホーンの有無
 
@@ -90,28 +49,22 @@ export default function DamageReceived( props: Props ){
                     partsNames={partsNames}
                     partsIndex={partsIndex}
                     sliderValue={sliderValue}
-                    specialArmors={specialArmorList.filter(armor => armor.enable).map(armor => armor.armorName)}
+                    specialArmors={armors.filter(armor => armor.enable).map(armor => armor.armorName)}
                     enableOverload={enableOverload}
                     enableEnergyShield={true}
-                    shieldEnergy={0}
+                    shieldEnergy={Number(shieldEnergy)}
                 />
                 <CalculateDamage
                     partsNames={partsNames}
                     partsIndex={partsIndex}
                     sliderValue={sliderValue}
-                    specialArmors={specialArmorList.filter(armor => armor.enable).map(armor => armor.armorName)}
+                    specialArmors={armors.filter(armor => armor.enable).map(armor => armor.armorName)}
                     enableOverload={enableOverload}
                     enableEnergyShield={false}
-                    shieldEnergy={0}
+                    shieldEnergy={Number(shieldEnergy)}
                 />
             </Box>
-            <div>
-                <DefenseLevelSlider
-                    sliderValue={sliderValue}
-                    setSliderValue={setSliderValue}
-                />
-            </div>
-            <Grid container spacing={1}>
+            <Grid container spacing={1} sx={{ml: 1, mr: 1}}>
                 <Grid size={6}>
                     <CheckBoxLabel
                         label="オーバーロード"
@@ -125,9 +78,18 @@ export default function DamageReceived( props: Props ){
                         additionalLabel=""
                         value={shieldEnergy}
                         setValue={setShieldEnergy}
-                        emptyValue={0}
+                        min={0}
+                        max={999}
                     />
                 </Grid>
+            </Grid>
+            <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                <DefenseLevelSlider
+                    sliderValue={sliderValue}
+                    setSliderValue={setSliderValue}
+                />
+            </Box>
+            <Grid container spacing={1} sx={{ml: 1, mr: 1}}>
                 <Grid size={6}>
                     <CheckBoxLabel
                         label="バリアホーン"
@@ -136,13 +98,28 @@ export default function DamageReceived( props: Props ){
                     />
                 </Grid>
                 <Grid size={6}>
-                    a
+                    <NumberFieldLabel
+                        label="その他倍率"
+                        additionalLabel="%"
+                        value={additionalDefense}
+                        setValue={setAdditionalDefense}
+                        min={0}
+                        max={999}
+                    />
                 </Grid>
                 <Grid size={6}>
                     <CheckBoxLabel
                         label="緊急シールド"
                         isChecked={enableEmergencyShield}
                         setIsChecked={setEnableEmergencyShield}
+                    />
+                </Grid>
+                <Grid size={6}>
+                    <SelectArmors
+                        enableArmor={enableArmor}
+                        setEnableArmor={setEnableArmor}
+                        armors={armors}
+                        setArmors={setArmors}
                     />
                 </Grid>
             </Grid>

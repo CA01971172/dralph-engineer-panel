@@ -5,7 +5,7 @@ export function calculateDamage(
     enableEnergyShield: boolean,
     shieldEnergy: number,
     defenseValue: number,
-    otherDefense: number,
+    additionalDefense: number,
     specialArmors: string[],
     enableOverload: boolean,
     enableBarrierHorn: boolean,
@@ -22,8 +22,8 @@ export function calculateDamage(
         scale += "*" + ["25", "50", "75", "100", "150", "175", "200"][defenseValue + 3];
         scaleDivider *= 100;
     }
-    if(otherDefense !== 100){
-        scale += `*${otherDefense}`;
+    if(additionalDefense !== 100){
+        scale += `*${additionalDefense}`;
         scaleDivider *= 100;
     }
     if(enableOverload){
