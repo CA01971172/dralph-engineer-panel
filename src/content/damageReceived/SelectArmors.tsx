@@ -4,14 +4,14 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { setStorage, StorageData } from '../../utils/controlChromeData';
 
 type Props = {
-    enableArmor: boolean;
-    armors: { armorName: string; enable: boolean }[];
+    enableAdditionalArmors: boolean;
+    additionalArmors: { armorName: string; enable: boolean }[];
     setData: React.Dispatch<React.SetStateAction<StorageData>>;
 }
 
 export default function SelectSpecialArmor({
-    enableArmor,
-    armors,
+    enableAdditionalArmors,
+    additionalArmors,
     setData
 }: Props){
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -52,12 +52,12 @@ export default function SelectSpecialArmor({
                 }
                 control={
                     <Checkbox
-                        checked={enableArmor}
+                        checked={enableAdditionalArmors}
                         onChange={() => {
                             setData((prev) => {
                                 const newData: StorageData = { ...prev };
-                                newData.enableArmors = !prev.enableArmors;
-                                setStorage("enableArmors", !prev.enableArmors);
+                                newData.enableAdditionalArmors = !prev.enableAdditionalArmors;
+                                setStorage("enableAdditionalArmors", !prev.enableAdditionalArmors);
                                 return newData;
                             });
                         }}
@@ -75,7 +75,7 @@ export default function SelectSpecialArmor({
                     }
                 }}
             >
-                {armors.map((data, index) => (
+                {additionalArmors.map((data, index) => (
                     <MenuItem key={index}>
                         <FormControlLabel
                             label={data.armorName}

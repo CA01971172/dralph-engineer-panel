@@ -2,7 +2,7 @@
 export type StorageData = {
     characterName: string; // 搭乗者名
     powerArmors: PowerArmor[]; // パワーアーマーのデータ
-    enableArmors: boolean; // 装甲の適用状態
+    enableAdditionalArmors: boolean; // 装甲の適用状態
     additionalArmors: AdditionalArmor[]; // 適用する装甲リスト
 };
 
@@ -53,8 +53,8 @@ export async function setStorage<K extends keyof StorageData>(
 export async function getAllArmorsWithPcName(): Promise<StorageData> {
     const characterName = (await getStorage("characterName")) || "";
     const powerArmors = (await getStorage("powerArmors")) || [];
-    const enableArmors = (await getStorage("enableArmors")) || true;
+    const enableAdditionalArmors = (await getStorage("enableAdditionalArmors")) || true;
     const additionalArmors: AdditionalArmor[] = (await getStorage("additionalArmors")) || armorsNameList.map(armorName => ({armorName, enable: false}));
 
-    return { characterName, powerArmors, enableArmors, additionalArmors };
+    return { characterName, powerArmors, enableAdditionalArmors, additionalArmors };
 }

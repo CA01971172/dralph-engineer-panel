@@ -37,8 +37,8 @@ export default function DamageReceived( props: Props ){
     const [enableEmergencyShield, setEnableEmergencyShield] = useState<boolean>(false); // 緊急シールドの有無
     const [enableBarrierHorn, setEnableBarrierHorn] = useState<boolean>(false); // バリアホーンの有無
 
-    const getEnableArmor = () => data.enableArmors; // 装甲類の有効化
-    const getArmors = () => data.additionalArmors; // 装甲リスト
+    const getEnableAdditionalArmors = () => data.enableAdditionalArmors; // 装甲類の有効化
+    const getAdditionalArmors = () => data.additionalArmors; // 装甲リスト
 
     return (
         <div style={{ width: "100%" }}>
@@ -53,7 +53,7 @@ export default function DamageReceived( props: Props ){
                     partsIndex={partsIndex}
                     sliderValue={sliderValue}
                     additionalDefense={additionalDefense}
-                    additionalArmors={getEnableArmor() ? getArmors().filter(armor => armor.enable).map(armor => armor.armorName) : []}
+                    additionalArmors={getEnableAdditionalArmors() ? getAdditionalArmors().filter(armor => armor.enable).map(armor => armor.armorName) : []}
                     enableOverload={enableOverload}
                     enableEnergyShield={true}
                     shieldEnergy={Number(shieldEnergy)}
@@ -65,7 +65,7 @@ export default function DamageReceived( props: Props ){
                     partsIndex={partsIndex}
                     sliderValue={sliderValue}
                     additionalDefense={additionalDefense}
-                    additionalArmors={getEnableArmor() ? getArmors().filter(armor => armor.enable).map(armor => armor.armorName) : []}
+                    additionalArmors={getEnableAdditionalArmors() ? getAdditionalArmors().filter(armor => armor.enable).map(armor => armor.armorName) : []}
                     enableOverload={enableOverload}
                     enableEnergyShield={false}
                     shieldEnergy={Number(shieldEnergy)}
@@ -125,8 +125,8 @@ export default function DamageReceived( props: Props ){
                 </Grid>
                 <Grid size={6}>
                     <SelectArmors
-                        enableArmor={getEnableArmor()}
-                        armors={getArmors()}
+                        enableAdditionalArmors={getEnableAdditionalArmors()}
+                        additionalArmors={getAdditionalArmors()}
                         setData={setData}
                     />
                 </Grid>
