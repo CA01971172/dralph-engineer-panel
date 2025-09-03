@@ -1,12 +1,14 @@
 import { Modal, Paper } from "@mui/material";
+import { StorageData } from "../../utils/controlChromeData";
 
 type Props = {
     isOpen: boolean;
     closeModal: () => void;
+    data: StorageData;
 };
 
 export default function EditModal(props: Props){
-    const { isOpen, closeModal } = props;
+    const { isOpen, closeModal, data } = props;
 
     return (
         <Modal
@@ -23,7 +25,8 @@ export default function EditModal(props: Props){
                     p: 4, // パディング
                     minWidth: 300, // 必要に応じて
                 }}
-            >hoge</Paper>
+            >
+            </Paper>
         </Modal>
     );
 }

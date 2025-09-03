@@ -6,7 +6,7 @@ type Props = {
     partsIndex: number;
     sliderValue: number;
     additionalDefense: string;
-    armors: string[];
+    additionalArmors: string[];
     enableOverload: boolean;
     enableEnergyShield: boolean;
     shieldEnergy: number;
@@ -20,7 +20,7 @@ export default function CalculateDamage( props: Props ){
         partsIndex,
         sliderValue,
         additionalDefense,
-        armors,
+        additionalArmors,
         enableOverload,
         enableEnergyShield,
         shieldEnergy,
@@ -38,7 +38,7 @@ export default function CalculateDamage( props: Props ){
                     shieldEnergy,
                     defenseValue: sliderValue,
                     additionalDefense: Number(additionalDefense),
-                    armors,
+                    additionalArmors,
                     enableOverload,
                     enableBarrierHorn,
                     enableEmergencyShield

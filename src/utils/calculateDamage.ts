@@ -6,7 +6,7 @@ export function calculateDamage({
     shieldEnergy,
     defenseValue,
     additionalDefense,
-    armors,
+    additionalArmors,
     enableOverload,
     enableBarrierHorn,
     enableEmergencyShield
@@ -16,7 +16,7 @@ export function calculateDamage({
     shieldEnergy: number,
     defenseValue: number,
     additionalDefense: number,
-    armors: string[],
+    additionalArmors: string[],
     enableOverload: boolean,
     enableBarrierHorn: boolean,
     enableEmergencyShield: boolean
@@ -52,7 +52,7 @@ export function calculateDamage({
 
     // 装甲類の計算
     const energyShieldArmor: string = enableEnergyShield ? `${shieldEnergy}*5` : "";
-    const armorsText: string = armors.map(armor => `{${armor}}`).join("+");
+    const armorsText: string = additionalArmors.map(armor => `{${armor}}`).join("+");
     const holeArmorsText = [energyShieldArmor, armorsText].filter(Boolean).join("+");
     const armorsFinalText = (holeArmorsText !== "") ? `-(${holeArmorsText})` : "";
 

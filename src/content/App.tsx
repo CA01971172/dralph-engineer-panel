@@ -4,6 +4,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Draggable from 'react-draggable';
 import DamageReceived from "./damageReceived/DamageReceived"
 import Header from './Header';
+import { getAllArmorsWithPcName, StorageData } from '../utils/controlChromeData';
 
 const theme = createTheme({
     palette: {
@@ -52,6 +53,7 @@ export default function App(){
 
     const [enableOverload, setEnableOverload] = useState<boolean>(false); // オーバーロード有効化
     const [shieldEnergy, setShieldEnergy] = useState<string>("0"); // シールドEN
+    const [data, setData] = useState<StorageData>({} as StorageData); // Chromeのローカルストレージのデータ
 
     function getDefaultPosition(){
         return {
@@ -70,6 +72,7 @@ export default function App(){
         setWindowSize({width: window.innerWidth, height: window.innerHeight});
     }
 
+    // キーの押下と画面のリサイズに合わせて処理する
     useEffect(() => {
         document.addEventListener("keydown", handleKeyDown);
         window.addEventListener("resize", handleWindowResize);
@@ -103,6 +106,11 @@ export default function App(){
     //     return () => { if (draggableRef.current) observer.unobserve(draggableRef.current); };
     // }, [width, height, windowWidth, windowHeight]);
 
+    // 拡張機能読み込み時、Chromeのローカルストレージを読み込んで初期化する
+    useEffect(() => {
+        getAllArmorsWithPcName().then(data => setData(data));
+    }, []);
+
     return (
         <>
             {visible && (
@@ -129,6 +137,8 @@ export default function App(){
                             <Header
                                 isModalOpen={isModalOpen}
                                 setIsModalOpen={setIsModalOpen}
+                                data={data}
+                                setData={setData}
                             />
                             <Box sx={{ p: 2, pt: 0 }}>
                                 <DamageReceived
@@ -136,6 +146,8 @@ export default function App(){
                                     setEnableOverload={setEnableOverload}
                                     shieldEnergy={shieldEnergy}
                                     setShieldEnergy={setShieldEnergy}
+                                    data={data}
+                                    setData={setData}
                                 />
                             </Box>
                         </Paper>

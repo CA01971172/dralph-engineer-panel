@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import { FormControlLabel, Checkbox, IconButton, Menu, MenuItem } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { setStorage, StorageData } from '../../utils/controlChromeData';
 
 type Props = {
     enableArmor: boolean;
-    setEnableArmor: React.Dispatch<React.SetStateAction<boolean>>;
     armors: { armorName: string; enable: boolean }[];
-    setArmors: React.Dispatch<React.SetStateAction<{ armorName: string; enable: boolean }[]>>;
+    setData: React.Dispatch<React.SetStateAction<StorageData>>;
 }
 
 export default function SelectSpecialArmor({
     enableArmor,
-    setEnableArmor,
     armors,
-    setArmors
+    setData
 }: Props){
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -54,7 +53,14 @@ export default function SelectSpecialArmor({
                 control={
                     <Checkbox
                         checked={enableArmor}
-                        onChange={() => setEnableArmor((prev) => !prev)}
+                        onChange={() => {
+                            setData((prev) => {
+                                const newData: StorageData = { ...prev };
+                                newData.enableArmors = !prev.enableArmors;
+                                setStorage("enableArmors", !prev.enableArmors);
+                                return newData;
+                            });
+                        }}
                     />
                 }
             />
@@ -76,11 +82,14 @@ export default function SelectSpecialArmor({
                             control={
                                 <Checkbox
                                     checked={data.enable}
-                                    onChange={() => setArmors((prev) => {
-                                        const newData = [...prev];
-                                        newData[index].enable = !newData[index].enable;
-                                        return newData;
-                                    })}
+                                    onChange={() => {
+                                        setData((prev) => {
+                                            const newData: StorageData = { ...prev };
+                                            newData.additionalArmors[index].enable = !prev.additionalArmors[index].enable;
+                                            setStorage("additionalArmors", newData.additionalArmors);
+                                            return newData;
+                                        });
+                                    }}
                                 />
                             }
                         />
