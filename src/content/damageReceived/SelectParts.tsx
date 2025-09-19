@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Menu, MenuItem } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import partsNames from '../../constants';
+import { DataContext } from '../DataProvider';
 
-type Props = {
-    partsNames: string[];
-    partsIndex: number;
-    setPartsIndex:  (value: React.SetStateAction<number>) => void
-}
-
-export default function SelectParts(props: Props){
-    const { partsNames, partsIndex, setPartsIndex } = props;
-
+export default function SelectParts(){
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+
+    const {
+        partsIndex,
+        setPartsIndex
+    } = useContext(DataContext);
 
     function handleClick(event: React.MouseEvent<HTMLButtonElement>){
         setAnchorEl(event.currentTarget);

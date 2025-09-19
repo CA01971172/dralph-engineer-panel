@@ -1,6 +1,7 @@
 import React from 'react'; // Reactをインポート
 import { createRoot } from 'react-dom/client'; // createRoot をインポート
 import App from "./App";
+import { DataProvider } from './DataProvider';
 
 // ポータルを追加するためのルート要素を作成する関数
 function addPortalRoot(): HTMLDivElement{
@@ -23,7 +24,9 @@ async function renderApp(portal: HTMLDivElement): Promise<void>{
     const root = createRoot(portal); // ルートを作成
     root.render( // renderメソッドを使用
         <React.StrictMode>
-            <App/>
+            <DataProvider>
+                <App/>
+            </DataProvider>
         </React.StrictMode>
     );
 }

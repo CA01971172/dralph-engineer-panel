@@ -1,36 +1,29 @@
 import { Button } from "@mui/material";
 import { calculateDamage } from "../../utils/calculateDamage";
+import { useContext } from "react";
+import { DataContext } from "../DataProvider";
+import partsNames from "../../constants";
 
 type Props = {
-    partsNames: string[];
-    partsIndex: number;
-    sliderValue: number;
-    additionalDefense: string;
-    additionalArmors: string[];
-    enableOverload: boolean;
     enableEnergyShield: boolean;
-    shieldEnergy: number;
-    enableBarrierHorn: boolean;
-    enableEmergencyShield: boolean;
-    name1?: string;
-    name2?: string;
 }
 
 export default function CalculateDamage( props: Props ){
+    const { enableEnergyShield } = props;
+
     const {
-        partsNames,
+        enableOverload,
+        shieldEnergy,
+        armorIndex,
+        data,
         partsIndex,
         sliderValue,
         additionalDefense,
-        additionalArmors,
-        enableOverload,
-        enableEnergyShield,
-        shieldEnergy,
-        enableBarrierHorn,
         enableEmergencyShield,
-        name1,
-        name2
-    } = props;
+        enableBarrierHorn,
+        getEnableAdditionalArmors,
+        getAdditionalArmors
+    } = useContext(DataContext);
 
     return (
         <Button
@@ -39,15 +32,15 @@ export default function CalculateDamage( props: Props ){
                 calculateDamage({
                     partsName: partsNames[partsIndex],
                     enableEnergyShield,
-                    shieldEnergy,
+                    shieldEnergy: Number(shieldEnergy),
                     defenseValue: sliderValue,
                     additionalDefense: Number(additionalDefense),
-                    additionalArmors,
+                    additionalArmors: getEnableAdditionalArmors() ? getAdditionalArmors().filter(armor => armor.enable).map(armor => armor.armorName) : [],
                     enableOverload,
                     enableBarrierHorn,
                     enableEmergencyShield,
-                    name1,
-                    name2
+                    name1: data.characterName,
+                    name2: data.powerArmors[armorIndex]?.armorName ?? undefined
                 })
             }}
         >

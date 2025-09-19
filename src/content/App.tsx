@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, use } from 'react';
+import { useState, useEffect, useRef, use, useContext } from 'react';
 import { Box, Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Draggable from 'react-draggable';
@@ -6,6 +6,7 @@ import DamageReceived from "./damageReceived/DamageReceived"
 import Header from './Header';
 import { getAllArmorsWithPcName, setStorage, StorageData } from '../utils/controlChromeData';
 import EditModal from './EditModal/EditModal';
+import { DataContext } from './DataProvider';
 
 const theme = createTheme({
     palette: {
@@ -78,10 +79,16 @@ export default function App(){
         bottom: windowSize.height - size.height,
     });
 
-    const [enableOverload, setEnableOverload] = useState<boolean>(false); // オーバーロード有効化
-    const [shieldEnergy, setShieldEnergy] = useState<string>("0"); // シールドEN
-    const [armorIndex, setArmorIndex] = useState<number>(0); // 選択中のアーマーインデックス
-    const [data, setData] = useState<StorageData>({} as StorageData); // Chromeのローカルストレージのデータ
+    const {
+        enableOverload,
+        setEnableOverload,
+        shieldEnergy,
+        setShieldEnergy,
+        armorIndex,
+        setArmorIndex,
+        data,
+        setData
+    } = useContext(DataContext);
 
     function getDefaultPosition(){
         return {
@@ -164,16 +171,7 @@ export default function App(){
                         >
                             <Header setIsModalOpen={setIsModalOpen}/>
                             <Box sx={{ p: 2, pt: 0, pb: 4 }}>
-                                <DamageReceived
-                                    enableOverload={enableOverload}
-                                    setEnableOverload={setEnableOverload}
-                                    shieldEnergy={shieldEnergy}
-                                    setShieldEnergy={setShieldEnergy}
-                                    data={data}
-                                    setData={setData}
-                                    armorIndex={armorIndex}
-                                    setArmorIndex={setArmorIndex}
-                                />
+                                <DamageReceived/>
                             </Box>
                         </Paper>
                     </Draggable>
@@ -187,10 +185,6 @@ export default function App(){
                     setStorage("powerArmors", data.powerArmors);
                     setIsModalOpen(false);
                 }}
-                data={data}
-                setData={setData}
-                armorIndex={armorIndex}
-                setArmorIndex={setArmorIndex}
             />
         </>
     );

@@ -1,19 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Menu, MenuItem } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { DataContext } from '../DataProvider';
 
-type Props = {
-    powerArmorNames: string[];
-    selectedPowerArmor: number;
-    setArmorIndex:  (value: React.SetStateAction<number>) => void
-}
-
-export default function SelectPowerArmor(props: Props){
+export default function SelectPowerArmor({powerArmorNames}: { powerArmorNames: string[]}){
     const {
-        powerArmorNames,
-        selectedPowerArmor,
+        armorIndex,
         setArmorIndex
-    } = props;
+    } = useContext(DataContext);
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -38,7 +32,7 @@ export default function SelectPowerArmor(props: Props){
                         textAlign: "center"
                     }}
                 >
-                    {powerArmorNames[selectedPowerArmor] || ""}
+                    {powerArmorNames[armorIndex] || ""}
                 </span>
                 <ArrowDropDownIcon/>
             </Button>

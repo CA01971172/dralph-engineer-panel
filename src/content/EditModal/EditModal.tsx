@@ -2,20 +2,25 @@ import { IconButton, Modal, Paper, TextField, Theme, ThemeProvider } from "@mui/
 import { StorageData } from "../../utils/controlChromeData";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useContext } from "react";
+import { DataContext } from "../DataProvider";
 
 
 type Props = {
     theme: Theme;
     isOpen: boolean;
     closeModal: () => void;
-    data: StorageData;
-    setData: React.Dispatch<React.SetStateAction<StorageData>>;
-    armorIndex: number;
-    setArmorIndex: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export default function EditModal(props: Props){
-    const { theme, isOpen, closeModal, data, setData, armorIndex, setArmorIndex } = props;
+    const { theme, isOpen, closeModal } = props;
+
+    const {
+        armorIndex,
+        setArmorIndex,
+        data,
+        setData
+    } = useContext(DataContext);
 
     return (
         <Modal

@@ -1,21 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FormControlLabel, Checkbox, IconButton, Menu, MenuItem } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { setStorage, StorageData } from '../../utils/controlChromeData';
+import { DataContext } from '../DataProvider';
 
-type Props = {
-    enableAdditionalArmors: boolean;
-    additionalArmors: { armorName: string; enable: boolean }[];
-    setData: React.Dispatch<React.SetStateAction<StorageData>>;
-}
-
-export default function SelectSpecialArmor({
-    enableAdditionalArmors,
-    additionalArmors,
-    setData
-}: Props){
+export default function SelectSpecialArmor(){
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+
+        const {
+            getEnableAdditionalArmors,
+            getAdditionalArmors,
+            setData
+        } = useContext(DataContext);
 
     function handleClick(event: React.MouseEvent<HTMLButtonElement>){
         setAnchorEl(event.currentTarget);
@@ -52,7 +49,7 @@ export default function SelectSpecialArmor({
                 }
                 control={
                     <Checkbox
-                        checked={enableAdditionalArmors}
+                        checked={getEnableAdditionalArmors()}
                         onChange={() => {
                             setData((prev) => {
                                 const newData: StorageData = { ...prev };
@@ -76,7 +73,7 @@ export default function SelectSpecialArmor({
                     }
                 }}
             >
-                {additionalArmors.map((data, index) => (
+                {getAdditionalArmors().map((data, index) => (
                     <MenuItem key={index}>
                         <FormControlLabel
                             label={data.armorName}

@@ -1,9 +1,6 @@
 import { Slider } from '@mui/material';
-
-type Props = {
-    sliderValue: number;
-    setSliderValue: React.Dispatch<React.SetStateAction<number>>;
-}
+import { useContext } from 'react';
+import { DataContext } from '../DataProvider';
 
 const marks = [
     {
@@ -40,7 +37,12 @@ function valueLabelFormat(value: number) {
     return marks.findIndex((mark) => mark.value === value) + 1;
 }
 
-export default function DefenseLevelSlider({sliderValue, setSliderValue}: Props){
+export default function DefenseLevelSlider(){
+    const {
+        sliderValue,
+        setSliderValue
+    } = useContext(DataContext);
+
     return (
         <Slider
             className="draggable-disable"
