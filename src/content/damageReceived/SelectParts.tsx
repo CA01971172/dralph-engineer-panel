@@ -38,6 +38,7 @@ export default function SelectParts(props: Props){
                 <ArrowDropDownIcon/>
             </Button>
             <Menu
+                className="draggable-disable"
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}

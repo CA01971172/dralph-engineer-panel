@@ -65,6 +65,7 @@ export default function SelectSpecialArmor({
                 }
             />
             <Menu
+                className="draggable-disable"
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}

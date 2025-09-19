@@ -19,6 +19,8 @@ type Props = {
     setShieldEnergy: React.Dispatch<React.SetStateAction<string>>;
     data: StorageData;
     setData: React.Dispatch<React.SetStateAction<StorageData>>;
+    armorIndex: number;
+    setArmorIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function DamageReceived( props: Props ){
@@ -28,10 +30,11 @@ export default function DamageReceived( props: Props ){
         shieldEnergy,
         setShieldEnergy,
         data,
-        setData
+        setData,
+        armorIndex,
+        setArmorIndex
     } = props;
 
-    const [armorIndex, setArmorIndex] = useState<number>(0); // 選択中のアーマーインデックス
     const [partsIndex, setPartsIndex] = useState<number>(0); // 選択中のアーマー部位インデックス
     const [sliderValue, setSliderValue] = useState<number>(0); // 防御力段階スライダーの値
     const [additionalDefense, setAdditionalDefense] = useState<string>("100"); // その他軽減倍率
@@ -69,7 +72,7 @@ export default function DamageReceived( props: Props ){
                     enableBarrierHorn={enableBarrierHorn}
                     enableEmergencyShield={enableEmergencyShield}
                     name1={data.characterName}
-                    name2={data.powerArmors[armorIndex].armorName || undefined}
+                    name2={data.powerArmors[armorIndex]?.armorName ?? undefined}
                 />
                 <CalculateDamage
                     partsNames={partsNames}
@@ -83,7 +86,7 @@ export default function DamageReceived( props: Props ){
                     enableBarrierHorn={enableBarrierHorn}
                     enableEmergencyShield={enableEmergencyShield}
                     name1={data.characterName}
-                    name2={data.powerArmors[armorIndex].armorName || undefined}
+                    name2={data.powerArmors[armorIndex]?.armorName ?? undefined}
                 />
             </Box>
             <Grid container spacing={1} sx={{ml: 1, mr: 1}}>

@@ -10,10 +10,12 @@ type Props = {
     closeModal: () => void;
     data: StorageData;
     setData: React.Dispatch<React.SetStateAction<StorageData>>;
+    armorIndex: number;
+    setArmorIndex: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export default function EditModal(props: Props){
-    const { theme, isOpen, closeModal, data, setData } = props;
+    const { theme, isOpen, closeModal, data, setData, armorIndex, setArmorIndex } = props;
 
     return (
         <Modal
@@ -78,10 +80,14 @@ export default function EditModal(props: Props){
                             <IconButton
                                 color="primary"
                                 onClick={() => {
+                                    if(armorIndex >= index) setArmorIndex(prev => {
+                                        if(prev === 0) return 0;
+                                        return prev - 1;
+                                    });
                                     setData(prev => ({
                                         ...prev,
                                         powerArmors: prev.powerArmors.filter((_, i) => i !== index)
-                                    }))
+                                    }));
                                 }}
                             >
                                 <DeleteIcon/>

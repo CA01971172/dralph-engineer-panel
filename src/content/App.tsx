@@ -80,6 +80,7 @@ export default function App(){
 
     const [enableOverload, setEnableOverload] = useState<boolean>(false); // オーバーロード有効化
     const [shieldEnergy, setShieldEnergy] = useState<string>("0"); // シールドEN
+    const [armorIndex, setArmorIndex] = useState<number>(0); // 選択中のアーマーインデックス
     const [data, setData] = useState<StorageData>({} as StorageData); // Chromeのローカルストレージのデータ
 
     function getDefaultPosition(){
@@ -170,6 +171,8 @@ export default function App(){
                                     setShieldEnergy={setShieldEnergy}
                                     data={data}
                                     setData={setData}
+                                    armorIndex={armorIndex}
+                                    setArmorIndex={setArmorIndex}
                                 />
                             </Box>
                         </Paper>
@@ -186,6 +189,8 @@ export default function App(){
                 }}
                 data={data}
                 setData={setData}
+                armorIndex={armorIndex}
+                setArmorIndex={setArmorIndex}
             />
         </>
     );

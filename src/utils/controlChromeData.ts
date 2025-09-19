@@ -51,8 +51,8 @@ export async function setStorage<K extends keyof StorageData>(
 
 // PC名とアーマーデータを一括で取得
 export async function getAllArmorsWithPcName(): Promise<StorageData> {
-    const characterName = (await getStorage("characterName")) || "";
-    const powerArmors = (await getStorage("powerArmors")) || [];
+    const characterName = (await getStorage("characterName")) || "搭乗者";
+    const powerArmors = (await getStorage("powerArmors")) || [{armorName: "アーマー1"}];
     const enableAdditionalArmors = (await getStorage("enableAdditionalArmors")) || true;
     const additionalArmors: AdditionalArmor[] = (await getStorage("additionalArmors")) || armorsNameList.map(armorName => ({armorName, enable: false}));
 

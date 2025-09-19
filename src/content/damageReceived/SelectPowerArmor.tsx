@@ -43,6 +43,7 @@ export default function SelectPowerArmor(props: Props){
                 <ArrowDropDownIcon/>
             </Button>
             <Menu
+                className="draggable-disable"
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
@@ -61,7 +62,7 @@ export default function SelectPowerArmor(props: Props){
                             handleClose();
                         }}
                     >
-                        {name}
+                        <span style={{minHeight: "1rem"}}>{name}</span>
                     </MenuItem>
                 ))}
             </Menu>
