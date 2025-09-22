@@ -69,7 +69,7 @@ export default function App(){
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const draggableRef = useRef<HTMLDivElement>(null);
 
-    const [size, setSize] = useState<{ width: number, height: number }>({ width: 400, height: 150 });
+    const [size, setSize] = useState<{ width: number, height: number }>({ width: 400, height: 365 });
     const [windowSize, setWindowSize] = useState<{ width: number, height: number }>({ width: window.innerWidth, height: window.innerHeight });
     const [position, setPosition] = useState<{ x: number, y: number }>(getDefaultPosition());
     const [bounds, setBounds] = useState({
@@ -80,12 +80,6 @@ export default function App(){
     });
 
     const {
-        enableOverload,
-        setEnableOverload,
-        shieldEnergy,
-        setShieldEnergy,
-        armorIndex,
-        setArmorIndex,
         data,
         setData
     } = useContext(DataContext);
