@@ -26,7 +26,7 @@ export function calculateDamage({
     name2?: string
 }){
     const text = `相手が出したダメージを入力してください。\n被ダメージ計算後、${partsName}の耐久値を減少させます。`;
-    const inputDamage = prompt(text);
+    const inputDamage: string | null = prompt(text);
     if(inputDamage === null) return;
 
     // 防御倍率を算出
@@ -52,15 +52,16 @@ export function calculateDamage({
         scale += "*50";
         scaleDivider *= 100;
     }
-    const scaleDividerText = (scaleDivider !== 1) ? `/${scaleDivider}` : "";
+    const scaleDividerText: string = (scaleDivider !== 1) ? `/${scaleDivider}` : "";
 
     // 装甲類の計算
     const energyShieldArmor: string = enableEnergyShield ? `${shieldEnergy}*5` : "";
     const armorsText: string = additionalArmors.map(armor => `{${armor}}`).join("+");
-    const holeArmorsText = [energyShieldArmor, armorsText].filter(Boolean).join("+");
-    const armorsFinalText = (holeArmorsText !== "") ? `-(${holeArmorsText})` : "";
+    const holeArmorsText: string = [energyShieldArmor, armorsText].filter(Boolean).join("+");
+    const armorsFinalText: string = (holeArmorsText !== "") ? `-(${holeArmorsText})` : "";
 
     // ダメージ計算ロール
-    const damageRole = `C(${inputDamage})${scale}${scaleDividerText}${armorsFinalText}`;
+    const labelText: string = enableEnergyShield ? "【被ダメージ(エナジーシールド)】" : "【被ダメージ】";
+    const damageRole: string = `C(${inputDamage})${scale}${scaleDividerText}${armorsFinalText} ${labelText}`;
     decrementParamsWithResult(damageRole, [partsName], name1, name2);
 }
