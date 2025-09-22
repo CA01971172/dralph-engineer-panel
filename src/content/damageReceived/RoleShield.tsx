@@ -12,7 +12,7 @@ export default function RoleShield(){
         <Button
             onClick={() => {
                 changeName(data.characterName);
-                sendCcfoliaMessage(["CCB<=({重機械操作}) 【エナジーシールド】"]);
+                sendCcfoliaMessage(["CCB<=({重機械操作技能}) 【エナジーシールド】"]);
             }}
         >
             エナシ
