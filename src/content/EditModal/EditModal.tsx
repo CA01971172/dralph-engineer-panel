@@ -1,11 +1,6 @@
-import { IconButton, Modal, Paper, TextField, Theme, ThemeProvider } from "@mui/material";
-import { StorageData } from "../../utils/controlChromeData";
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { useContext } from "react";
-import { DataContext } from "../DataProvider";
+import { Box, Modal, Paper, Theme, ThemeProvider } from "@mui/material";
 import NamesField from "./NamesField";
-
+import EditHeader from "./EditHeader";
 
 type Props = {
     theme: Theme;
@@ -18,22 +13,33 @@ export default function EditModal(props: Props){
 
     return (
         <Modal
-            className="draggable-disable"
             open={isOpen}
             onClose={closeModal}
+            sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                py: 4, // 上下32px（spacing基準で管理）
+            }}
         >
             <ThemeProvider theme={theme}>
                 <Paper
+                    elevation={4}
                     sx={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)", // 中央に移動
-                        p: 4, // パディング
-                        minWidth: 300 // 必要に応じて
+                        borderRadius: 1,
+                        width: 600,
+                        height: "100%", // 100vh から py の余白分を除いた残り
+                        boxSizing: "border-box",
+                        display: "flex",
+                        flexDirection: "column",
                     }}
                 >
-                    <NamesField/>
+                    <Paper elevation={4} sx={{ backgroundColor: "#212121" }}>
+                        <EditHeader />
+                    </Paper>
+                    <Box sx={{ p: 3, flex: 1 }}>
+                        <NamesField />
+                    </Box>
                 </Paper>
             </ThemeProvider>
         </Modal>
