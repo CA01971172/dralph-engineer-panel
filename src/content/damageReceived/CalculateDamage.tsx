@@ -44,7 +44,9 @@ export default function CalculateDamage( props: Props ){
                 })
             }}
         >
-            {enableEnergyShield ? "計算(エナシあり)" : "計算(エナシなし)"}
+            ダメージ計算
+            <br/>
+            {enableEnergyShield ? "(エナシあり)" : "(エナシなし)"}
         </Button>
     );
 };
