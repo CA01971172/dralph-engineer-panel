@@ -6,8 +6,6 @@ import { DataContext } from "../DataProvider";
 
 export default function NamesField(){
     const {
-        armorIndex,
-        setArmorIndex,
         data,
         setData,
         addArmor,
