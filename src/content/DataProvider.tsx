@@ -22,6 +22,8 @@ type ContextType = {
     setEnableBarrierHorn: React.Dispatch<React.SetStateAction<boolean>>;
     getEnableAdditionalArmors: () => boolean;
     getAdditionalArmors: () => { armorName: string; enable: boolean }[];
+    tabIndex: number;
+    setTabIndex: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export const DataContext = createContext<ContextType>({} as ContextType);
@@ -38,30 +40,23 @@ export function DataProvider({children}: {children: React.ReactNode}){
     const [enableBarrierHorn, setEnableBarrierHorn] = useState<boolean>(false); // バリアホーンの有無
     const getEnableAdditionalArmors = () => data.enableAdditionalArmors; // 装甲類の有効化
     const getAdditionalArmors = () => data.additionalArmors; // 装甲リスト
+    const [tabIndex, setTabIndex] = useState<number>(0); // 選択中のタブインデックス
 
     return (
         <DataContext.Provider
             value={{
-                enableOverload,
-                setEnableOverload,
-                shieldEnergy,
-                setShieldEnergy,
-                armorIndex,
-                setArmorIndex,
-                data,
-                setData,
-                partsIndex,
-                setPartsIndex,
-                sliderValue,
-                setSliderValue,
-                additionalDefense,
-                setAdditionalDefense,
-                enableEmergencyShield,
-                setEnableEmergencyShield,
-                enableBarrierHorn,
-                setEnableBarrierHorn,
+                enableOverload, setEnableOverload,
+                shieldEnergy, setShieldEnergy,
+                armorIndex, setArmorIndex,
+                data, setData,
+                partsIndex, setPartsIndex,
+                sliderValue, setSliderValue,
+                additionalDefense, setAdditionalDefense,
+                enableEmergencyShield, setEnableEmergencyShield,
+                enableBarrierHorn, setEnableBarrierHorn,
                 getEnableAdditionalArmors,
-                getAdditionalArmors
+                getAdditionalArmors,
+                tabIndex, setTabIndex
             }}
         >
             {children}

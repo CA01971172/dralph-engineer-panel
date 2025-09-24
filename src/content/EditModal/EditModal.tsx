@@ -1,6 +1,7 @@
 import { Box, Modal, Paper, Theme, ThemeProvider } from "@mui/material";
 import NamesField from "./NamesField";
 import EditHeader from "./EditHeader";
+import EditTabs from "./EditTabs";
 
 type Props = {
     theme: Theme;
@@ -9,7 +10,11 @@ type Props = {
 };
 
 export default function EditModal(props: Props){
-    const { theme, isOpen, closeModal } = props;
+    const {
+        theme,
+        isOpen,
+        closeModal
+    } = props;
 
     return (
         <Modal
@@ -19,7 +24,7 @@ export default function EditModal(props: Props){
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                py: 4, // 上下32px（spacing基準で管理）
+                py: 4, 
             }}
         >
             <ThemeProvider theme={theme}>
@@ -28,17 +33,18 @@ export default function EditModal(props: Props){
                     sx={{
                         borderRadius: 1,
                         width: 600,
-                        height: "100%", // 100vh から py の余白分を除いた残り
+                        height: "100%",
                         boxSizing: "border-box",
                         display: "flex",
                         flexDirection: "column",
                     }}
                 >
                     <Paper elevation={4} sx={{ backgroundColor: "#212121" }}>
-                        <EditHeader />
+                        <EditHeader/>
+                        <EditTabs/>
                     </Paper>
                     <Box sx={{ p: 3, flex: 1 }}>
-                        <NamesField />
+                        <NamesField/>
                     </Box>
                 </Paper>
             </ThemeProvider>

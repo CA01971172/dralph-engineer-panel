@@ -61,6 +61,28 @@ const theme = createTheme({
                 },
             },
         },
+                MuiTab: {
+            styleOverrides: {
+                root: {
+                    color: "#bdbdbd", // 非アクティブなタブの文字色を指定
+                },
+            },
+        },
+        MuiTabs: {
+            styleOverrides: {
+                indicator: {
+                    backgroundColor: "#f50057", // 下線の色を赤に設定
+                }
+            }
+        },
+        MuiMenu: {
+            styleOverrides: {
+                paper: {
+                    color: "#fff",
+                    backgroundColor: "rgba(44, 44, 44, 0.87)" // Menuコンポーネントの背景色を設定
+                }
+            },
+        },
     }
 });
 

@@ -36,7 +36,10 @@ export default function NamesField(){
                             ...prev,
                             powerArmors: [
                                 ...prev.powerArmors,
-                                { armorName: "" }
+                                {
+                                    armorName: ""
+                                    // TODO: その他の初期値も設定
+                                }
                             ]
                         }))
                     }}
