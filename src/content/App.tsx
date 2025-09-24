@@ -61,7 +61,7 @@ const theme = createTheme({
                 },
             },
         },
-                MuiTab: {
+        MuiTab: {
             styleOverrides: {
                 root: {
                     color: "#bdbdbd", // 非アクティブなタブの文字色を指定
@@ -186,7 +186,7 @@ export default function App(){
                             elevation={10}
                         >
                             <Header setIsModalOpen={setIsModalOpen}/>
-                            <Box sx={{ p: 2, pt: 0, pb: 4 }}>
+                            <Box sx={{ p: 2, pb: 4 }}>
                                 <DamageReceived/>
                             </Box>
                         </Paper>

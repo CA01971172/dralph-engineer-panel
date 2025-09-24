@@ -1,5 +1,7 @@
-import { IconButton } from "@mui/material";
+import { Box, IconButton, Paper, Tab, Tabs } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
+import { useContext } from "react";
+import { DataContext } from "./DataProvider";
 
 type Props = {
     setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -8,13 +10,18 @@ type Props = {
 // 編集ボタンがあるヘッダー
 export default function Header(props: Props){
     const { setIsModalOpen } = props;
+    const {
+        tabIndex,
+        setTabIndex,
+        data
+    } = useContext(DataContext);
 
     return (
-        <>
-            <div
-                style={{
+        <Box sx={{boxShadow: 4}}>
+            <Box
+                sx={{
                     height: "48px",
-                    padding: "0 24px",
+                    px: 3,
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center"
@@ -28,7 +35,21 @@ export default function Header(props: Props){
                 >
                     <EditIcon/>
                 </IconButton>
-            </div>
-        </>
+            </Box>
+            <Tabs
+                value={tabIndex}
+                onChange={(_, newValue) => setTabIndex(newValue)}
+                variant="scrollable"
+                scrollButtons="auto"
+            >
+                <Tab label="ダメージ計算"/>
+                {(data.powerArmors || []).map((armor, index) => (
+                    <Tab
+                        key={index}
+                        label={armor.armorName || `アーマー${index + 1}`}
+                    />
+                ))}
+            </Tabs>
+        </Box>
     );
 };
