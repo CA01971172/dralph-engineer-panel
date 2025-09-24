@@ -9,7 +9,9 @@ export default function NamesField(){
         armorIndex,
         setArmorIndex,
         data,
-        setData
+        setData,
+        addArmor,
+        removeArmor
     } = useContext(DataContext);
 
     return (
@@ -31,18 +33,7 @@ export default function NamesField(){
                 />
                 <IconButton
                     color="primary"
-                    onClick={() => {
-                        setData(prev => ({
-                            ...prev,
-                            powerArmors: [
-                                ...prev.powerArmors,
-                                {
-                                    armorName: ""
-                                    // TODO: その他の初期値も設定
-                                }
-                            ]
-                        }))
-                    }}
+                    onClick={addArmor}
                 >
                     <AddIcon/>
                 </IconButton>
@@ -62,16 +53,7 @@ export default function NamesField(){
                     />
                     <IconButton
                         color="primary"
-                        onClick={() => {
-                            if(armorIndex >= index) setArmorIndex(prev => {
-                                if(prev === 0) return 0;
-                                return prev - 1;
-                            });
-                            setData(prev => ({
-                                ...prev,
-                                powerArmors: prev.powerArmors.filter((_, i) => i !== index)
-                            }));
-                        }}
+                        onClick={() => removeArmor(index)}
                     >
                         <DeleteIcon/>
                     </IconButton>

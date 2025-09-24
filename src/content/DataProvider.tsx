@@ -24,6 +24,8 @@ type ContextType = {
     getAdditionalArmors: () => { armorName: string; enable: boolean }[];
     tabIndex: number;
     setTabIndex: React.Dispatch<React.SetStateAction<number>>;
+    addArmor: () => void;
+    removeArmor: (index: number) => void;
 };
 
 export const DataContext = createContext<ContextType>({} as ContextType);
@@ -42,6 +44,33 @@ export function DataProvider({children}: {children: React.ReactNode}){
     const getAdditionalArmors = () => data.additionalArmors; // 装甲リスト
     const [tabIndex, setTabIndex] = useState<number>(0); // 選択中のタブインデックス
 
+    function addArmor(){
+        setData(prev => ({
+            ...prev,
+            powerArmors: [
+                ...prev.powerArmors,
+                {
+                    armorName: ""
+                    // TODO: その他の初期値も設定
+                }
+            ]
+        }))
+    }
+
+    function removeArmor(index: number){
+        if(armorIndex >= index) setArmorIndex(prev => {
+            if(prev === 0) return 0;
+            return prev - 1;
+        });
+        if(tabIndex - 1 >= index) setTabIndex(prev => { // 基本情報タブを除くので-1
+            return prev - 1;
+        });
+        setData(prev => ({
+            ...prev,
+            powerArmors: prev.powerArmors.filter((_, i) => i !== index)
+        }));
+    }
+
     return (
         <DataContext.Provider
             value={{
@@ -56,7 +85,8 @@ export function DataProvider({children}: {children: React.ReactNode}){
                 enableBarrierHorn, setEnableBarrierHorn,
                 getEnableAdditionalArmors,
                 getAdditionalArmors,
-                tabIndex, setTabIndex
+                tabIndex, setTabIndex,
+                addArmor, removeArmor
             }}
         >
             {children}

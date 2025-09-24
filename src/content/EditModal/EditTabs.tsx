@@ -10,7 +10,12 @@ export default function EditTabs(){
     } = useContext(DataContext);
 
     return (
-        <Tabs value={tabIndex} onChange={(_, newValue) => setTabIndex(newValue)}>
+        <Tabs
+            value={tabIndex}
+            onChange={(_, newValue) => setTabIndex(newValue)}
+            variant="scrollable"
+            scrollButtons="auto"
+        >
             <Tab label="基本情報"/>
             {(data.powerArmors || []).map((armor, index) => (
                 <Tab
