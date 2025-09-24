@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { DataContext } from "../DataProvider";
 import { changeName, sendCcfoliaMessage } from "../../utils/sendCcfoliaMessage";
 
-export default function RoleShield(){
+export default function RollShield(){
     const {
         data
     } = useContext(DataContext)

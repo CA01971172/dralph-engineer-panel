@@ -8,7 +8,7 @@ import NumberFieldLabel from "../../ui/NumberFieldLabel";
 import SelectAdditionalArmors from "./SelectAdditionalArmors";
 import SelectPowerArmor from "./SelectPowerArmor";
 import { DataContext } from "../DataProvider";
-import RoleShield from "./RoleShield";
+import RollShield from "./RollShield";
 
 export default function DamageReceived(){
     const {
@@ -40,7 +40,7 @@ export default function DamageReceived(){
                 <CalculateDamage
                     enableEnergyShield={false}
                 />
-                <RoleShield/>
+                <RollShield/>
             </Box>
             <Grid container spacing={1} sx={{ml: 1, mr: 1}}>
                 <Grid size={6}>

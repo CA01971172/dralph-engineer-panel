@@ -62,6 +62,6 @@ export function calculateDamage({
 
     // ダメージ計算ロール
     const labelText: string = enableEnergyShield ? "【被ダメージ(エナジーシールド)】" : "【被ダメージ】";
-    const damageRole: string = `C(${inputDamage})${scale}${scaleDividerText}${armorsFinalText} ${labelText}`;
-    decrementParamsWithResult(damageRole, [partsName], name1, name2);
+    const damageRoll: string = `C(${inputDamage})${scale}${scaleDividerText}${armorsFinalText} ${labelText}`;
+    decrementParamsWithResult(damageRoll, [partsName], name1, name2);
 }

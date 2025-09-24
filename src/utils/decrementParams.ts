@@ -2,7 +2,7 @@ import { messageColumnQuery, nameFormQuery, roomChatQuery } from "./documentQuer
 import { changeMessage, changeName, clickSubmitButton } from "./sendCcfoliaMessage";
 
 // 特定のダイスロール結果を元に、パラメータを減少させる関数
-export async function decrementParamsWithResult(role: string, params: string[], name1?: string, name2?: string): Promise<void>{
+export async function decrementParamsWithResult(roll: string, params: string[], name1?: string, name2?: string): Promise<void>{
     console.log(name1, name2)
 
     // もし減少先が未指定なら、算出元と同じ名前を指定
@@ -15,7 +15,7 @@ export async function decrementParamsWithResult(role: string, params: string[], 
     if(name1 !== undefined) changeName(name1);
 
     // 入力内容を変更する
-    changeMessage(role);
+    changeMessage(roll);
 
     // キャラクター名(name1)が指定なし(undefined)なら、現在の発言キャラクターを取得しておく
     const characterName =  (document.querySelector(nameFormQuery) as HTMLInputElement)?.value || "noname";
@@ -31,17 +31,17 @@ export async function decrementParamsWithResult(role: string, params: string[], 
     clickSubmitButton();
 
     // ロール結果を取得する
-    const roleResult: string = await watchPromise;
+    const rollResult: string = await watchPromise;
 
     // ロール結果がマイナスの値なら、パラメータ減少ロールは行わない
-    if((!isNaN(Number(roleResult))) && (Number(roleResult) <= 0)) return;
+    if((!isNaN(Number(rollResult))) && (Number(rollResult) <= 0)) return;
 
     // キャラクター名を変更する
     if(name2 !== undefined) changeName(name2);
 
     // 最初のロール結果を使用して、指定されたパラメータを減少させる
     for(let i: number = 0; i < params.length; i++){
-        changeMessage(`:${params[i]}-${roleResult}`);
+        changeMessage(`:${params[i]}-${rollResult}`);
         clickSubmitButton();
         await new Promise((resolve) => setTimeout(resolve, 100));// 指定された時間だけ待機する
     }
@@ -72,23 +72,23 @@ async function watchMessage(targetCharacterName: string): Promise<string>{
                     if(characterName !== targetCharacterName) return; // キャラ名が指定と異なる場合は、追加された要素に対する処理を終了する
 
                     // ロール内容を取得する
-                    const roleContentElm: HTMLParagraphElement | null = addedMessageDiv.querySelector("p");
-                    if(!roleContentElm) return;
-                    if(!roleContentElm.firstChild) return;
+                    const rollContentElm: HTMLParagraphElement | null = addedMessageDiv.querySelector("p");
+                    if(!rollContentElm) return;
+                    if(!rollContentElm.firstChild) return;
 
                     // ロール結果を取得する
-                    const roleResultElm: HTMLSpanElement | null  = roleContentElm.querySelector("span");
-                    if(!roleResultElm){
+                    const rollResultElm: HTMLSpanElement | null  = rollContentElm.querySelector("span");
+                    if(!rollResultElm){
                         // ロール結果がないようなロールを監視しているなら、監視を終了する
                         observer.disconnect(); // DOMの監視を終了する
                         resolve(""); // ロール結果を返してPromiseを解決する
                         return;
                     }
-                    const roleResult = extractRoleResult(roleResultElm.textContent || ""); // ロール結果
+                    const rollResult = extractRollResult(rollResultElm.textContent || ""); // ロール結果
 
                     // キャラ名とロール内容が指定と一致する場合のみ、ロール結果を返す
                     observer.disconnect(); // DOMの監視を終了する
-                    resolve(roleResult); // ロール結果を返してPromiseを解決する
+                    resolve(rollResult); // ロール結果を返してPromiseを解決する
                 }
             }
         });
@@ -102,7 +102,7 @@ async function watchMessage(targetCharacterName: string): Promise<string>{
 }
 
 // テキストからロール結果を抽出する関数
-function extractRoleResult(text: string) {
+function extractRollResult(text: string) {
     // テキスト内の最後の「＞」の位置を探す
     const arrowIndex = text.lastIndexOf("＞");
 
