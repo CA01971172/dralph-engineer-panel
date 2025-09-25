@@ -9,8 +9,11 @@ import { DataContext } from './DataProvider';
 
 const theme = createTheme({
     palette: {
-        primary: { main: "#fff" },
+        primary: { main: "#fff",  },
         secondary: { main: "rgba(0,0,0,0)" },
+        action: {
+            disabled: "gray"
+        }
     },
     typography: { button: { textTransform: "none", fontWeight: 'bold' } },
     components: {
@@ -39,8 +42,7 @@ const theme = createTheme({
             styleOverrides: {
                 root: {
                     color: "gray", // フォーカスされてない時のラベル
-                    "&.Mui-focused": { color: "white" }, // フォーカス時
-                    "&.MuiInputLabel-shrink": { color: "gray" }, // shrink時
+                    "&.Mui-focused.MuiInputLabel-shrink": { color: "rgb(33, 150, 243)" }, // shrink時
                 },
             },
         },
@@ -56,7 +58,7 @@ const theme = createTheme({
                 underline: {
                     "&:before": { borderBottomColor: "gray" }, // 未フォーカス時の下線
                     "&:hover:not(.Mui-disabled):before": { borderBottomColor: "white" }, // hover時
-                    "&:after": { borderBottomColor: "white" }, // フォーカス時
+                    "&:after": { borderBottomColor: "rgb(33, 150, 243)" }, // フォーカス時
                 },
             },
         },

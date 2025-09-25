@@ -23,6 +23,7 @@ type ContextType = {
     getEnableAdditionalArmors: () => boolean;
     getAdditionalArmors: () => { armorName: string; enable: boolean }[];
     tabIndex: number;
+    swapTab(index: number, direction: 1 | -1): void;
     setTabIndex: React.Dispatch<React.SetStateAction<number>>;
     addArmor: () => void;
     removeArmor: (index: number) => void;
@@ -45,6 +46,23 @@ export function DataProvider({children}: {children: React.ReactNode}){
     const getAdditionalArmors = () => data.additionalArmors; // 装甲リスト
     const [tabIndex, setTabIndex] = useState<number>(0); // 選択中のタブインデックス
 
+    // タブを入れ替える関数
+    function swapTab(index: number, direction: 1 | -1){
+        const powerArmors = [...data.powerArmors];
+        const targetIndex = index + direction;
+
+        if (targetIndex < 0 || targetIndex >= powerArmors.length) return;
+
+        [powerArmors[index], powerArmors[targetIndex]] = [powerArmors[targetIndex], powerArmors[index]];
+
+        setData({
+            ...data,
+            powerArmors,
+        });
+}
+
+
+    // パワーアーマーデータを新規追加する関数
     function addArmor(){
         setData(prev => ({
             ...prev,
@@ -58,6 +76,7 @@ export function DataProvider({children}: {children: React.ReactNode}){
         }))
     }
 
+    // パワーアーマーデータを削除する関数
     function removeArmor(index: number){
         if(armorIndex >= index) setArmorIndex(prev => {
             if(prev === 0) return 0;
@@ -98,6 +117,7 @@ export function DataProvider({children}: {children: React.ReactNode}){
                 getEnableAdditionalArmors,
                 getAdditionalArmors,
                 tabIndex, setTabIndex,
+                swapTab,
                 addArmor, removeArmor,
                 saveData
             }}

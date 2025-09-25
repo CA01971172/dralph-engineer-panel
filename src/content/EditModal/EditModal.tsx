@@ -40,10 +40,15 @@ export default function EditModal(props: Props){
                     }}
                 >
                     <Paper elevation={4} sx={{ backgroundColor: "#212121" }}>
-                        <EditHeader/>
+                        <EditHeader closeModal={closeModal}/>
                         <EditTabs/>
                     </Paper>
-                    <Box sx={{ p: 3, flex: 1 }}>
+                    <Box
+                        sx={{
+                            p: 3,
+                            flex: 1,
+                            overflowY: "auto"
+                        }}>
                         <NamesField/>
                     </Box>
                 </Paper>

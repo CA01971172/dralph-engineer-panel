@@ -1,6 +1,8 @@
-import { IconButton, TextField, } from "@mui/material";
+import { Box, IconButton, TextField, } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useContext } from "react";
 import { DataContext } from "../DataProvider";
 
@@ -8,26 +10,22 @@ export default function NamesField(){
     const {
         data,
         setData,
+        swapTab,
         addArmor,
         removeArmor
     } = useContext(DataContext);
 
     return (
         <>
-            <div>
+            <Box>
                 <TextField
                     label="搭乗者名"
                     variant="standard"
-                    sx={{
-                        "& input::placeholder": {
-                        color: "white",       // プレースホルダーの色
-                        opacity: 1,         // opacity を1にして色をはっきりさせる
-                        },
-                    }}
                     value={data.characterName}
                     onChange={(e) => {
                         setData({ ...data, characterName: e.target.value });
                     }}
+                    sx={{ width: "50%" }}
                 />
                 <IconButton
                     color="primary"
@@ -35,9 +33,9 @@ export default function NamesField(){
                 >
                     <AddIcon/>
                 </IconButton>
-            </div>
-            {(data.powerArmors || []).map((armor, index) => (
-                <div>
+            </Box>
+            {(data.powerArmors || []).map((armor, index, array) => (
+                <Box>
                     <TextField
                         key={index}
                         variant="standard"
@@ -48,14 +46,32 @@ export default function NamesField(){
                             newArmors[index].armorName = e.target.value;
                             setData({ ...data, powerArmors: newArmors });
                         }}
+                        sx={{ width: "50%" }}
                     />
                     <IconButton
                         color="primary"
-                        onClick={() => removeArmor(index)}
+                        disabled={index === 0}
+                        onClick={() => swapTab(index, -1)}
+                    >
+                        <KeyboardArrowUpIcon/>
+                    </IconButton>
+                    <IconButton
+                        color="primary"
+                        disabled={index === array.length - 1}
+                        onClick={() => swapTab(index, 1)}
+                    >
+                        <KeyboardArrowDownIcon/>
+                    </IconButton>
+                    <IconButton
+                        color="primary"
+                        onClick={() => {
+                            const text: string = `${armor.armorName || `アーマー${index + 1}`}のデータは消えてしまいますが、本当に削除しますか？`;
+                            confirm(text) && removeArmor(index);
+                        }}
                     >
                         <DeleteIcon/>
                     </IconButton>
-                </div>
+                </Box>
             ))}
         </>
     );

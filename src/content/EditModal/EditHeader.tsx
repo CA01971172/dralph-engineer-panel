@@ -1,6 +1,11 @@
-import { Box } from "@mui/material";
+import { Box, Button, IconButton } from "@mui/material";
+import { useContext } from "react";
+import { DataContext } from "../DataProvider";
+import CloseIcon from '@mui/icons-material/Close';
 
-export default function EditHeader(){
+export default function EditHeader({closeModal}: {closeModal: () => void}){
+    const { saveData } = useContext(DataContext);
+
     return (
         <Box
             sx={{
@@ -12,7 +17,21 @@ export default function EditHeader(){
                 height: 64
             }}
         >
-            <div>パワーアーマー編集</div>
+            <Box>パワーアーマー編集</Box>
+            <Box>
+                <Button
+                    onClick={() => {
+                        saveData();
+                        alert("パワーアーマーのデータを保存しました。");
+                    }}
+                >保存</Button>
+                <IconButton
+                    color="primary"
+                    onClick={closeModal}
+                >
+                    <CloseIcon/>
+                </IconButton>
+            </Box>
         </Box>
     );
 }
