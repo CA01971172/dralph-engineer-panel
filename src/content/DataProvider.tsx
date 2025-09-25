@@ -1,5 +1,5 @@
-import { createContext, useState } from "react";
-import { StorageData } from "../utils/controlChromeData";
+import { createContext, useEffect, useState } from "react";
+import { getAllArmorsWithPcName, setStorage, StorageData } from "../utils/controlChromeData";
 
 type ContextType = {
     enableOverload: boolean;
@@ -26,6 +26,7 @@ type ContextType = {
     setTabIndex: React.Dispatch<React.SetStateAction<number>>;
     addArmor: () => void;
     removeArmor: (index: number) => void;
+    saveData: () => void;
 };
 
 export const DataContext = createContext<ContextType>({} as ContextType);
@@ -71,6 +72,17 @@ export function DataProvider({children}: {children: React.ReactNode}){
         }));
     }
 
+    // dataをChromeのローカルストレージに保存する関数
+    function saveData(){
+        setStorage("characterName", data.characterName);
+        setStorage("powerArmors", data.powerArmors);
+    }
+
+    // 拡張機能読み込み時、Chromeのローカルストレージを読み込んで初期化する
+    useEffect(() => {
+        getAllArmorsWithPcName().then(data => setData(data));
+    }, []);
+
     return (
         <DataContext.Provider
             value={{
@@ -86,7 +98,8 @@ export function DataProvider({children}: {children: React.ReactNode}){
                 getEnableAdditionalArmors,
                 getAdditionalArmors,
                 tabIndex, setTabIndex,
-                addArmor, removeArmor
+                addArmor, removeArmor,
+                saveData
             }}
         >
             {children}

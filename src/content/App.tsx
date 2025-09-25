@@ -4,7 +4,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Draggable from 'react-draggable';
 import DamageReceived from "./damageReceived/DamageReceived"
 import Header from './Header';
-import { getAllArmorsWithPcName, setStorage, StorageData } from '../utils/controlChromeData';
 import EditModal from './EditModal/EditModal';
 import { DataContext } from './DataProvider';
 
@@ -102,8 +101,7 @@ export default function App(){
     });
 
     const {
-        data,
-        setData
+        saveData
     } = useContext(DataContext);
 
     function getDefaultPosition(){
@@ -157,11 +155,6 @@ export default function App(){
     //     return () => { if (draggableRef.current) observer.unobserve(draggableRef.current); };
     // }, [width, height, windowWidth, windowHeight]);
 
-    // 拡張機能読み込み時、Chromeのローカルストレージを読み込んで初期化する
-    useEffect(() => {
-        getAllArmorsWithPcName().then(data => setData(data));
-    }, []);
-
     return (
         <>
             {visible && (
@@ -197,8 +190,7 @@ export default function App(){
                 theme={theme}
                 isOpen={isModalOpen}
                 closeModal={() => {
-                    setStorage("characterName", data.characterName);
-                    setStorage("powerArmors", data.powerArmors);
+                    saveData();
                     setIsModalOpen(false);
                 }}
             />
