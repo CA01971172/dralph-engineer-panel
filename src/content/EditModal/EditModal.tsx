@@ -5,6 +5,8 @@ import EditTabs from "./EditTabs";
 import { useContext } from "react";
 import { DataContext } from "../DataProvider";
 import TabContent from "../../ui/TabContent";
+import ModuleSettings from "./ModuleSettings";
+import { ModuleName } from "../../utils/getPowerArmorData";
 
 type Props = {
     theme: Theme;
@@ -70,7 +72,12 @@ export default function EditModal(props: Props){
                                     value={tabIndex}
                                     index={index + 1}
                                 >
-                                    <>{JSON.stringify(_armor)}</>
+                                    {(data.powerArmors[index].modules || []).map((module) => (
+                                        <ModuleSettings
+                                            armorIndex={index}
+                                            moduleName={module.name as ModuleName}
+                                        />
+                                    ))}
                                 </TabContent>
                         ))}
                     </Box>

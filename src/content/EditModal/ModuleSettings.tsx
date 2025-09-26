@@ -35,7 +35,6 @@ export default function ModuleSettings(props: Props){
                     })
                 }}
             >
-
             </CheckBoxLabel>
         </Box>
     );
