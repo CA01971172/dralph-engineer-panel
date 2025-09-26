@@ -408,7 +408,7 @@ export const modulesList = [
 
 // 搭載能力名から搭載能力データを取得する関数
 type Names<T extends readonly { name: string }[]> = T[number]["name"];
-type ModuleName = Names<typeof modulesList>;
+export type ModuleName = Names<typeof modulesList>;
 export function getModuleByName(name: ModuleName): ModuleData{
     const result: ModuleData | undefined = modulesList.find(module => module.name === name);
     if(!result) throw new Error("指定された搭載能力名が間違っています。");

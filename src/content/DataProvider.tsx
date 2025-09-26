@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { getAllArmorsWithPcName, setStorage, StorageData } from "../utils/controlChromeData";
-import { getInitialArmorData } from "../constants";
+import { getInitialArmorData, ModuleName, ModuleState } from "../utils/getPowerArmorData";
 
 type ContextType = {
     enableOverload: boolean;
@@ -29,6 +29,7 @@ type ContextType = {
     addArmor: () => void;
     removeArmor: (index: number) => void;
     saveData: () => void;
+    getModule(armorIndex: number, moduleName: ModuleName): ModuleState;
 };
 
 export const DataContext = createContext<ContextType>({} as ContextType);
@@ -62,7 +63,6 @@ export function DataProvider({children}: {children: React.ReactNode}){
         });
 }
 
-
     // パワーアーマーデータを新規追加する関数
     function addArmor(){
         setData(prev => ({
@@ -95,6 +95,13 @@ export function DataProvider({children}: {children: React.ReactNode}){
         setStorage("powerArmors", data.powerArmors);
     }
 
+    // dataからパワーアーマーの搭載能力を1つ指定して取得する関数
+    function getModule(armorIndex: number, moduleName: ModuleName): ModuleState{
+        const result: ModuleState | undefined = data.powerArmors[armorIndex].modules.find(module => module.name === moduleName);
+        if(!result) throw new Error("指定された搭載能力名が間違っています。");
+        return result;
+    }
+
     // 拡張機能読み込み時、Chromeのローカルストレージを読み込んで初期化する
     useEffect(() => {
         getAllArmorsWithPcName().then(data => setData(data));
@@ -117,7 +124,8 @@ export function DataProvider({children}: {children: React.ReactNode}){
                 tabIndex, setTabIndex,
                 swapTab,
                 addArmor, removeArmor,
-                saveData
+                saveData,
+                getModule
             }}
         >
             {children}

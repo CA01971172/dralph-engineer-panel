@@ -1,4 +1,4 @@
-import { getInitialArmorData, PowerArmor } from "../constants";
+import { getInitialArmorData, PowerArmor } from "./getPowerArmorData";
 
 // Chromeローカルストレージのデータの型
 export type StorageData = {

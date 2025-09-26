@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Button, Menu, MenuItem } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { partsNames } from '../../../constants';
+import { partsNames } from '../../utils/getPowerArmorData';
 import { DataContext } from '../DataProvider';
 
 export default function SelectParts(){
