@@ -27,11 +27,19 @@ export default function ModuleSettings(props: Props){
                 label={moduleName}
                 isChecked={getModule(armorIndex, moduleName).isEquipped}
                 setIsChecked={() => {
-                    setData(prev => {
-                        const targetModuleIndex: number = prev.powerArmors[armorIndex].modules.findIndex(module => module.name === moduleName);
-                        if(targetModuleIndex === -1) throw new Error("指定された搭載能力名が間違っています。");
-                        prev.powerArmors[armorIndex].modules[targetModuleIndex].isEquipped = !prev.powerArmors[armorIndex].modules[targetModuleIndex].isEquipped;
-                        return prev;
+                    setData(prev => { // modulesからmodule.nameが一致するもののisEquippedだけを反転させる
+                        const updatedPowerArmors = prev.powerArmors.map((armor, idx) => {
+                            if (idx !== armorIndex) return armor;
+                            return {
+                                ...armor,
+                                modules: armor.modules.map(module => 
+                                    module.name === moduleName
+                                        ? { ...module, isEquipped: !module.isEquipped }
+                                        : module
+                                )
+                            };
+                        });
+                    return { ...prev, powerArmors: updatedPowerArmors };
                     })
                 }}
             >

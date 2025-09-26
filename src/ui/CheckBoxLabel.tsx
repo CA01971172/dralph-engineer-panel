@@ -4,6 +4,7 @@ type Props = {
     label: string;
     isChecked: boolean;
     setIsChecked: React.Dispatch<React.SetStateAction<boolean>>;
+    color?: "primary" | "secondary" | "error" | "info" | "success" | "warning" | "default";
 }
 
 export default function CheckBoxLabel( props: Props ){
@@ -11,9 +12,11 @@ export default function CheckBoxLabel( props: Props ){
     return (
         <FormControlLabel
             className=".draggable-disable"
+            style={{userSelect: "none"}}
             label={label}
             control={
                 <Checkbox
+                    color={props.color || "primary"}
                     checked={isChecked}
                     onChange={() => setIsChecked(prev => !prev)}
                 />

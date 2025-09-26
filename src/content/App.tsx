@@ -11,6 +11,7 @@ const theme = createTheme({
     palette: {
         primary: { main: "#fff",  },
         secondary: { main: "rgba(0,0,0,0)" },
+        info: { main: "rgb(33, 150, 243)" },
         action: {
             disabled: "gray"
         }

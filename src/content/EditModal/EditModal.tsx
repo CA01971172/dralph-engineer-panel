@@ -66,15 +66,16 @@ export default function EditModal(props: Props){
                             <NamesField/>
                         </TabContent>
                         {
-                            (data.powerArmors || []).map((_armor, index) => (
+                            (data.powerArmors || []).map((_armor, armorIndex) => (
                                 <TabContent
-                                    key={index}
+                                    key={armorIndex}
                                     value={tabIndex}
-                                    index={index + 1}
+                                    index={armorIndex + 1}
                                 >
-                                    {(data.powerArmors[index].modules || []).map((module) => (
+                                    {(data.powerArmors[armorIndex].modules || []).map((module, moduleIndex) => (
                                         <ModuleSettings
-                                            armorIndex={index}
+                                            key={moduleIndex}
+                                            armorIndex={armorIndex}
                                             moduleName={module.name as ModuleName}
                                         />
                                     ))}
