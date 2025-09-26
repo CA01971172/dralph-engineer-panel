@@ -10,6 +10,7 @@ export default function CheckBoxLabel( props: Props ){
     const { label, isChecked, setIsChecked } = props;
     return (
         <FormControlLabel
+            className=".draggable-disable"
             label={label}
             control={
                 <Checkbox

@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { getAllArmorsWithPcName, setStorage, StorageData } from "../utils/controlChromeData";
+import { getInitialArmorData } from "../constants";
 
 type ContextType = {
     enableOverload: boolean;
@@ -68,10 +69,7 @@ export function DataProvider({children}: {children: React.ReactNode}){
             ...prev,
             powerArmors: [
                 ...prev.powerArmors,
-                {
-                    armorName: ""
-                    // TODO: その他の初期値も設定
-                }
+                getInitialArmorData("")
             ]
         }))
     }

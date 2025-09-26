@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import { calculateDamage } from "../../utils/calculateDamage";
 import { useContext } from "react";
 import { DataContext } from "../DataProvider";
-import { partsNames } from "../../constants";
+import { partsNames } from "../../../constants";
 
 type Props = {
     enableEnergyShield: boolean;

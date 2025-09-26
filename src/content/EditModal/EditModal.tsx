@@ -1,7 +1,10 @@
-import { Box, Modal, Paper, Theme, ThemeProvider } from "@mui/material";
+import { Box, Modal, Paper, Tab, Theme, ThemeProvider } from "@mui/material";
 import NamesField from "./NamesField";
 import EditHeader from "./EditHeader";
 import EditTabs from "./EditTabs";
+import { useContext } from "react";
+import { DataContext } from "../DataProvider";
+import TabContent from "../../ui/TabContent";
 
 type Props = {
     theme: Theme;
@@ -15,6 +18,11 @@ export default function EditModal(props: Props){
         isOpen,
         closeModal
     } = props;
+
+    const {
+        data,
+        tabIndex
+    } = useContext(DataContext);
 
     return (
         <Modal
@@ -49,7 +57,22 @@ export default function EditModal(props: Props){
                             flex: 1,
                             overflowY: "auto"
                         }}>
-                        <NamesField/>
+                        <TabContent
+                            value={tabIndex}
+                            index={0}
+                        >
+                            <NamesField/>
+                        </TabContent>
+                        {
+                            (data.powerArmors || []).map((_armor, index) => (
+                                <TabContent
+                                    key={index}
+                                    value={tabIndex}
+                                    index={index + 1}
+                                >
+                                    <>{JSON.stringify(_armor)}</>
+                                </TabContent>
+                        ))}
                     </Box>
                 </Paper>
             </ThemeProvider>

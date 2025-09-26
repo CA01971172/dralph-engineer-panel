@@ -1,27 +1,44 @@
 // パワーアーマーの部位名
 export const partsNames = [ "頭", "胴体", "右手", "左手", "右足", "左足" ];
 
-// 搭載能力の型
-type Module = {
-    visible?: false;
-    name: string;
-    shortName: string;
-    type: "weapon" | "gadget" | "passive";
-    maxEquip: number;
-    energyCost: number;
-    sustainEnergyCost: number;
-    coolDown: number | null;
-    texts: string[];
+export type PowerArmor = {
+    armorName: string; // パワーアーマー名
+    modules: ModuleState[]; // 搭載能力
+}
+
+// 搭載能力データの型
+type ModuleData = {
+    name: string; // 搭載能力名
+    shortName: string; // 搭載能力の略称
+    type: "weapon" | "gadget" | "passive"; // 搭載能力の種別
+    maxEquip: number; // 1体当たりの搭載可能数
+    energyCost: number; // 消費EN
+    sustainEnergyCost: number; // 継続EN
+    coolDown: number | null; // 再使用可能ターン
+    texts: string[]; // ダメージロールや回復ロールの値、技能補正値等
     levelDiffs?: Record<number, ModuleLevelDiff>; // 強化レベルの差分
 }
 
 // 強化レベルの差分の型
-type ModuleLevelDiff = Partial<Pick<Module, "energyCost" | "sustainEnergyCost" | "coolDown" | "texts">> & {
+type ModuleLevelDiff = Partial<Pick<ModuleData, "energyCost" | "sustainEnergyCost" | "coolDown" | "texts">> & {
     levelNote?: string; // レベルに応じた注釈
 };
 
+// state管理用の搭載能力データ
+export type ModuleState = Pick<ModuleData, (
+    "name" | 
+    "energyCost" | 
+    "sustainEnergyCost" | 
+    "coolDown" | 
+    "texts"
+)> & {
+    isEquipped: boolean; // 搭載されているかどうか
+    isEnabled: boolean; // 有効かどうか(設置物等)
+    level: number; // 強化レベル
+}
+
 // 搭載能力と強化内容一覧
-export const armorModules: Module[] = [
+export const modulesList = [
     {
         name: "攻撃命中率増加",
         shortName: "命増",
@@ -54,8 +71,7 @@ export const armorModules: Module[] = [
         texts: ["+85"] }
         }
     },
-    {
-        visible: false,
+    /* {
         name: "状態異常耐性",
         shortName: "各状耐",
         type: "passive",
@@ -64,9 +80,8 @@ export const armorModules: Module[] = [
         sustainEnergyCost: 0,
         coolDown: null,
         texts: []
-    },
-    {
-        visible: false,
+    }, */
+    /* {
         name: "スキャン強化搭載",
         shortName: "スキ強",
         type: "passive",
@@ -91,9 +106,8 @@ export const armorModules: Module[] = [
             7: { coolDown: null,
         texts: ["+110", "2"] }
         }
-    },
-    {
-        visible: false,
+    }, */
+    /* {
         name: "耐久増加",
         shortName: "耐増",
         type: "passive",
@@ -102,9 +116,8 @@ export const armorModules: Module[] = [
         sustainEnergyCost: 0,
         coolDown: null,
         texts: []
-    },
-    {
-        visible: false,
+    }, */
+    /* {
         name: "EN増加",
         shortName: "EN増",
         type: "passive",
@@ -113,9 +126,8 @@ export const armorModules: Module[] = [
         sustainEnergyCost: 0,
         coolDown: null,
         texts: []
-    },
-    {
-        visible: false,
+    }, */
+    /* {
         name: "行動P",
         shortName: "行P",
         type: "passive",
@@ -124,9 +136,8 @@ export const armorModules: Module[] = [
         sustainEnergyCost: 0,
         coolDown: null,
         texts: []
-    },
-    {
-        visible: false,
+    }, */
+    /* {
         name: "環境耐性",
         shortName: "環耐",
         type: "passive",
@@ -135,7 +146,7 @@ export const armorModules: Module[] = [
         sustainEnergyCost: 0,
         coolDown: null,
         texts: []
-    },
+    }, */
     {
         name: "エネルギー系効率化",
         shortName: "EN効率",
@@ -152,8 +163,7 @@ export const armorModules: Module[] = [
         texts: ["-3"] }
         }
     },
-    {
-        visible: false,
+    /* {
         name: "緊急シールド",
         shortName: "緊シ",
         type: "passive",
@@ -162,9 +172,8 @@ export const armorModules: Module[] = [
         sustainEnergyCost: 0,
         coolDown: null,
         texts: []
-    },
-    {
-        visible: false,
+    }, */
+    /* {
         name: "脳内保護",
         shortName: "脳保",
         type: "passive",
@@ -173,7 +182,7 @@ export const armorModules: Module[] = [
         sustainEnergyCost: 0,
         coolDown: null,
         texts: []
-    },
+    }, */
     {
         name: "回避強化",
         shortName: "回強",
@@ -206,8 +215,7 @@ export const armorModules: Module[] = [
         texts: ["+185"] }
         }
     },
-    {
-        visible: false,
+    /* {
         name: "ホーリープロテクト",
         shortName: "ホリプロ",
         type: "passive",
@@ -216,9 +224,8 @@ export const armorModules: Module[] = [
         sustainEnergyCost: 0,
         coolDown: null,
         texts: []
-    },
-    {
-        visible: false,
+    }, */
+    /* {
         name: "パワーブースト",
         shortName: "パワブ",
         type: "passive",
@@ -227,9 +234,8 @@ export const armorModules: Module[] = [
         sustainEnergyCost: 2,
         coolDown: null,
         texts: ["+20", "+1"]
-    },
-    {
-        visible: false,
+    }, */
+    /* {
         name: "応急パック",
         shortName: "応急",
         type: "passive",
@@ -238,9 +244,8 @@ export const armorModules: Module[] = [
         sustainEnergyCost: 0,
         coolDown: null,
         texts: []
-    },
-    {
-        visible: false,
+    }, */
+    /* {
         name: "遊泳能力追加",
         shortName: "遊泳",
         type: "passive",
@@ -249,9 +254,8 @@ export const armorModules: Module[] = [
         sustainEnergyCost: 0,
         coolDown: null,
         texts: ["+20", "1"]
-    },
-    {
-        visible: false,
+    }, */
+    /* {
         name: "エリミネート",
         shortName: "エリミ",
         type: "passive",
@@ -260,7 +264,7 @@ export const armorModules: Module[] = [
         sustainEnergyCost: 2,
         coolDown: null,
         texts: []
-    },
+    }, */
     {
         name: "パイルバンカー",
         shortName: "パイル",
@@ -301,8 +305,7 @@ export const armorModules: Module[] = [
             9: { sustainEnergyCost: 7 }
         }
     },
-    {
-        visible: false,
+    /* {
         name: "オートバレルスタンド",
         shortName: "オトバレ",
         type: "gadget",
@@ -313,9 +316,8 @@ export const armorModules: Module[] = [
         texts: ["8d6"],
         levelDiffs: {
         }
-    },
-    {
-        visible: false,
+    }, */
+    /* {
         name: "ホバリング移動",
         shortName: "ホバ",
         type: "passive",
@@ -324,9 +326,8 @@ export const armorModules: Module[] = [
         sustainEnergyCost: 1,
         coolDown: null,
         texts: []
-    },
-    {
-        visible: false,
+    }, */
+    /* {
         name: "パワーナックル",
         shortName: "パワナク",
         type: "weapon",
@@ -337,9 +338,8 @@ export const armorModules: Module[] = [
         texts: ["0"],
         levelDiffs: {
         }
-    },
-    {
-        visible: false,
+    }, */
+    /* {
         name: "チェインガン",
         shortName: "チェガ",
         type: "weapon",
@@ -350,7 +350,7 @@ export const armorModules: Module[] = [
         texts: ["7d6"],
         levelDiffs: {
         }
-    },
+    }, */
     {
         name: "オプション",
         shortName: "オプ",
@@ -372,8 +372,7 @@ export const armorModules: Module[] = [
             10: { texts: ["2", "5d6", "4d6+6", "1d6", "3"], energyCost: 6, sustainEnergyCost: 2 },
         }
     },
-    {
-        visible: false,
+    /* {
         name: "レールガン",
         shortName: "レルガン",
         type: "weapon",
@@ -384,9 +383,8 @@ export const armorModules: Module[] = [
         texts: ["15d10"],
         levelDiffs: {
         }
-    },
-    {
-        visible: false,
+    }, */
+    /* {
         name: "ミニミサイル",
         shortName: "ミミ",
         type: "weapon",
@@ -395,9 +393,8 @@ export const armorModules: Module[] = [
         sustainEnergyCost: 0,
         coolDown: 2,
         texts: ["8d8"]
-    },
-    {
-        visible: false,
+    }, */
+    /* {
         name: "遠隔操作",
         shortName: "遠操",
         type: "passive",
@@ -406,12 +403,21 @@ export const armorModules: Module[] = [
         sustainEnergyCost: 2,
         coolDown: null,
         texts: ["1"]
-    }
-]
+    } */
+] as const satisfies readonly ModuleData[];
+
+// 搭載能力名から搭載能力データを取得する関数
+type Names<T extends readonly { name: string }[]> = T[number]["name"];
+type ModuleName = Names<typeof modulesList>;
+export function getModuleByName(name: ModuleName): ModuleData{
+    const result: ModuleData | undefined = modulesList.find(module => module.name === name);
+    if(!result) throw new Error("指定された搭載能力名が間違っています。");
+    return result;
+}
 
 // 強化レベルから適切な搭載能力の内容を返す関数
-export function getModuleAtLevel(module: Module, level: number): Module{
-    if (!module.levelDiffs) return module;
+export function getModuleAtLevel(prev: ModuleState, module: ModuleData, level: number): ModuleState{
+    if (!module.levelDiffs) return { ...prev, level };
 
     // level以下で最大の差分レベルを探す
     const availableLevels: number[] = Object.keys(module.levelDiffs)
@@ -419,13 +425,32 @@ export function getModuleAtLevel(module: Module, level: number): Module{
         .filter(l => l <= level);
 
     // どの差分も適用できないなら、ベースを返す
-    if (availableLevels.length === 0) return module;
+    if (availableLevels.length === 0) return { ...prev, level };
 
     const latestLevel: number = Math.max(...availableLevels); // level以下で最大の差分レベル
     const diff: ModuleLevelDiff = module.levelDiffs[latestLevel]; // 適切な強化内容の差分
 
     return {
+        // module -> diffの順番でマージ
         ...module,
         ...diff,
+        isEquipped: prev.isEquipped,
+        isEnabled: prev.isEnabled,
+        level
     };
+}
+
+// アーマーの初期状態を取得する関数
+export function getInitialArmorData(armorName: string): PowerArmor{
+    return {
+        armorName,
+        modules: modulesList.map(module => {
+            return {
+                ...module,
+                isEquipped: false,
+                isEnabled: false,
+                level: 0
+            }
+        })
+    }
 }

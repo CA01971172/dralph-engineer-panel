@@ -1,3 +1,5 @@
+import { getInitialArmorData, PowerArmor } from "../constants";
+
 // Chromeローカルストレージのデータの型
 export type StorageData = {
     characterName: string; // 搭乗者名
@@ -5,10 +7,6 @@ export type StorageData = {
     enableAdditionalArmors: boolean; // 装甲の適用状態
     additionalArmors: AdditionalArmor[]; // 適用する装甲リスト
 };
-
-export type PowerArmor = {
-    armorName: string;
-}
 
 type AdditionalArmor = {
     armorName: string;
@@ -52,7 +50,7 @@ export async function setStorage<K extends keyof StorageData>(
 // PC名とアーマーデータを一括で取得
 export async function getAllArmorsWithPcName(): Promise<StorageData> {
     const characterName = (await getStorage("characterName")) || "搭乗者";
-    const powerArmors = (await getStorage("powerArmors")) || [{armorName: "アーマー1"}];
+    const powerArmors = (await getStorage("powerArmors")) || [getInitialArmorData("アーマー1")];
     const enableAdditionalArmors = (await getStorage("enableAdditionalArmors")) || true;
     const additionalArmors: AdditionalArmor[] = (await getStorage("additionalArmors")) || armorsNameList.map(armorName => ({armorName, enable: false}));
 
