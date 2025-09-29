@@ -24,7 +24,7 @@ export default function NumericField(props: P) {
     };
 
     return <TextField
-        className=".draggable-disable"
+        className="draggable-disable"
         fullWidth={props.fullWidth}
         required={props.required}
         value={props.state}

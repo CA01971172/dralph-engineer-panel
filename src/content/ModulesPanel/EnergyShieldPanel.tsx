@@ -3,6 +3,7 @@ import { Button, Checkbox } from '@mui/material';
 import NumberFieldLabel from '../../ui/NumberFieldLabel';
 import { changeName, sendCcfoliaMessage } from '../../utils/sendCcfoliaMessage';
 import { DataContext, PowerArmorStates } from '../DataProvider';
+import CheckBoxLabel from '../../ui/CheckBoxLabel';
 
 export default function EnergyShieldPanel({armorIndex}: {armorIndex: number;}) {
     const {
@@ -95,12 +96,16 @@ export default function EnergyShieldPanel({armorIndex}: {armorIndex: number;}) {
                 min={0}
                 max={99}
             />
-            <Button onClick={handleUseEnergyShield}>
-                エナジーシールド生成
+            <Button
+                className="draggable-disable"
+                onClick={handleUseEnergyShield}
+            >
+                エナシ生成
             </Button>
-            <Checkbox
-                checked={data.powerArmors[armorIndex].energyShield.isEnabled}
-                onChange={handleSwitchCheckBox}
+            <CheckBoxLabel
+                label="継続"
+                isChecked={data.powerArmors[armorIndex].energyShield.isEnabled}
+                setIsChecked={handleSwitchCheckBox}
             />
         </div>
     );

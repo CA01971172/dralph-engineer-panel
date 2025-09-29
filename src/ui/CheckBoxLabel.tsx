@@ -11,7 +11,7 @@ export default function CheckBoxLabel( props: Props ){
     const { label, isChecked, setIsChecked } = props;
     return (
         <FormControlLabel
-            className=".draggable-disable"
+            className="draggable-disable"
             style={{userSelect: "none"}}
             label={label}
             control={
