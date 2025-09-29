@@ -52,7 +52,7 @@ export default function SelectSpecialArmor(){
                         checked={getEnableAdditionalArmors()}
                         onChange={() => {
                             setData((prev) => {
-                                const newData: StorageData = { ...prev };
+                                const newData = { ...prev };
                                 newData.enableAdditionalArmors = !prev.enableAdditionalArmors;
                                 setStorage("enableAdditionalArmors", !prev.enableAdditionalArmors);
                                 return newData;
@@ -82,7 +82,7 @@ export default function SelectSpecialArmor(){
                                     checked={data.enable}
                                     onChange={() => {
                                         setData((prev) => {
-                                            const newData: StorageData = { ...prev };
+                                            const newData = { ...prev };
                                             newData.additionalArmors[index].enable = !prev.additionalArmors[index].enable;
                                             setStorage("additionalArmors", newData.additionalArmors);
                                             return newData;

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import DefenseLevelSlider from "./DefenseLevelSlider";
 import SelectParts from "./SelectParts";
 import CalculateDamage from "./CalculateDamage";

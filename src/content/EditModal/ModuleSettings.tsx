@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { DataContext } from "../DataProvider";
+import { DataContext, PowerArmorStates } from "../DataProvider";
 import { Box } from "@mui/material";
 import CheckBoxLabel from "../../ui/CheckBoxLabel";
 import { ModuleName } from "../../utils/getPowerArmorData";
@@ -29,9 +29,9 @@ export default function ModuleSettings(props: Props){
                 setIsChecked={() => {
                     setData(prev => { // modulesからmodule.nameが一致するもののisEquippedだけを反転させる
                         const updatedPowerArmors = prev.powerArmors.map((armor, idx) => {
-                            if (idx !== armorIndex) return armor;
+                            if (idx !== armorIndex) return armor as PowerArmorStates;
                             return {
-                                ...armor,
+                                ...armor as PowerArmorStates,
                                 modules: armor.modules.map(module => 
                                     module.name === moduleName
                                         ? { ...module, isEquipped: !module.isEquipped }

@@ -1,6 +1,15 @@
 import { createContext, useEffect, useState } from "react";
 import { getAllArmorsWithPcName, setStorage, StorageData } from "../utils/controlChromeData";
-import { getInitialArmorData, ModuleName, ModuleState } from "../utils/getPowerArmorData";
+import { getInitialArmorData, ModuleName, ModuleState, PowerArmor } from "../utils/getPowerArmorData";
+
+export type ArmorStates = StorageData & {
+    powerArmors: PowerArmorStates[];
+};
+
+export type PowerArmorStates = PowerArmor & {
+    energyShield: { isEnabled: boolean; energy: string };
+    energyBlade: { isEnabled: boolean; energy: string };
+}
 
 type ContextType = {
     enableOverload: boolean;
@@ -9,8 +18,8 @@ type ContextType = {
     setShieldEnergy: React.Dispatch<React.SetStateAction<string>>;
     armorIndex: number;
     setArmorIndex: React.Dispatch<React.SetStateAction<number>>;
-    data: StorageData;
-    setData: React.Dispatch<React.SetStateAction<StorageData>>;
+    data: ArmorStates;
+    setData: React.Dispatch<React.SetStateAction<ArmorStates>>;
     partsIndex: number;
     setPartsIndex: React.Dispatch<React.SetStateAction<number>>;
     sliderValue: number;
@@ -37,8 +46,8 @@ export const DataContext = createContext<ContextType>({} as ContextType);
 export function DataProvider({children}: {children: React.ReactNode}){
     const [enableOverload, setEnableOverload] = useState<boolean>(false); // オーバーロード有効化
     const [shieldEnergy, setShieldEnergy] = useState<string>("0"); // シールドEN
-    const [armorIndex, setArmorIndex] = useState<number>(0); // 選択中のアーマーインデックス
-    const [data, setData] = useState<StorageData>({} as StorageData); // Chromeのローカルストレージのデータ
+    const [armorIndex, setArmorIndex] = useState<number>(0); // ダメ計用選択中のアーマーインデックス
+    const [data, setData] = useState<ArmorStates>({} as ArmorStates); // パワーアーマー関連のstate
     const [partsIndex, setPartsIndex] = useState<number>(0); // 選択中のアーマー部位インデックス
     const [sliderValue, setSliderValue] = useState<number>(0); // 防御力段階スライダーの値
     const [additionalDefense, setAdditionalDefense] = useState<string>("100"); // その他軽減倍率
@@ -65,11 +74,22 @@ export function DataProvider({children}: {children: React.ReactNode}){
 
     // パワーアーマーデータを新規追加する関数
     function addArmor(){
+        const newArmor: PowerArmorStates = {
+            ...getInitialArmorData(""),
+            energyShield: {
+                isEnabled: false,
+                energy: "0"
+            },
+            energyBlade: {
+                isEnabled: false,
+                energy: "0"
+            }
+        }
         setData(prev => ({
             ...prev,
             powerArmors: [
                 ...prev.powerArmors,
-                getInitialArmorData("")
+                newArmor
             ]
         }))
     }
@@ -83,16 +103,26 @@ export function DataProvider({children}: {children: React.ReactNode}){
         if(tabIndex - 1 >= index) setTabIndex(prev => { // 基本情報タブを除くので-1
             return prev - 1;
         });
-        setData(prev => ({
-            ...prev,
-            powerArmors: prev.powerArmors.filter((_, i) => i !== index)
-        }));
+        setData(prev => {
+            const armors: PowerArmorStates[] = prev.powerArmors;
+            return {
+                ...prev,
+                powerArmors: armors.filter((_, i) => i !== index)
+            };
+        });
     }
 
     // dataをChromeのローカルストレージに保存する関数
     function saveData(){
         setStorage("characterName", data.characterName);
-        setStorage("powerArmors", data.powerArmors);
+        const powerArmors = data.powerArmors.map(armor => {
+            return {
+                // stateからエナシ・エナブレを削除してから保存
+                armorName: armor.armorName,
+                modules: armor.modules
+            };
+        })
+        setStorage("powerArmors", powerArmors);
     }
 
     // dataからパワーアーマーの搭載能力を1つ指定して取得する関数
@@ -104,7 +134,23 @@ export function DataProvider({children}: {children: React.ReactNode}){
 
     // 拡張機能読み込み時、Chromeのローカルストレージを読み込んで初期化する
     useEffect(() => {
-        getAllArmorsWithPcName().then(data => setData(data));
+        getAllArmorsWithPcName().then(storageData => {
+            const newData: ArmorStates = {
+                ...storageData,
+                powerArmors: storageData.powerArmors.map(armor => ({
+                    ...armor,
+                    energyShield: {
+                        isEnabled: false,
+                        energy: "0"
+                    },
+                    energyBlade: {
+                        isEnabled: false,
+                        energy: "0"
+                    }
+                }))
+            }
+            setData(newData);
+        });
     }, []);
 
     return (

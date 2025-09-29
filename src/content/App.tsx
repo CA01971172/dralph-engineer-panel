@@ -2,10 +2,12 @@ import { useState, useEffect, useRef, use, useContext } from 'react';
 import { Box, Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Draggable from 'react-draggable';
-import DamageReceived from "./damageReceived/DamageReceived"
+import DamageReceived from "./DamageReceived/DamageReceived"
 import Header from './Header';
 import EditModal from './EditModal/EditModal';
 import { DataContext } from './DataProvider';
+import TabContent from '../ui/TabContent';
+import ModulesPanel from './ModulesPanel/ModulesPanel';
 
 const theme = createTheme({
     palette: {
@@ -104,6 +106,8 @@ export default function App(){
     });
 
     const {
+        data,
+        tabIndex,
         saveData
     } = useContext(DataContext);
 
@@ -183,7 +187,14 @@ export default function App(){
                         >
                             <Header setIsModalOpen={setIsModalOpen}/>
                             <Box sx={{ p: 2, pb: 4 }}>
-                                <DamageReceived/>
+                                <TabContent value={tabIndex} index={0}>
+                                    <DamageReceived/>
+                                </TabContent>
+                                {data.powerArmors.map((_armor, index) => (
+                                    <TabContent key={index} value={tabIndex} index={index + 1}>
+                                        <ModulesPanel armorIndex={index}/>
+                                    </TabContent>
+                                ))}
                             </Box>
                         </Paper>
                     </Draggable>
