@@ -14,8 +14,6 @@ export type PowerArmorStates = PowerArmor & {
 type ContextType = {
     enableOverload: boolean;
     setEnableOverload: React.Dispatch<React.SetStateAction<boolean>>;
-    shieldEnergy: string;
-    setShieldEnergy: React.Dispatch<React.SetStateAction<string>>;
     armorIndex: number;
     setArmorIndex: React.Dispatch<React.SetStateAction<number>>;
     data: ArmorStates;
@@ -46,7 +44,6 @@ export const DataContext = createContext<ContextType>({} as ContextType);
 
 export function DataProvider({children}: {children: React.ReactNode}){
     const [enableOverload, setEnableOverload] = useState<boolean>(false); // オーバーロード有効化
-    const [shieldEnergy, setShieldEnergy] = useState<string>("0"); // シールドEN
     const [armorIndex, setArmorIndex] = useState<number>(0); // ダメ計用選択中のアーマーインデックス
     const [data, setData] = useState<ArmorStates>({} as ArmorStates); // パワーアーマー関連のstate
     const [partsIndex, setPartsIndex] = useState<number>(0); // 選択中のアーマー部位インデックス
@@ -166,7 +163,6 @@ export function DataProvider({children}: {children: React.ReactNode}){
         <DataContext.Provider
             value={{
                 enableOverload, setEnableOverload,
-                shieldEnergy, setShieldEnergy,
                 armorIndex, setArmorIndex,
                 data, setData,
                 partsIndex, setPartsIndex,

@@ -7,23 +7,50 @@ import CheckBoxLabel from "../../ui/CheckBoxLabel";
 import NumberFieldLabel from "../../ui/NumberFieldLabel";
 import SelectAdditionalArmors from "./SelectAdditionalArmors";
 import SelectPowerArmor from "./SelectPowerArmor";
-import { DataContext } from "../DataProvider";
+import { DataContext, PowerArmorStates } from "../DataProvider";
 import RollShield from "./RollShield";
 
 export default function DamageReceived(){
     const {
         enableOverload,
         setEnableOverload,
-        shieldEnergy,
-        setShieldEnergy,
         data,
+        setData,
         additionalDefense,
         setAdditionalDefense,
         enableEmergencyShield,
         setEnableEmergencyShield,
         enableBarrierHorn,
-        setEnableBarrierHorn
+        setEnableBarrierHorn,
+        armorIndex
     } = useContext(DataContext);
+
+    // 選択中のアーマーのエナジーシールドENを取得する関数
+    function getShieldEnergy(){
+        return data.powerArmors[armorIndex].energyShield.energy;
+    }
+
+    // 選択中のアーマーのエナジーシールドENを変更する関数
+    function setShieldEnergy(value: React.SetStateAction<string>){
+        const newValue = typeof value === "function"
+            ? value(data.powerArmors[armorIndex].energyShield.energy)
+            : value;
+        setData(prev => {
+            return {
+                ...prev,
+                powerArmors: prev.powerArmors.map((armor: PowerArmorStates, index) => {
+                    if(index !== armorIndex) return armor;
+                    return {
+                        ...armor,
+                        energyShield: {
+                            ...armor.energyShield,
+                            energy: newValue
+                        }
+                    }
+                })
+            }
+        });
+    }
 
     return (
         <div style={{ width: "100%" }}>
@@ -54,7 +81,7 @@ export default function DamageReceived(){
                     <NumberFieldLabel
                         label="シールドEN"
                         additionalLabel=""
-                        value={shieldEnergy}
+                        value={getShieldEnergy()}
                         setValue={setShieldEnergy}
                         min={0}
                         max={999}

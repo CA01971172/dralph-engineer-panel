@@ -13,7 +13,6 @@ export default function CalculateDamage( props: Props ){
 
     const {
         enableOverload,
-        shieldEnergy,
         armorIndex,
         data,
         partsIndex,
@@ -32,7 +31,7 @@ export default function CalculateDamage( props: Props ){
                 calculateDamage({
                     partsName: partsNames[partsIndex],
                     enableEnergyShield,
-                    shieldEnergy: Number(shieldEnergy),
+                    shieldEnergy: Number(data.powerArmors[armorIndex].energyShield.energy),
                     defenseValue: sliderValue,
                     additionalDefense: Number(additionalDefense),
                     additionalArmors: getEnableAdditionalArmors() ? getAdditionalArmors().filter(armor => armor.enable).map(armor => armor.armorName) : [],
