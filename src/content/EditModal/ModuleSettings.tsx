@@ -16,7 +16,6 @@ export default function ModuleSettings(props: Props){
     } = props;
 
     const {
-        data,
         setData,
         getModule
     } = useContext(DataContext);

@@ -49,26 +49,16 @@ export const modulesList = [
         coolDown: null,
         texts: ["+15"],
         levelDiffs: {
-            1: { coolDown: null,
-        texts: ["+20"] },
-            2: { coolDown: null,
-        texts: ["+25"] },
-            3: { coolDown: null,
-        texts: ["+30"] },
-            4: { coolDown: null,
-        texts: ["+35"] },
-            5: { coolDown: null,
-        texts: ["+40"] },
-            6: { coolDown: null,
-        texts: ["+45"] },
-            7: { coolDown: null,
-        texts: ["+50"] },
-            8: { coolDown: null,
-        texts: ["+60"] },
-            9: { coolDown: null,
-        texts: ["+70"] },
-            10: { coolDown: null,
-        texts: ["+85"] }
+            1: { texts: ["+20"] },
+            2: { texts: ["+25"] },
+            3: { texts: ["+30"] },
+            4: { texts: ["+35"] },
+            5: { texts: ["+40"] },
+            6: { texts: ["+45"] },
+            7: { texts: ["+50"] },
+            8: { texts: ["+60"] },
+            9: { texts: ["+70"] },
+            10: { texts: ["+85"] }
         }
     },
     /* {
@@ -91,20 +81,13 @@ export const modulesList = [
         coolDown: null,
         texts: ["+20"],
         levelDiffs: {
-            1: { coolDown: null,
-        texts: ["+30"] },
-            2: { coolDown: null,
-        texts: ["+40"] },
-            3: { coolDown: null,
-        texts: ["+50"] },
-            4: { coolDown: null,
-        texts: ["+50", "1"] },
-            5: { coolDown: null,
-        texts: ["+80", "1"] },
-            6: { coolDown: null,
-        texts: ["+110", "1"] },
-            7: { coolDown: null,
-        texts: ["+110", "2"] }
+            1: { texts: ["+30"] },
+            2: { texts: ["+40"] },
+            3: { texts: ["+50"] },
+            4: { texts: ["+50", "1"] },
+            5: { texts: ["+80", "1"] },
+            6: { texts: ["+110", "1"] },
+            7: { texts: ["+110", "2"] }
         }
     }, */
     /* {
@@ -157,10 +140,8 @@ export const modulesList = [
         coolDown: null,
         texts: ["-1"],
         levelDiffs: {
-            7: { coolDown: null,
-        texts: ["-2"] },
-            8: { coolDown: null,
-        texts: ["-3"] }
+            7: { texts: ["-2"] },
+            8: { texts: ["-3"] }
         }
     },
     /* {
@@ -193,26 +174,16 @@ export const modulesList = [
         coolDown: null,
         texts: ["+20"],
         levelDiffs: {
-            1: { coolDown: null,
-        texts: ["+25"] },
-            2: { coolDown: null,
-        texts: ["+30"] },
-            3: { coolDown: null,
-        texts: ["+35"] },
-            4: { coolDown: null,
-        texts: ["+45"] },
-            5: { coolDown: null,
-        texts: ["+55"] },
-            6: { coolDown: null,
-        texts: ["+65"] },
-            7: { coolDown: null,
-        texts: ["+85"] },
-            8: { coolDown: null,
-        texts: ["+105"] },
-            9: { coolDown: null,
-        texts: ["+135"] },
-            10: { coolDown: null,
-        texts: ["+185"] }
+            1: { texts: ["+25"] },
+            2: { texts: ["+30"] },
+            3: { texts: ["+35"] },
+            4: { texts: ["+45"] },
+            5: { texts: ["+55"] },
+            6: { texts: ["+65"] },
+            7: { texts: ["+85"] },
+            8: { texts: ["+105"] },
+            9: { texts: ["+135"] },
+            10: { texts: ["+185"] }
         }
     },
     /* {
@@ -275,20 +246,13 @@ export const modulesList = [
         coolDown: null,
         texts: ["10d6", "15d6", "20d6", "30d6"],
         levelDiffs: {
-            4: { coolDown: null,
-        texts: ["12d6", "17d6", "22d6", "32d6"] },
-            5: { coolDown: null,
-        texts: ["14d6", "19d6", "24d6", "34d6"] },
-            6: { coolDown: null,
-        texts: ["16d6", "21d6", "26d6", "36d6"] },
-            7: { coolDown: null,
-        texts: ["18d6", "23d6", "28d6", "43d6"] },
-            8: { coolDown: null,
-        texts: ["20d6", "25d6", "30d6", "45d6"] },
-            9: { coolDown: null,
-        texts: ["24d6", "29d6", "34d6", "54d6"] },
-            10: { coolDown: null,
-        texts: ["28d6", "33d6", "38d6", "63d6"] }
+            4: { texts: ["12d6", "17d6", "22d6", "32d6"] },
+            5: { texts: ["14d6", "19d6", "24d6", "34d6"] },
+            6: { texts: ["16d6", "21d6", "26d6", "36d6"] },
+            7: { texts: ["18d6", "23d6", "28d6", "43d6"] },
+            8: { texts: ["20d6", "25d6", "30d6", "45d6"] },
+            9: { texts: ["24d6", "29d6", "34d6", "54d6"] },
+            10: { texts: ["28d6", "33d6", "38d6", "63d6"] }
         }
     },
     {

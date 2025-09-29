@@ -39,6 +39,7 @@ type ContextType = {
     removeArmor: (index: number) => void;
     saveData: () => void;
     getModule(armorIndex: number, moduleName: ModuleName): ModuleState;
+    getEnergyCost(armorIndex: number, baseCost: number): number
 };
 
 export const DataContext = createContext<ContextType>({} as ContextType);
@@ -132,6 +133,14 @@ export function DataProvider({children}: {children: React.ReactNode}){
         return result;
     }
 
+    // EN効率を含めた消費・継続ENの計算をする関数
+    function getEnergyCost(armorIndex: number, baseCost: number): number{
+        const energyEfficiency: ModuleState = getModule(armorIndex, "エネルギー系効率化");
+        const energyReduction: number = energyEfficiency.isEquipped ? (Number(energyEfficiency.texts[0]) || 0) : 0; // EN効率
+        const energyCost: number = Math.max(baseCost + energyReduction, 1);
+        return energyCost;
+    }
+
     // 拡張機能読み込み時、Chromeのローカルストレージを読み込んで初期化する
     useEffect(() => {
         getAllArmorsWithPcName().then(storageData => {
@@ -171,7 +180,8 @@ export function DataProvider({children}: {children: React.ReactNode}){
                 swapTab,
                 addArmor, removeArmor,
                 saveData,
-                getModule
+                getModule,
+                getEnergyCost
             }}
         >
             {children}
