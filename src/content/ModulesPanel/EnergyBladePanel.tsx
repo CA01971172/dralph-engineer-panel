@@ -4,6 +4,7 @@ import { changeName, sendCcfoliaMessage } from '../../utils/sendCcfoliaMessage';
 import { DataContext, PowerArmorStates } from '../DataProvider';
 import CheckBoxLabel from '../../ui/CheckBoxLabel';
 import ArrowNumberControlLabel from '../../ui/ArrowNumberControlLabel';
+import ModuleRow from '../../ui/ModuleRow';
 
 const bladeSpecList: {energy: number, damage: string}[] = [
     {energy: 0, damage: ""},
@@ -54,8 +55,9 @@ export default function EnergyBladePanel({armorIndex}: {armorIndex: number;}) {
         const bladeIndex: number = bladeSpecList.findIndex(obj => obj.energy === num);
         const skillText: string = 
 `「エナジーブレード🔀」
-パワーアーマー装備中に任意のENを消費し、消費ENに応じたダメージを持つ武器を生成する(解除無効)。
-消費EN分、次ターンから継続ENが増加する。
+パワーアーマー装備中に発動可能、
+任意のENを消費し、消費ENに応じたダメージを持つ武器を生成する(解除無効)。
+消費EN分、次ターンから継続消費ENが増加する。
 消費EN: ${num}${energyEfficiencyText}, ダメージ: ${bladeSpecList[bladeIndex].damage}`
         const isSent: boolean = sendCcfoliaMessage([`:EN-${energyCost}`, skillText]);
         if(isSent) changeEnableBlade(true); // エナジーブレードを生成した場合、stateで管理する
@@ -100,36 +102,42 @@ export default function EnergyBladePanel({armorIndex}: {armorIndex: number;}) {
     }
 
     return (
-        <div style={{ display: "contents" }}>
-            <ArrowNumberControlLabel
-                label="ブレードEN"
-                value={data.powerArmors[armorIndex].energyBlade.energy}
-                incrementNumber={() => {
-                    changeBladeEnergy(prev => {
-                        const prevIndex: number = bladeSpecList.findIndex(obj => obj.energy === prev);
-                        if (prevIndex === -1 || prevIndex === bladeSpecList.length - 1) return prev;
-                        return bladeSpecList[prevIndex + 1].energy;
-                    });
-                }}
-                decrementNumber={() => {
-                    changeBladeEnergy(prev => {
-                        const prevIndex: number = bladeSpecList.findIndex(obj => obj.energy === prev);
-                        if (prevIndex === -1 || prevIndex === 0) return prev;
-                        return bladeSpecList[prevIndex - 1].energy;
-                    })
-                }}
-            />
-            <Button
-                className="draggable-disable"
-                onClick={handleUseEnergyBlade}
-            >
-                エナブレ生成
-            </Button>
-            <CheckBoxLabel
-                label="継続"
-                isChecked={data.powerArmors[armorIndex].energyBlade.isEnabled}
-                setIsChecked={handleSwitchCheckBox}
-            />
-        </div>
+        <ModuleRow
+            input={
+                <ArrowNumberControlLabel
+                    label="ブレードEN"
+                    value={data.powerArmors[armorIndex].energyBlade.energy}
+                    incrementNumber={() => {
+                        changeBladeEnergy(prev => {
+                            const prevIndex: number = bladeSpecList.findIndex(obj => obj.energy === prev);
+                            if (prevIndex === -1 || prevIndex === bladeSpecList.length - 1) return prev;
+                            return bladeSpecList[prevIndex + 1].energy;
+                        });
+                    }}
+                    decrementNumber={() => {
+                        changeBladeEnergy(prev => {
+                            const prevIndex: number = bladeSpecList.findIndex(obj => obj.energy === prev);
+                            if (prevIndex === -1 || prevIndex === 0) return prev;
+                            return bladeSpecList[prevIndex - 1].energy;
+                        })
+                    }}
+                />
+            }
+            button={
+                <Button
+                    className="draggable-disable"
+                    onClick={handleUseEnergyBlade}
+                >
+                    エナブレ生成
+                </Button>
+            }
+            checkbox={
+                <CheckBoxLabel
+                    label="継続"
+                    isChecked={data.powerArmors[armorIndex].energyBlade.isEnabled}
+                    setIsChecked={handleSwitchCheckBox}
+                />
+            }
+        />
     );
 }

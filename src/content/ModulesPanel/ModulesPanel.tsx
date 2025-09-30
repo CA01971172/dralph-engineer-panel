@@ -1,18 +1,18 @@
 import { Box } from "@mui/material";
 import EnergyBladePanel from "./EnergyBladePanel";
 import EnergyShieldPanel from "./EnergyShieldPanel";
+import OverloadPanel from "./OverloadPanel";
 
 export default function ModulesPanel({armorIndex}: {armorIndex: number}){
     return(
         <Box
             sx={{
-                display: "grid",
-                gridTemplateColumns: "auto auto auto", // 入力 / ボタン / チェック
-                columnGap: 2,
-                rowGap: 1,
-                alignItems: "center"
+                display: "flex",
+                flexDirection: "column",
+                gap: 1
             }}
         >
+            <OverloadPanel/>
             <EnergyShieldPanel armorIndex={armorIndex}/>
             <EnergyBladePanel armorIndex={armorIndex}/>
         </Box>

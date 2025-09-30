@@ -4,6 +4,7 @@ import NumberFieldLabel from '../../ui/NumberFieldLabel';
 import { changeName, sendCcfoliaMessage } from '../../utils/sendCcfoliaMessage';
 import { DataContext, PowerArmorStates } from '../DataProvider';
 import CheckBoxLabel from '../../ui/CheckBoxLabel';
+import ModuleRow from '../../ui/ModuleRow';
 
 export default function EnergyShieldPanel({armorIndex}: {armorIndex: number;}) {
     const {
@@ -41,8 +42,9 @@ export default function EnergyShieldPanel({armorIndex}: {armorIndex: number;}) {
         const energyEfficiencyText: string = (num === energyCost) ? "" : `(EN効率: ${num - energyCost})`;
         const skillText: string = 
 `「エナジーシールド🔀」
-パワーアーマー装備中に任意のENを消費し、消費EN×5倍の装甲を持つ盾を生成する(解除無効)。
-消費EN分、次ターンから継続ENが増加する。
+パワーアーマー装備中に発動可能、
+任意のENを消費し、消費EN×5倍の装甲を持つ盾を生成する(解除無効)。
+消費EN分、次ターンから継続消費ENが増加する。
 消費EN: ${num}${energyEfficiencyText}, 装甲: ${num * 5}`
         const isSent: boolean = sendCcfoliaMessage([`:EN-${energyCost}`, skillText]);
         if(isSent) changeEnableShield(true); // エナジーシールドを生成した場合、stateで管理する
@@ -87,26 +89,32 @@ export default function EnergyShieldPanel({armorIndex}: {armorIndex: number;}) {
     }
 
     return (
-        <div style={{ display: "contents" }}>
-            <NumberFieldLabel
-                label="シールドEN"
-                additionalLabel=""
-                value={data.powerArmors[armorIndex].energyShield.energy}
-                setValue={changeShieldEnergy}
-                min={0}
-                max={99}
-            />
-            <Button
-                className="draggable-disable"
-                onClick={handleUseEnergyShield}
-            >
-                エナシ生成
-            </Button>
-            <CheckBoxLabel
-                label="継続"
-                isChecked={data.powerArmors[armorIndex].energyShield.isEnabled}
-                setIsChecked={handleSwitchCheckBox}
-            />
-        </div>
+        <ModuleRow
+            input={
+                <NumberFieldLabel
+                    label="シールドEN"
+                    additionalLabel=""
+                    value={data.powerArmors[armorIndex].energyShield.energy}
+                    setValue={changeShieldEnergy}
+                    min={0}
+                    max={99}
+                />
+            }
+            button={
+                <Button
+                    className="draggable-disable"
+                    onClick={handleUseEnergyShield}
+                >
+                    エナシ生成
+                </Button>
+            }
+            checkbox={
+                <CheckBoxLabel
+                    label="継続"
+                    isChecked={data.powerArmors[armorIndex].energyShield.isEnabled}
+                    setIsChecked={handleSwitchCheckBox}
+                />
+            }
+        />
     );
 }
