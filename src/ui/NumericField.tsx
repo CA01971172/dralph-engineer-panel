@@ -23,12 +23,25 @@ export default function NumericField(props: P) {
         }
     };
 
+    const onKeyDownHandle = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "ArrowUp") {
+            e.preventDefault(); // キャレット移動を止める
+            const num = Number(props.state) || 0;
+            props.setState(String(num + 1));
+        } else if (e.key === "ArrowDown") {
+            e.preventDefault();
+            const num = Number(props.state) || 0;
+            props.setState(String(num - 1));
+        }
+    };
+
     return <TextField
         className="draggable-disable"
         fullWidth={props.fullWidth}
         required={props.required}
         value={props.state}
         onChange={onChangeHandle}
+        onKeyDown={onKeyDownHandle}
         label={props.label}
         style={props.style}
         inputProps={{
