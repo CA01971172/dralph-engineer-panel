@@ -22,7 +22,9 @@ export default function EnergyBladePanel({armorIndex}: {armorIndex: number;}) {
     const {
         data,
         setData,
-        getEnergyCost
+        getEnergyCost,
+        enableOverload,
+        getAttackRoll
     } = useContext(DataContext);
 
     // エナジーブレードの消費ENの指定を行う関数
@@ -82,7 +84,7 @@ export default function EnergyBladePanel({armorIndex}: {armorIndex: number;}) {
         });
     }
 
-    // エナジーシールドの有効状態を切り替える関数
+    // エナジーブレードの有効状態を切り替える関数
     function changeEnableBlade(value: boolean){
         setData(prev => {
             return {
@@ -101,43 +103,103 @@ export default function EnergyBladePanel({armorIndex}: {armorIndex: number;}) {
         });
     }
 
+    // エナジーブレードの攻撃判定を取得する関数
+    function getEnergyBladeRollText(): string{
+        const attackCount = [
+            enableOverload,
+            data.powerArmors[armorIndex].energyBlade.energy >= 12
+        ].filter(Boolean).length + 1;
+        return getAttackRoll("エナジーブレード", attackCount, armorIndex);
+    }
+
+    // エナジーブレードのダメージ判定を取得する関数
+    function getEnergyBladeDamageText(): string{
+        const bladeEnergy: number = data.powerArmors[armorIndex].energyBlade.energy;
+        const baseDamage: string = bladeSpecList.find(obj => obj.energy === bladeEnergy)?.damage ?? "";
+        const damageMagnification: string = enableOverload ? "*15/10R" : "";
+        const damageRoll: string = `(${baseDamage}+{魔法攻撃力})${damageMagnification} 【ダメージ(エナジーブレード)】`;
+        return damageRoll;
+    }
+
     return (
-        <ModuleRow
-            input={
-                <ArrowNumberControlLabel
-                    label="ブレードEN"
-                    value={data.powerArmors[armorIndex].energyBlade.energy}
-                    incrementNumber={() => {
-                        changeBladeEnergy(prev => {
-                            const prevIndex: number = bladeSpecList.findIndex(obj => obj.energy === prev);
-                            if (prevIndex === -1 || prevIndex === bladeSpecList.length - 1) return prev;
-                            return bladeSpecList[prevIndex + 1].energy;
-                        });
-                    }}
-                    decrementNumber={() => {
-                        changeBladeEnergy(prev => {
-                            const prevIndex: number = bladeSpecList.findIndex(obj => obj.energy === prev);
-                            if (prevIndex === -1 || prevIndex === 0) return prev;
-                            return bladeSpecList[prevIndex - 1].energy;
-                        })
-                    }}
-                />
-            }
-            button={
+        <>
+            <ModuleRow
+                input={
+                    <ArrowNumberControlLabel
+                        label="ブレードEN"
+                        value={data.powerArmors[armorIndex].energyBlade.energy}
+                        incrementNumber={() => {
+                            changeBladeEnergy(prev => {
+                                const prevIndex: number = bladeSpecList.findIndex(obj => obj.energy === prev);
+                                if (prevIndex === -1 || prevIndex === bladeSpecList.length - 1) return prev;
+                                return bladeSpecList[prevIndex + 1].energy;
+                            });
+                        }}
+                        decrementNumber={() => {
+                            changeBladeEnergy(prev => {
+                                const prevIndex: number = bladeSpecList.findIndex(obj => obj.energy === prev);
+                                if (prevIndex === -1 || prevIndex === 0) return prev;
+                                return bladeSpecList[prevIndex - 1].energy;
+                            })
+                        }}
+                    />
+                }
+                button={
+                    <Button
+                        className="draggable-disable"
+                        onClick={handleUseEnergyBlade}
+                    >
+                        エナブレ生成
+                    </Button>
+                }
+                checkbox={
+                    <CheckBoxLabel
+                        label="継続"
+                        isChecked={data.powerArmors[armorIndex].energyBlade.isEnabled}
+                        setIsChecked={handleSwitchCheckBox}
+                    />
+                }
+            />
+            <div style={{display: "flex", justifyContent: "space-between", gap: 1, marginTop: "-1rem"}}>
                 <Button
                     className="draggable-disable"
-                    onClick={handleUseEnergyBlade}
+                    onClick={() => {
+                        changeName(data.characterName);
+                        sendCcfoliaMessage([getEnergyBladeRollText()]);
+                    }}
                 >
-                    エナブレ生成
+                    エナブレ<br/>技能判定
                 </Button>
-            }
-            checkbox={
-                <CheckBoxLabel
-                    label="継続"
-                    isChecked={data.powerArmors[armorIndex].energyBlade.isEnabled}
-                    setIsChecked={handleSwitchCheckBox}
-                />
-            }
-        />
+                <Button
+                    className="draggable-disable"
+                    disabled={!(data.powerArmors[armorIndex].energyBlade.energy >= 12)}
+                    onClick={() => {
+                        changeName(data.characterName);
+                        sendCcfoliaMessage(["1d100<=25 【装甲無視】"]);
+                    }}
+                >
+                    装甲無視
+                </Button>
+                <Button
+                    className="draggable-disable"
+                    disabled={!(data.powerArmors[armorIndex].energyBlade.energy >= 12)}
+                    onClick={() => {
+                        changeName(data.characterName);
+                        sendCcfoliaMessage(["1d100<=15 【軽減無視】"])
+                    }}
+                >
+                    軽減無視
+                </Button>
+                <Button
+                    className="draggable-disable"
+                    onClick={() => {
+                        changeName(data.characterName);
+                        sendCcfoliaMessage([getEnergyBladeDamageText()]);
+                    }}
+                >
+                    ダメージ<br/>(エナブレ)
+                </Button>
+            </div>
+        </>
     );
 }

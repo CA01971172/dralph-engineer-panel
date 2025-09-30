@@ -37,7 +37,8 @@ type ContextType = {
     removeArmor: (index: number) => void;
     saveData: () => void;
     getModule(armorIndex: number, moduleName: ModuleName): ModuleState;
-    getEnergyCost(armorIndex: number, baseCost: number): number
+    getEnergyCost(armorIndex: number, baseCost: number): number;
+    getAttackRoll(attackName: string, attackCount: number, armorIndex: number): string
 };
 
 export const DataContext = createContext<ContextType>({} as ContextType);
@@ -138,6 +139,14 @@ export function DataProvider({children}: {children: React.ReactNode}){
         return energyCost;
     }
 
+    // 攻撃判定の送信用テキストを取得する関数
+    function getAttackRoll(attackName: string, attackCount: number, armorIndex: number): string {
+        const rollProtocol = attackCount === 1 ? "CCB" : `${attackCount}B100`;
+        const skillValue = `({重機械操作技能}${getModule(armorIndex, "攻撃命中率増加").texts[0]})`;
+        const skillRoll: string = `${rollProtocol}<=${skillValue} 【${attackName}】`
+        return skillRoll;
+    }
+
     // 拡張機能読み込み時、Chromeのローカルストレージを読み込んで初期化する
     useEffect(() => {
         getAllArmorsWithPcName().then(storageData => {
@@ -177,7 +186,8 @@ export function DataProvider({children}: {children: React.ReactNode}){
                 addArmor, removeArmor,
                 saveData,
                 getModule,
-                getEnergyCost
+                getEnergyCost,
+                getAttackRoll
             }}
         >
             {children}
