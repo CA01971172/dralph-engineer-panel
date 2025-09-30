@@ -100,7 +100,7 @@ export default function EnergyBladePanel({armorIndex}: {armorIndex: number;}) {
     }
 
     return (
-        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+        <div style={{ display: "contents" }}>
             <ArrowNumberControlLabel
                 label="ブレードEN"
                 value={data.powerArmors[armorIndex].energyBlade.energy}

@@ -87,7 +87,7 @@ export default function EnergyShieldPanel({armorIndex}: {armorIndex: number;}) {
     }
 
     return (
-        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+        <div style={{ display: "contents" }}>
             <NumberFieldLabel
                 label="シールドEN"
                 additionalLabel=""
