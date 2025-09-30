@@ -25,7 +25,7 @@ export default function NumberFieldLabel(props: Props){
 
     return (
         <span style={{display: "flex", alignItems: "center", justifyContent: "start", height: "100%"}}>
-            <span style={{marginRight: "0.1rem"}}>{label}:</span>
+            <span style={{marginRight: "0.5rem"}}>{label}:</span>
             <NumericField
                 state={value}
                 setState={setValueWithLimit}

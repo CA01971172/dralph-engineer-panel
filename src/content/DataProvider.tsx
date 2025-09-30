@@ -8,7 +8,7 @@ export type ArmorStates = StorageData & {
 
 export type PowerArmorStates = PowerArmor & {
     energyShield: { isEnabled: boolean; energy: string };
-    energyBlade: { isEnabled: boolean; energy: string };
+    energyBlade: { isEnabled: boolean; energy: number };
 }
 
 type ContextType = {
@@ -80,7 +80,7 @@ export function DataProvider({children}: {children: React.ReactNode}){
             },
             energyBlade: {
                 isEnabled: false,
-                energy: "0"
+                energy: 0
             }
         }
         setData(prev => ({
@@ -151,7 +151,7 @@ export function DataProvider({children}: {children: React.ReactNode}){
                     },
                     energyBlade: {
                         isEnabled: false,
-                        energy: "0"
+                        energy: 0
                     }
                 }))
             }

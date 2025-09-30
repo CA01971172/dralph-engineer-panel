@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Button, Checkbox } from '@mui/material';
+import { Button } from '@mui/material';
 import NumberFieldLabel from '../../ui/NumberFieldLabel';
 import { changeName, sendCcfoliaMessage } from '../../utils/sendCcfoliaMessage';
 import { DataContext, PowerArmorStates } from '../DataProvider';
