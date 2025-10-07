@@ -18,13 +18,14 @@ const bladeSpecList: {energy: number, damage: string}[] = [
     {energy: 20, damage: "42d6"}
 ];
 
-export default function EnergyBladePanel({armorIndex}: {armorIndex: number;}) {
+export default function EnergyBladePanel() {
     const {
         data,
         setData,
         getEnergyCost,
         enableOverload,
-        getAttackRoll
+        getAttackRoll,
+        armorIndex
     } = useContext(DataContext);
 
     // エナジーブレードの消費ENの指定を行う関数

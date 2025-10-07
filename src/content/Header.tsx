@@ -61,12 +61,9 @@ export default function Header(props: Props){
                     onChange={(_, newValue) => setTabIndex(newValue)}
                 >
                     <Tab label="ダメージ計算"/>
-                    {(data.powerArmors || []).map((armor, index) => (
-                        <Tab
-                            key={index}
-                            label={armor.armorName || `アーマー${index + 1}`}
-                        />
-                    ))}
+                    <Tab label="機械技師スキル"/>
+                    <Tab label="搭載能力"/>
+                    <Tab label="オプティマス"/>
                 </Tabs>
                 <IconButton
                     color="primary"

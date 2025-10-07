@@ -6,11 +6,12 @@ import { DataContext, PowerArmorStates } from '../DataProvider';
 import CheckBoxLabel from '../../ui/CheckBoxLabel';
 import ModuleRow from '../../ui/ModuleRow';
 
-export default function EnergyShieldPanel({armorIndex}: {armorIndex: number;}) {
+export default function EnergyShieldPanel() {
     const {
         data,
         setData,
-        getEnergyCost
+        getEnergyCost,
+        armorIndex
     } = useContext(DataContext);
 
     // エナジーシールドの消費ENの指定を行う関数

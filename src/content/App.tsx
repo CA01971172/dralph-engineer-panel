@@ -190,11 +190,9 @@ export default function App(){
                                 <TabContent value={tabIndex} index={0}>
                                     <DamageReceived/>
                                 </TabContent>
-                                {data.powerArmors.map((_armor, index) => (
-                                    <TabContent key={index} value={tabIndex} index={index + 1}>
-                                        <ModulesPanel armorIndex={index}/>
-                                    </TabContent>
-                                ))}
+                                <TabContent value={tabIndex} index={1}>
+                                    <ModulesPanel/>
+                                </TabContent>
                             </Box>
                         </Paper>
                     </Draggable>

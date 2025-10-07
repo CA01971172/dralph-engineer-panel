@@ -3,7 +3,14 @@ import { Button, Menu, MenuItem } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { DataContext } from '../DataProvider';
 
-export default function SelectPowerArmor({powerArmorNames}: { powerArmorNames: string[]}){
+export default function SelectPowerArmor({
+    powerArmorNames,
+    fullWidth
+}: {
+    powerArmorNames: string[],
+    fullWidth?: true
+
+}){
     const {
         armorIndex,
         setArmorIndex
@@ -21,11 +28,17 @@ export default function SelectPowerArmor({powerArmorNames}: { powerArmorNames: s
     };
 
     return (
-        <span className="draggable-disable">
-            <Button onClick={handleClick}>
+        <span
+            className="draggable-disable"
+            style={{ width: fullWidth ? "100%" : undefined }}
+        >
+            <Button
+                onClick={handleClick}
+                style={{ width: fullWidth ? "100%" : undefined }}
+            >
                 <span
                     style={{
-                        width: "10rem",
+                        width: fullWidth ? "100%" : "10rem",
                         overflow:"hidden",
                         textOverflow: "ellipsis",
                         textWrap: "nowrap",
