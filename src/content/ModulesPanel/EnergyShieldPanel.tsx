@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Button } from '@mui/material';
 import NumberFieldLabel from '../../ui/NumberFieldLabel';
-import { changeName, sendCcfoliaMessage } from '../../utils/sendCcfoliaMessage';
+import { changeMessage, changeName, clickSubmitButton, sendCcfoliaMessage } from '../../utils/sendCcfoliaMessage';
 import { DataContext, PowerArmorStates } from '../DataProvider';
 import CheckBoxLabel from '../../ui/CheckBoxLabel';
 import ModuleRow from '../../ui/ModuleRow';
@@ -37,7 +37,6 @@ export default function EnergyShieldPanel() {
     // エナジーシールドの生成を行うボタンの処理用関数
     function handleUseEnergyShield(){
         const num = Number(data.powerArmors[armorIndex].energyShield.energy);
-        changeName(data.powerArmors[armorIndex].armorName); // ココフォリア上でキャラクター名を変更する
         if (isNaN(num) || num <= 0) return; // 無効な入力は送信しない
         const energyCost: number = getEnergyCost(armorIndex, num); // エネルギー系効率化を適用した後のコスト
         const energyEfficiencyText: string = (num === energyCost) ? "" : `(EN効率: ${num - energyCost})`;
@@ -46,9 +45,14 @@ export default function EnergyShieldPanel() {
 パワーアーマー装備中に発動可能、
 任意のENを消費し、消費EN×5倍の装甲を持つ盾を生成する(解除無効)。
 消費EN分、次ターンから継続消費ENが増加する。
-消費EN: ${num}${energyEfficiencyText}, 装甲: ${num * 5}`
-        const isSent: boolean = sendCcfoliaMessage([`:EN-${energyCost}`, skillText]);
-        if(isSent) changeEnableShield(true); // エナジーシールドを生成した場合、stateで管理する
+消費EN: ${num}${energyEfficiencyText}, 装甲: ${num * 5}`;
+        const isSent: boolean = sendCcfoliaMessage([skillText], data.characterName);
+        if(isSent){
+            changeName(data.powerArmors[armorIndex].armorName);
+            changeMessage(`:EN-${energyCost}`);
+            clickSubmitButton();
+            changeEnableShield(true); // エナジーシールドを生成した場合、stateで管理する
+        }
     };
 
     // エナジーシールド有効状態チェックボックスのオンオフ用関数

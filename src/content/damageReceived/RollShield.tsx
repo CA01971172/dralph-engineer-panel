@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { useContext } from "react";
 import { DataContext } from "../DataProvider";
-import { changeName, sendCcfoliaMessage } from "../../utils/sendCcfoliaMessage";
+import { sendCcfoliaMessage } from "../../utils/sendCcfoliaMessage";
 
 export default function RollShield(){
     const {
@@ -11,8 +11,7 @@ export default function RollShield(){
     return (
         <Button
             onClick={() => {
-                changeName(data.characterName);
-                sendCcfoliaMessage(["CCB<=({重機械操作技能}) 【エナジーシールド】"]);
+                sendCcfoliaMessage(["CCB<=({重機械操作技能}) 【エナジーシールド】"], data.characterName);
             }}
         >
             エナシ

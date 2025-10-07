@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Button } from '@mui/material';
-import { changeName, sendCcfoliaMessage } from '../../utils/sendCcfoliaMessage';
+import { changeMessage, changeName, clickSubmitButton, sendCcfoliaMessage } from '../../utils/sendCcfoliaMessage';
 import { DataContext, PowerArmorStates } from '../DataProvider';
 import CheckBoxLabel from '../../ui/CheckBoxLabel';
 import ArrowNumberControlLabel from '../../ui/ArrowNumberControlLabel';
@@ -51,7 +51,6 @@ export default function EnergyBladePanel() {
     // エナジーブレードの生成を行うボタンの処理用関数
     function handleUseEnergyBlade(){
         const num = data.powerArmors[armorIndex].energyBlade.energy;
-        changeName(data.powerArmors[armorIndex].armorName); // ココフォリア上でキャラクター名を変更する
         if (isNaN(num) || num <= 0) return; // 無効な入力は送信しない
         const energyCost: number = getEnergyCost(armorIndex, num); // エネルギー系効率化を適用した後のコスト
         const energyEfficiencyText: string = (num === energyCost) ? "" : `(EN効率: ${num - energyCost})`;
@@ -61,9 +60,14 @@ export default function EnergyBladePanel() {
 パワーアーマー装備中に発動可能、
 任意のENを消費し、消費ENに応じたダメージを持つ武器を生成する(解除無効)。
 消費EN分、次ターンから継続消費ENが増加する。
-消費EN: ${num}${energyEfficiencyText}, ダメージ: ${bladeSpecList[bladeIndex].damage}`
-        const isSent: boolean = sendCcfoliaMessage([`:EN-${energyCost}`, skillText]);
-        if(isSent) changeEnableBlade(true); // エナジーブレードを生成した場合、stateで管理する
+消費EN: ${num}${energyEfficiencyText}, ダメージ: ${bladeSpecList[bladeIndex].damage}`;
+        const isSent: boolean = sendCcfoliaMessage([skillText], data.characterName);
+        if(isSent){
+            changeName(data.powerArmors[armorIndex].armorName);
+            changeMessage(`:EN-${energyCost}`);
+            clickSubmitButton();
+            changeEnableBlade(true); // エナジーブレードを生成した場合、stateで管理する
+        }
     };
 
     // エナジーブレード有効状態チェックボックスのオンオフ用関数
@@ -165,8 +169,7 @@ export default function EnergyBladePanel() {
                 <Button
                     className="draggable-disable"
                     onClick={() => {
-                        changeName(data.characterName);
-                        sendCcfoliaMessage([getEnergyBladeRollText()]);
+                        sendCcfoliaMessage([getEnergyBladeRollText()], data.characterName);
                     }}
                 >
                     エナブレ<br/>技能判定
@@ -175,8 +178,7 @@ export default function EnergyBladePanel() {
                     className="draggable-disable"
                     disabled={!(data.powerArmors[armorIndex].energyBlade.energy >= 12)}
                     onClick={() => {
-                        changeName(data.characterName);
-                        sendCcfoliaMessage(["1d100<=25 【装甲無視】"]);
+                        sendCcfoliaMessage(["1d100<=25 【装甲無視】"], data.characterName);
                     }}
                 >
                     装甲無視
@@ -185,8 +187,7 @@ export default function EnergyBladePanel() {
                     className="draggable-disable"
                     disabled={!(data.powerArmors[armorIndex].energyBlade.energy >= 12)}
                     onClick={() => {
-                        changeName(data.characterName);
-                        sendCcfoliaMessage(["1d100<=15 【軽減無視】"])
+                        sendCcfoliaMessage(["1d100<=15 【軽減無視】"], data.characterName);
                     }}
                 >
                     軽減無視
@@ -194,8 +195,7 @@ export default function EnergyBladePanel() {
                 <Button
                     className="draggable-disable"
                     onClick={() => {
-                        changeName(data.characterName);
-                        sendCcfoliaMessage([getEnergyBladeDamageText()]);
+                        sendCcfoliaMessage([getEnergyBladeDamageText()], data.characterName);
                     }}
                 >
                     ダメージ<br/>(エナブレ)

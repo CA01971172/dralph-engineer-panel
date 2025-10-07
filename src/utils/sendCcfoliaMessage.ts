@@ -65,10 +65,19 @@ async function sendMessagesWithDelay(messages: string[], interval: number = 100)
 }
 
 // ココフォリアのメッセージを送信する関数
-export function sendCcfoliaMessage(messages: string[]): boolean{
+// returns: メッセージが変更されていない(=送信した)場合はtrue、変更された(=送信していない)場合はfalseを返す
+export function sendCcfoliaMessage(messages: string[], name?: string): boolean{
     if(messages.length > 0){
         const isChangedMessage: boolean = changeMessage(messages[0]); // メッセージを変更する
-        if(!isChangedMessage){
+        if(name !== undefined){
+            const nameElm = document.querySelector<HTMLInputElement>(nameFormQuery) as HTMLInputElement;
+            const inputName: string = nameElm?.value || "";
+            if(inputName !== name){
+                changeName(name);
+                return false; // 名前が変更された場合、メッセージは送信しない
+            }
+        }
+        if(!isChangedMessage){ // メッセージが変更されていない、かつ名前が変更されていない場合
             // メッセージに変更なければ送信する
             if(messages.length === 1){
                 // メッセージが1つのとき
