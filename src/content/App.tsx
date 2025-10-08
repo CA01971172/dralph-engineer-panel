@@ -7,6 +7,7 @@ import Header from './Header';
 import EditModal from './EditModal/EditModal';
 import { DataContext } from './DataProvider';
 import TabContent from '../ui/TabContent';
+import SkillsPanel from './SkillsPanel/SkillsPanel';
 import ModulesPanel from './ModulesPanel/ModulesPanel';
 
 const theme = createTheme({
@@ -202,6 +203,9 @@ export default function App(){
                                     <DamageReceived ref={contentRef}/>
                                 </TabContent>
                                 <TabContent value={tabIndex} index={1}>
+                                    <SkillsPanel ref={contentRef}/>
+                                </TabContent>
+                                <TabContent value={tabIndex} index={2}>
                                     <ModulesPanel ref={contentRef}/>
                                 </TabContent>
                             </Box>

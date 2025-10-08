@@ -1,9 +1,12 @@
 import { Box } from "@mui/material";
+import EnergyBladePanel from "./EnergyBladePanel";
+import EnergyShieldPanel from "./EnergyShieldPanel";
+import OverloadPanel from "./OverloadPanel";
 import SelectPowerArmor from "../DamageReceived/SelectPowerArmor";
 import { DataContext } from "../DataProvider";
 import { useContext } from "react";
 
-export default function ModulesPanel({ref}: {ref?: React.Ref<HTMLDivElement>}) {
+export default function SkillsPanel({ref}: {ref?: React.Ref<HTMLDivElement>}) {
     const { data } = useContext(DataContext);
 
     return(
@@ -21,7 +24,9 @@ export default function ModulesPanel({ref}: {ref?: React.Ref<HTMLDivElement>}) {
                     fullWidth={true}
                 />
             </Box>
-            
+            <OverloadPanel/>
+            <EnergyShieldPanel/>
+            <EnergyBladePanel/>
         </Box>
     )
 }
