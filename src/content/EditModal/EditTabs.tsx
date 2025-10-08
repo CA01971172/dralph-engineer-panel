@@ -6,8 +6,8 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 export default function EditTabs(){
     const {
-        tabIndex,
-        setTabIndex,
+        editTabIndex,
+        setEditTabIndex,
         data
     } = useContext(DataContext);
 
@@ -22,17 +22,17 @@ export default function EditTabs(){
         >
             <IconButton
                 color="primary"
-                disabled={tabIndex === 0}
+                disabled={editTabIndex === 0}
                 onClick={() => {
-                    if(tabIndex > 0) setTabIndex(prev => prev - 1);
+                    if(editTabIndex > 0) setEditTabIndex(prev => prev - 1);
                 }}
             >
                 <KeyboardArrowLeftIcon/>
             </IconButton>
             <Tabs
                 style={{flexGrow: 1}}
-                value={tabIndex}
-                onChange={(_, newValue) => setTabIndex(newValue)}
+                value={editTabIndex}
+                onChange={(_, newValue) => setEditTabIndex(newValue)}
             >
                 <Tab label="基本情報"/>
                 {(data.powerArmors || []).map((armor, index) => (
@@ -44,9 +44,9 @@ export default function EditTabs(){
             </Tabs>
             <IconButton
                 color="primary"
-                disabled={tabIndex === (data.powerArmors || []).length}
+                disabled={editTabIndex === (data.powerArmors || []).length}
                 onClick={() => {
-                    if(tabIndex < (data.powerArmors || []).length) setTabIndex(prev => prev + 1);
+                    if(editTabIndex < (data.powerArmors || []).length) setEditTabIndex(prev => prev + 1);
                 }}
             >
                 <KeyboardArrowRightIcon/>

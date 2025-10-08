@@ -23,7 +23,7 @@ export default function EditModal(props: Props){
 
     const {
         data,
-        tabIndex
+        editTabIndex
     } = useContext(DataContext);
 
     return (
@@ -60,7 +60,7 @@ export default function EditModal(props: Props){
                             overflowY: "auto"
                         }}>
                         <TabContent
-                            value={tabIndex}
+                            value={editTabIndex}
                             index={0}
                         >
                             <NamesField/>
@@ -69,7 +69,7 @@ export default function EditModal(props: Props){
                             (data.powerArmors || []).map((_armor, armorIndex) => (
                                 <TabContent
                                     key={armorIndex}
-                                    value={tabIndex}
+                                    value={editTabIndex}
                                     index={armorIndex + 1}
                                 >
                                     {(data.powerArmors[armorIndex].modules || []).map((module, moduleIndex) => (

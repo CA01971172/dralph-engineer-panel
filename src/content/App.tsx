@@ -94,10 +94,10 @@ export default function App(){
     const [visible, setVisible] = useState<boolean>(false);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const draggableRef = useRef<HTMLDivElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
 
-    const [size, setSize] = useState<{ width: number, height: number }>({ width: 400, height: 365 });
+    const [size, setSize] = useState<{ width: number, height: number }>({ width: 400, height: 429.5 });
     const [windowSize, setWindowSize] = useState<{ width: number, height: number }>({ width: window.innerWidth, height: window.innerHeight });
-    const [position, setPosition] = useState<{ x: number, y: number }>(getDefaultPosition());
     const [bounds, setBounds] = useState({
         top: 0,
         left: 0,
@@ -106,9 +106,10 @@ export default function App(){
     });
 
     const {
-        data,
         tabIndex,
-        saveData
+        saveData,
+        setTabIndex,
+        setEditTabIndex
     } = useContext(DataContext);
 
     function getDefaultPosition(){
@@ -120,7 +121,10 @@ export default function App(){
 
     // wキーで開く・閉じる
     function handleKeyDown(event: KeyboardEvent){
-        if (event.altKey && event.key === "w") setVisible(prev => !prev);
+        if (event.altKey && event.key === "w"){
+            setVisible(prev => !prev);
+            setTabIndex(0);
+        }
     }
 
     // windowリサイズ時
@@ -140,27 +144,34 @@ export default function App(){
     }, []);
 
     // bounds 更新
-    // useEffect(() => {
-    //     function updateBounds(){
-    //         if (draggableRef.current){
-    //             const rect = draggableRef.current.getBoundingClientRect();
-    //             setBounds({
-    //                 top: 0 - rect.top,
-    //                 left: 0 - rect.left,
-    //                 right: window.innerWidth - rect.right,
-    //                 bottom: window.innerHeight - rect.bottom,
-    //             });
-    //         }
-    //     }
+    useEffect(() => {
+        function updateBounds(){
+            if(!contentRef.current) return;
+            const rect = contentRef.current.getBoundingClientRect();
+            setSize({
+                width: 400,
+                height: rect.height + 96 + 16 + 32, // height + header + pt + pb
+            });
+            console.log(rect);
+            setBounds({
+                top: 0,
+                left: 0,
+                right: window.innerWidth - 400,
+                bottom: window.innerHeight - (rect.height + 96 + 16 + 32),
+            });
+        }
 
-    //     updateBounds(); // 初期計算
+        // 要素サイズ変化を監視
+        const observer = new ResizeObserver(updateBounds);
+        if (draggableRef.current) observer.observe(draggableRef.current);
 
-    //     // 要素サイズ変化を監視
-    //     const observer = new ResizeObserver(updateBounds);
-    //     if (draggableRef.current) observer.observe(draggableRef.current);
+        requestAnimationFrame(updateBounds);
 
-    //     return () => { if (draggableRef.current) observer.unobserve(draggableRef.current); };
-    // }, [width, height, windowWidth, windowHeight]);
+        return () => {
+            if (draggableRef.current) observer.unobserve(draggableRef.current);
+            observer.disconnect();
+        };
+    }, [tabIndex, windowSize]);
 
     return (
         <>
@@ -188,10 +199,10 @@ export default function App(){
                             <Header setIsModalOpen={setIsModalOpen}/>
                             <Box sx={{ p: 2, pb: 4 }}>
                                 <TabContent value={tabIndex} index={0}>
-                                    <DamageReceived/>
+                                    <DamageReceived ref={contentRef}/>
                                 </TabContent>
                                 <TabContent value={tabIndex} index={1}>
-                                    <ModulesPanel/>
+                                    <ModulesPanel ref={contentRef}/>
                                 </TabContent>
                             </Box>
                         </Paper>
@@ -204,6 +215,7 @@ export default function App(){
                 closeModal={() => {
                     saveData();
                     setIsModalOpen(false);
+                    setEditTabIndex(0);
                 }}
             />
         </>

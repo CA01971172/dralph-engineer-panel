@@ -31,8 +31,10 @@ type ContextType = {
     getEnableAdditionalArmors: () => boolean;
     getAdditionalArmors: () => { armorName: string; enable: boolean }[];
     tabIndex: number;
-    swapTab(index: number, direction: 1 | -1): void;
     setTabIndex: React.Dispatch<React.SetStateAction<number>>;
+    swapTab(index: number, direction: 1 | -1): void;
+    editTabIndex: number;
+    setEditTabIndex: React.Dispatch<React.SetStateAction<number>>;
     addArmor: () => void;
     removeArmor: (index: number) => void;
     saveData: () => void;
@@ -55,6 +57,7 @@ export function DataProvider({children}: {children: React.ReactNode}){
     const getEnableAdditionalArmors = () => data.enableAdditionalArmors; // 装甲類の有効化
     const getAdditionalArmors = () => data.additionalArmors; // 装甲リスト
     const [tabIndex, setTabIndex] = useState<number>(0); // 選択中のタブインデックス
+    const [editTabIndex, setEditTabIndex] = useState<number>(0); // 編集モード時のタブインデックス
 
     // タブを入れ替える関数
     function swapTab(index: number, direction: 1 | -1){
@@ -183,6 +186,7 @@ export function DataProvider({children}: {children: React.ReactNode}){
                 getAdditionalArmors,
                 tabIndex, setTabIndex,
                 swapTab,
+                editTabIndex, setEditTabIndex,
                 addArmor, removeArmor,
                 saveData,
                 getModule,

@@ -6,11 +6,12 @@ import SelectPowerArmor from "../DamageReceived/SelectPowerArmor";
 import { DataContext } from "../DataProvider";
 import { useContext } from "react";
 
-export default function ModulesPanel(){
+export default function ModulesPanel({ref}: {ref?: React.Ref<HTMLDivElement>}) {
     const { data } = useContext(DataContext);
 
     return(
         <Box
+            ref={ref}
             sx={{
                 display: "flex",
                 flexDirection: "column",

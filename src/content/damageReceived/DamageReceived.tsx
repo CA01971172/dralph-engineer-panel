@@ -10,7 +10,7 @@ import SelectPowerArmor from "./SelectPowerArmor";
 import { DataContext, PowerArmorStates } from "../DataProvider";
 import RollShield from "./RollShield";
 
-export default function DamageReceived(){
+export default function DamageReceived({ref}: {ref?: React.Ref<HTMLDivElement>}) {
     const {
         enableOverload,
         setEnableOverload,
@@ -53,7 +53,10 @@ export default function DamageReceived(){
     }
 
     return (
-        <div style={{ width: "100%" }}>
+        <div
+            ref={ref}
+            style={{ width: "100%" }}
+        >
             <Box sx={{ gap: 3, display: "flex", justifyContent: "center", alignItems: "center"}}>
                 <SelectPowerArmor
                     powerArmorNames={data.powerArmors.map(armor => armor.armorName)}
