@@ -169,7 +169,10 @@ export default function EnergyBladePanel() {
             <div style={{display: "flex", justifyContent: "space-between", gap: 1, marginTop: "-1rem"}}>
                 <Button
                     className="draggable-disable"
-                    disabled={!(data.powerArmors[armorIndex].energyBlade.energy > 0)}
+                    disabled={
+                        !(data.powerArmors[armorIndex].energyBlade.energy > 0) ||
+                        !data.powerArmors[armorIndex].energyBlade.isEnabled
+                    }
                     onClick={() => {
                         sendCcfoliaMessage([getEnergyBladeRollText()], data.characterName);
                     }}
@@ -196,7 +199,10 @@ export default function EnergyBladePanel() {
                 </Button>
                 <Button
                     className="draggable-disable"
-                    disabled={!(data.powerArmors[armorIndex].energyBlade.energy > 0)}
+                    disabled={
+                        !(data.powerArmors[armorIndex].energyBlade.energy > 0) ||
+                        !data.powerArmors[armorIndex].energyBlade.isEnabled
+                    }
                     onClick={() => {
                         sendCcfoliaMessage([getEnergyBladeDamageText()], data.characterName);
                     }}
