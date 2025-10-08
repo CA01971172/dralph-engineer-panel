@@ -5,10 +5,15 @@ import { DataContext, PowerArmorStates } from "../DataProvider";
 import { useContext } from "react";
 import CheckBoxLabel from "../../ui/CheckBoxLabel";
 
-const deployableModules = [
+const deployableModules: string[] = [
     "バリアホーン",
     "オプション"
 ]
+
+const skillTexts: Record<string, string> = {
+    "バリアホーン": "バリアホーン設置",
+    "オプション": "オプション設置"
+}
 
 export default function DeployableModulePanel({module}: {module: ModuleState}){
     const {
