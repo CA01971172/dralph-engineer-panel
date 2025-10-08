@@ -108,6 +108,7 @@ export default function EnergyShieldPanel() {
             button={
                 <Button
                     className="draggable-disable"
+                    disabled={!(Number(data.powerArmors[armorIndex].energyShield.energy) > 0)}
                     onClick={handleUseEnergyShield}
                 >
                     エナシ生成
