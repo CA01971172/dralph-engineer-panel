@@ -67,9 +67,9 @@ export default function Header(props: Props){
                 </Tabs>
                 <IconButton
                     color="primary"
-                    disabled={tabIndex === (data.powerArmors || []).length}
+                    disabled={tabIndex === 3}
                     onClick={() => {
-                        if(tabIndex < (data.powerArmors || []).length) setTabIndex(prev => prev + 1);
+                        if(tabIndex < 3) setTabIndex(prev => prev + 1);
                     }}
                 >
                     <KeyboardArrowRightIcon/>
