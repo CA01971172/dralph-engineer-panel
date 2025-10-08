@@ -2,9 +2,13 @@ import { Box } from "@mui/material";
 import SelectPowerArmor from "../DamageReceived/SelectPowerArmor";
 import { DataContext } from "../DataProvider";
 import { useContext } from "react";
+import DeployableModulePanel from "./DeployableModulePanel";
 
 export default function ModulesPanel({ref}: {ref?: React.Ref<HTMLDivElement>}) {
-    const { data } = useContext(DataContext);
+    const {
+        data,
+        armorIndex
+    } = useContext(DataContext);
 
     return(
         <Box
@@ -21,7 +25,16 @@ export default function ModulesPanel({ref}: {ref?: React.Ref<HTMLDivElement>}) {
                     fullWidth={true}
                 />
             </Box>
-            
+            {
+                data.powerArmors[armorIndex]
+                    .modules.filter(module => module.isEquipped)
+                    .map((module, index) => (
+                        <DeployableModulePanel
+                            key={index}
+                            module={module}
+                        />
+                ))
+            }
         </Box>
     )
 }
