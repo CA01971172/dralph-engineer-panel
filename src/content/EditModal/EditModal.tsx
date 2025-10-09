@@ -1,4 +1,4 @@
-import { Box, Modal, Paper, Tab, Theme, ThemeProvider } from "@mui/material";
+import { Box, Modal, Paper, Theme, ThemeProvider } from "@mui/material";
 import NamesField from "./NamesField";
 import EditHeader from "./EditHeader";
 import EditTabs from "./EditTabs";
@@ -6,7 +6,6 @@ import { useContext } from "react";
 import { DataContext } from "../DataProvider";
 import TabContent from "../../ui/TabContent";
 import ModuleSettings from "./ModuleSettings";
-import { ModuleName } from "../../utils/getPowerArmorData";
 
 type Props = {
     theme: Theme;
@@ -76,7 +75,8 @@ export default function EditModal(props: Props){
                                         <ModuleSettings
                                             key={moduleIndex}
                                             armorIndex={armorIndex}
-                                            moduleName={module.name as ModuleName}
+                                            module={module}
+                                            moduleIndex={moduleIndex}
                                         />
                                     ))}
                                 </TabContent>

@@ -2,7 +2,7 @@ import ArrowNumberControl from "./ArrowNumberControl";
 
 type Props = {
     label: string;
-    value: number;
+    value: string | number;
     incrementNumber: () => void;
     decrementNumber: () => void;
 }

@@ -388,8 +388,15 @@ export function getModuleAtLevel(prev: ModuleState, module: ModuleData, level: n
         .map(Number)
         .filter(l => l <= level);
 
-    // どの差分も適用できないなら、ベースを返す
-    if (availableLevels.length === 0) return { ...prev, level };
+    // レベル0や、適用できる差分がない場合 → ベース値（module）を使う
+    if (availableLevels.length === 0) {
+        return {
+            ...module,
+            isEquipped: prev.isEquipped,
+            isEnabled: prev.isEnabled,
+            level
+        };
+    }
 
     const latestLevel: number = Math.max(...availableLevels); // level以下で最大の差分レベル
     const diff: ModuleLevelDiff = module.levelDiffs[latestLevel]; // 適切な強化内容の差分

@@ -1,18 +1,21 @@
 import { useContext } from "react";
 import { DataContext, PowerArmorStates } from "../DataProvider";
-import { Box } from "@mui/material";
 import CheckBoxLabel from "../../ui/CheckBoxLabel";
-import { ModuleName } from "../../utils/getPowerArmorData";
+import { getModuleAtLevel, getModuleByName, ModuleName, ModuleState } from "../../utils/getPowerArmorData";
+import ModuleRow from "../../ui/ModuleRow";
+import ArrowNumberControlLabel from "../../ui/ArrowNumberControlLabel";
 
 type Props = {
     armorIndex: number;
-    moduleName: ModuleName;
+    module: ModuleState;
+    moduleIndex: number;
 };
 
 export default function ModuleSettings(props: Props){
     const {
         armorIndex,
-        moduleName
+        module,
+        moduleIndex
     } = props;
 
     const {
@@ -20,29 +23,65 @@ export default function ModuleSettings(props: Props){
         getModule
     } = useContext(DataContext);
 
+    function getNewModuleState(prev: ModuleState, newLevel: number): ModuleState {
+        const moduleData = getModuleByName(prev.name as ModuleName);
+        const newModuleState: ModuleState = getModuleAtLevel(prev, moduleData, newLevel);
+        return newModuleState;
+    }
+
+    function changeModuleLevel(amount: 1 | -1){
+        const newLevel: number = (amount === 1) ? Math.min(module.level + 1, 10) : Math.max(module.level - 1, 0);
+        setData(prev => {
+            // newLevelに応じたModuleStateを取得
+            const prevModule = prev.powerArmors[armorIndex].modules[moduleIndex];
+            const newModule = getNewModuleState(prevModule, newLevel);
+            const updatedPowerArmors = prev.powerArmors.map((armor, idx) => {
+                if (idx !== armorIndex) return armor as PowerArmorStates;
+                return {
+                    ...armor as PowerArmorStates,
+                    modules: armor.modules.map((m, mIdx) => 
+                        mIdx === moduleIndex
+                            ? newModule
+                            : m
+                    )
+                };
+            })
+            return { ...prev, powerArmors: updatedPowerArmors };
+        });
+    }
+
     return (
-        <Box>
-            <CheckBoxLabel
-                label={moduleName}
-                isChecked={getModule(armorIndex, moduleName).isEquipped}
-                setIsChecked={() => {
-                    setData(prev => { // modulesからmodule.nameが一致するもののisEquippedだけを反転させる
-                        const updatedPowerArmors = prev.powerArmors.map((armor, idx) => {
-                            if (idx !== armorIndex) return armor as PowerArmorStates;
-                            return {
-                                ...armor as PowerArmorStates,
-                                modules: armor.modules.map(module => 
-                                    module.name === moduleName
-                                        ? { ...module, isEquipped: !module.isEquipped }
-                                        : module
-                                )
-                            };
-                        });
-                    return { ...prev, powerArmors: updatedPowerArmors };
-                    })
-                }}
-            >
-            </CheckBoxLabel>
-        </Box>
+        <ModuleRow
+            input={
+                <CheckBoxLabel
+                    label={module.name}
+                    isChecked={getModule(armorIndex, module.name as ModuleName).isEquipped}
+                    setIsChecked={() => {
+                        setData(prev => { // modulesからmodule.nameが一致するもののisEquippedだけを反転させる
+                            const updatedPowerArmors = prev.powerArmors.map((armor, idx) => {
+                                if (idx !== armorIndex) return armor as PowerArmorStates;
+                                return {
+                                    ...armor as PowerArmorStates,
+                                    modules: armor.modules.map(m => 
+                                        m.name === module.name
+                                            ? { ...m, isEquipped: !m.isEquipped }
+                                            : m
+                                    )
+                                };
+                            });
+                        return { ...prev, powerArmors: updatedPowerArmors };
+                        })
+                    }}
+                />
+            }
+            button={
+                <ArrowNumberControlLabel
+                    label="強化回数"
+                    value={`${module.level ? "+" : ""}${module.level}`}
+                    incrementNumber={() => changeModuleLevel(1)}
+                    decrementNumber={() => changeModuleLevel(-1)}
+                />
+            }
+        />
     );
 }
