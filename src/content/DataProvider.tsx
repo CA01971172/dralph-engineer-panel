@@ -145,7 +145,9 @@ export function DataProvider({children}: {children: React.ReactNode}){
     // 攻撃判定の送信用テキストを取得する関数
     function getAttackRoll(attackName: string, attackCount: number, armorIndex: number): string {
         const rollProtocol = attackCount === 1 ? "CCB" : `${attackCount}B100`;
-        const skillValue = `({重機械操作技能}${getModule(armorIndex, "攻撃命中率増加").texts[0]})`;
+        const hasSkillBonus = getModule(armorIndex, "攻撃命中率増加").isEquipped;
+        const skillBonus = hasSkillBonus ? (getModule(armorIndex, "攻撃命中率増加").texts[0] || "+0") : "";
+        const skillValue = `({重機械操作技能}${skillBonus})`;
         const skillRoll: string = `${rollProtocol}<=${skillValue} 【${attackName}】`
         return skillRoll;
     }
