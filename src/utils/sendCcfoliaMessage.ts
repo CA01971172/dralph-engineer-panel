@@ -1,22 +1,8 @@
 import { messageFormQuery, nameFormQuery, submitFormQuery } from "./documentQueries";
 
-// フォームのinput要素等の既存の入力内容を削除する関数
-function clearFormValue(element: HTMLInputElement|HTMLTextAreaElement) :void{
-    element.focus()
-    document.execCommand("selectAll", false);
-    document.execCommand("removeFormat", false);
-}
-
-// フォームのinput要素等に内容を入力する関数
-function addFormValue(element: HTMLInputElement|HTMLTextAreaElement, value: string): void{
-    element.focus()
-    document.execCommand('insertText', false, value);
-}
-
-// フォームのinput要素等の内容を上書きする関数
-function overrideFormValue(element: HTMLInputElement|HTMLTextAreaElement, value: string): void{
-    clearFormValue(element)
-    addFormValue(element, value)
+function overrideFormValue(element: HTMLInputElement|HTMLTextAreaElement, value: string): void{ // フォームのinput要素等の内容を上書きする関数
+    element.setRangeText(value, 0, element.value.length, "end");
+    element.dispatchEvent(new Event("input", { bubbles: true }));
 }
 
 // 特定のbutton要素をプログラムで押下する関数
