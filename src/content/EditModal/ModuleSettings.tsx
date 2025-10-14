@@ -1,9 +1,10 @@
-import { useContext } from "react";
+import { JSX, useContext } from "react";
 import { DataContext, PowerArmorStates } from "../DataProvider";
 import CheckBoxLabel from "../../ui/CheckBoxLabel";
 import { getModuleAtLevel, getModuleByName, ModuleName, ModuleState } from "../../utils/getPowerArmorData";
 import ModuleRow from "../../ui/ModuleRow";
 import ArrowNumberControlLabel from "../../ui/ArrowNumberControlLabel";
+import { Box, TextField } from "@mui/material";
 
 type Props = {
     armorIndex: number;
@@ -50,6 +51,47 @@ export default function ModuleSettings(props: Props){
         });
     }
 
+    function getModuleNameField(): JSX.Element {
+        function setModuleName(name: string){
+            setData(prev => {
+                const updatedPowerArmors = prev.powerArmors.map((armor, idx) => {
+                    if (idx !== armorIndex) return armor as PowerArmorStates;
+                    // modulesからmodule.nameが一致するものを取得
+                    return {
+                        ...armor as PowerArmorStates,
+                        modules: armor.modules.map(m => 
+                            m.name === module.name
+                                ? { ...m, pieceName: name }
+                                : m
+                        )
+                    };
+                });
+                return { ...prev, powerArmors: updatedPowerArmors };
+            });
+        };
+
+        switch(module.name) {
+            case "バリアホーン":
+            case "オプション":
+                return (
+                    <TextField
+                        label={`${module.name}名`}
+                        variant="standard"
+                        value={getModule(armorIndex, module.name as ModuleName).pieceName}
+                        onChange={(e) => {setModuleName(e.target.value)}}
+                    />
+                );
+            default:
+                return (
+                    <TextField
+                        sx={{visibility: "hidden"}}
+                        variant="standard"
+                        value=""
+                    />
+                );
+        }
+    }
+
     return (
         <ModuleRow
             input={
@@ -82,11 +124,7 @@ export default function ModuleSettings(props: Props){
                     decrementNumber={() => changeModuleLevel(-1)}
                 />
             }
-            checkbox={
-                <>
-                    {/* TODO: 設置物のキャラコマ名入力の実装 */}
-                </>
-            }
+            checkbox={getModuleNameField()}
         />
     );
 }

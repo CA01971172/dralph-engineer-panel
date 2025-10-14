@@ -125,6 +125,7 @@ export default function DamageReceived({ref}: {ref?: React.Ref<HTMLDivElement>})
             </Grid>
             {/* TODO: 回避ロールの実装 */}
             {/* TODO: オプションの回避ロールの実装 */}
+            {/* TODO: オプションとバリアホーンの耐久値減少の実装 */}
         </div>
     );
 };

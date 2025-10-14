@@ -35,6 +35,7 @@ export type ModuleState = Pick<ModuleData, (
     isEquipped: boolean; // 搭載されているかどうか
     isEnabled: boolean; // 有効かどうか(設置物等)
     level: number; // 強化レベル
+    pieceName: string; // キャラコマ名(設置物系)
 }
 
 // 搭載能力と強化内容一覧
@@ -394,7 +395,8 @@ export function getModuleAtLevel(prev: ModuleState, module: ModuleData, level: n
             ...module,
             isEquipped: prev.isEquipped,
             isEnabled: prev.isEnabled,
-            level
+            level,
+            pieceName: prev.pieceName
         };
     }
 
@@ -407,7 +409,8 @@ export function getModuleAtLevel(prev: ModuleState, module: ModuleData, level: n
         ...diff,
         isEquipped: prev.isEquipped,
         isEnabled: prev.isEnabled,
-        level
+        level,
+        pieceName: prev.pieceName
     };
 }
 
@@ -416,11 +419,15 @@ export function getInitialArmorData(armorName: string): PowerArmor{
     return {
         armorName,
         modules: modulesList.map(module => {
+            let pieceName = "";
+            if(module.name === "バリアホーン") pieceName = "バリアホーン";
+            if(module.name === "オプション") pieceName = "オプション";
             return {
                 ...module,
                 isEquipped: false,
                 isEnabled: false,
-                level: 0
+                level: 0,
+                pieceName
             }
         })
     }
