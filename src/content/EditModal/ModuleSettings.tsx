@@ -82,6 +82,11 @@ export default function ModuleSettings(props: Props){
                     decrementNumber={() => changeModuleLevel(-1)}
                 />
             }
+            checkbox={
+                <>
+                    {/* TODO: 設置物のキャラコマ名入力の実装 */}
+                </>
+            }
         />
     );
 }

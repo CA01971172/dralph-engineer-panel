@@ -27,6 +27,8 @@ export default function SkillsPanel({ref}: {ref?: React.Ref<HTMLDivElement>}) {
             <OverloadPanel/>
             <EnergyShieldPanel/>
             <EnergyBladePanel/>
+            {/* TODO: 瞬間増幅の実装 */}
+            {/* TODO: サポート(オプション)の実装 */}
         </Box>
     )
 }

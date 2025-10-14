@@ -123,6 +123,8 @@ export default function DamageReceived({ref}: {ref?: React.Ref<HTMLDivElement>})
                     <SelectAdditionalArmors/>
                 </Grid>
             </Grid>
+            {/* TODO: 回避ロールの実装 */}
+            {/* TODO: オプションの回避ロールの実装 */}
         </div>
     );
 };
