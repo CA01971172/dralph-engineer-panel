@@ -34,7 +34,9 @@ export default function CalculateDeployableDamage(props: Props) {
                 });
             }}
         >
-            {moduleType}
+            ダメージ計算
+            <br/>
+            {`(${moduleType})`}
         </Button>
     );
 };

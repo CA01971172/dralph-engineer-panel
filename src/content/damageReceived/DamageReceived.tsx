@@ -85,7 +85,7 @@ export default function DamageReceived({ref}: {ref?: React.Ref<HTMLDivElement>})
                     moduleType="オプション"
                 />
                 <NumberFieldLabel
-                    label="設置物被ダメ"
+                    label={["設置物", "被ダメ"]}
                     additionalLabel=""
                     value={deployableDamage}
                     setValue={setDeployableDamage}

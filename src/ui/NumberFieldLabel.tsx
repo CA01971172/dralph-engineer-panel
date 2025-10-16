@@ -2,7 +2,7 @@ import React from 'react';
 import NumericField from './NumericField';
 
 type Props = {
-    label: string;
+    label: string | string[];
     additionalLabel: string;
     value: string;
     setValue: React.Dispatch<React.SetStateAction<string>>;
@@ -23,9 +23,22 @@ export default function NumberFieldLabel(props: Props){
         });
     }
 
+    function labelWithBreak(){
+        if(Array.isArray(label)){
+            return label.map((line, index) => (
+                <React.Fragment key={index}>
+                    {line}
+                    {index !== label.length - 1 && <br/>}
+                </React.Fragment>
+            ));
+        }else{
+            return label;
+        }
+    }
+
     return (
         <span style={{display: "flex", alignItems: "center", justifyContent: "start", height: "100%"}}>
-            <span style={{marginRight: "0.5rem"}}>{label}:</span>
+            <span style={{marginRight: "0.5rem"}}>{labelWithBreak()}:</span>
             <NumericField
                 state={value}
                 setState={setValueWithLimit}
