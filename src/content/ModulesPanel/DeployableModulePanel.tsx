@@ -127,3 +127,5 @@ ${getEnergyCostsText()}`
         </>
     );
 }
+
+// TODO: オプションの能力選択

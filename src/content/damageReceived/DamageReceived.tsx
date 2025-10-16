@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import DefenseLevelSlider from "./DefenseLevelSlider";
 import SelectParts from "./SelectParts";
 import CalculateDamage from "./CalculateDamage";
@@ -9,6 +9,7 @@ import SelectAdditionalArmors from "./SelectAdditionalArmors";
 import SelectPowerArmor from "./SelectPowerArmor";
 import { DataContext, PowerArmorStates } from "../DataProvider";
 import RollShield from "./RollShield";
+import CalculateDeployableDamage from "./CalculateDeployableDamage";
 
 export default function DamageReceived({ref}: {ref?: React.Ref<HTMLDivElement>}) {
     const {
@@ -24,6 +25,8 @@ export default function DamageReceived({ref}: {ref?: React.Ref<HTMLDivElement>})
         setEnableBarrierHorn,
         armorIndex
     } = useContext(DataContext);
+
+    const [deployableDamage, setDeployableDamage] = useState<string>("0"); // 設置物の被ダメージ
 
     // 選択中のアーマーのエナジーシールドENを取得する関数
     function getShieldEnergy(){
@@ -72,6 +75,27 @@ export default function DamageReceived({ref}: {ref?: React.Ref<HTMLDivElement>})
                 />
                 <RollShield/>
             </Box>
+            <Box sx={{ gap: 3, display: "flex", justifyContent: "center", alignItems: "center"}}>
+                <CalculateDeployableDamage
+                    inputDamage={Number(deployableDamage)}
+                    moduleType="バリアホーン"
+                />
+                <CalculateDeployableDamage
+                    inputDamage={Number(deployableDamage)}
+                    moduleType="オプション"
+                />
+                <NumberFieldLabel
+                    label="設置物被ダメ"
+                    additionalLabel=""
+                    value={deployableDamage}
+                    setValue={setDeployableDamage}
+                    min={0}
+                    max={999}
+                />
+            </Box>
+            <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                <DefenseLevelSlider/>
+            </Box>
             <Grid container spacing={1} sx={{ml: 1, mr: 1}}>
                 <Grid size={6}>
                     <CheckBoxLabel
@@ -90,11 +114,6 @@ export default function DamageReceived({ref}: {ref?: React.Ref<HTMLDivElement>})
                         max={999}
                     />
                 </Grid>
-            </Grid>
-            <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-                <DefenseLevelSlider/>
-            </Box>
-            <Grid container spacing={1} sx={{ml: 1, mr: 1}}>
                 <Grid size={6}>
                     <CheckBoxLabel
                         label="バリアホーン"

@@ -264,10 +264,13 @@ export const modulesList = [
         energyCost: 5,
         sustainEnergyCost: 3,
         coolDown: null,
-        texts: [],
+        texts: ["20"],
         levelDiffs: {
-            6: { sustainEnergyCost: 5 },
-            9: { sustainEnergyCost: 7 }
+            4: { texts: ["25"], sustainEnergyCost: 3 },
+            6: { texts: ["25"], sustainEnergyCost: 5 },
+            8: { texts: ["30"], sustainEnergyCost: 5 },
+            9: { texts: ["30"], sustainEnergyCost: 7 },
+            10: { texts: ["35"], sustainEnergyCost: 7 },
         }
     },
     /* {

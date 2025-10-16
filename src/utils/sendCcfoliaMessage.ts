@@ -10,8 +10,13 @@ function clickTheButton(element: HTMLButtonElement){
     element.click()
 }
 
-// キャラクター名を変更する関数
-export function changeName(characterName: string, isDo: boolean = true): boolean { // キャラ名を編集する関数
+/**
+* キャラクター名を変更する関数
+* @param {string} characterName - 変更後のキャラクター名
+* @param {number} isDo - isDoがtrueなら変更する。falseなら変更しない(変更されているかどうかの確認のみ)
+* @returns {boolean} キャラクター名が変更された(=異なる)場合はtrue、変更されなかった(=既に一致する)場合はfalseを返す 
+*/
+export function changeName(characterName: string, isDo: boolean = true): boolean {
     const nameElm = document.querySelector<HTMLInputElement>(nameFormQuery) as HTMLInputElement;
     if (nameElm?.value !== characterName) {
         if(isDo) overrideFormValue(nameElm, characterName);
@@ -21,9 +26,12 @@ export function changeName(characterName: string, isDo: boolean = true): boolean
     }
 }
 
-// メッセージを変更する関数
-// isDoがtrueなら変更する。falseなら変更しない(変更されているかどうかの確認のみ)
-// メッセージが変更された場合はtrue、変更されなかった場合はfalseを返す
+/**
+* 入力メッセージを変更する関数
+* @param {string} messageText - 変更後の入力メッセージ
+* @param {number} isDo - isDoがtrueなら変更する。falseなら変更しない(変更されているかどうかの確認のみ)
+* @returns {boolean} 入力メッセージが変更された(=異なる)場合はtrue、変更されなかった(=既に一致する)場合はfalseを返す 
+*/
 export function changeMessage(messageText: string, isDo: boolean = true): boolean {
     const messageElm = document.querySelector<HTMLTextAreaElement>(messageFormQuery) as HTMLTextAreaElement;
     if (messageElm?.value !== messageText) {
