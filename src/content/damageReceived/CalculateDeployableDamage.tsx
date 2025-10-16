@@ -27,8 +27,8 @@ export default function CalculateDeployableDamage(props: Props) {
                 calculateDeployableDamage({
                     inputDamage,
                     armorValue,
-                    defenseValue: 1,
-                    additionalDefense: 1,
+                    defenseValue: 3,
+                    additionalDefense: 100,
                     enableBarrierHorn: false,
                     name: getModule(armorIndex, moduleType).pieceName
                 });
