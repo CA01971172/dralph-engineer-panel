@@ -93,9 +93,10 @@ export function calculateDeployableDamage({
     const enableScales: number[] = [scale, additionalScale, barrierHornScale].filter(s => s !== 1);
     const scalesText: string = enableScales.length > 0 ? `×${enableScales.join("×")}` : "";
     const armorText: string = armorValue > 0 ? `-${armorValue}` : "";
-    const calculateText: string = `${inputDamage}${scalesText}${armorText}`;
+    let calculateText: string = "";
+    if(scalesText + armorText !== "") calculateText = `\n(${inputDamage}${scalesText}${armorText})`;
     const damage: number = Math.max(0, Math.round(inputDamage * scale * additionalScale * barrierHornScale) - armorValue);
-    const pasteText: string = `:耐久値-${damage}  (${calculateText})`;
+    const pasteText: string = `:耐久力-${damage}${calculateText}`;
 
     const isChangedName = changeName(name);
     const isChangedMessage = changeMessage(pasteText);
