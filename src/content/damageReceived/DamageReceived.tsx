@@ -26,8 +26,6 @@ export default function DamageReceived({ref}: {ref?: React.Ref<HTMLDivElement>})
         armorIndex
     } = useContext(DataContext);
 
-    const [deployableDamage, setDeployableDamage] = useState<string>("0"); // 設置物の被ダメージ
-
     // 選択中のアーマーのエナジーシールドENを取得する関数
     function getShieldEnergy(){
         return data.powerArmors[armorIndex].energyShield.energy;
@@ -78,14 +76,6 @@ export default function DamageReceived({ref}: {ref?: React.Ref<HTMLDivElement>})
             <Box sx={{ gap: 1, display: "flex", justifyContent: "center", alignItems: "center"}}>
                 <CalculateDeployableDamage moduleType="バリアホーン" />
                 <CalculateDeployableDamage moduleType="オプション" />
-                <NumberFieldLabel
-                    label={["設置物", "被ダメ"]}
-                    additionalLabel=""
-                    value={deployableDamage}
-                    setValue={setDeployableDamage}
-                    min={0}
-                    max={999}
-                />
             </Box>
             <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
                 <DefenseLevelSlider/>
