@@ -75,7 +75,7 @@ export default function DamageReceived({ref}: {ref?: React.Ref<HTMLDivElement>})
                 />
                 <RollShield/>
             </Box>
-            <Box sx={{ gap: 2, display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <Box sx={{ gap: 1, display: "flex", justifyContent: "center", alignItems: "center"}}>
                 <CalculateDeployableDamage moduleType="バリアホーン" />
                 <CalculateDeployableDamage moduleType="オプション" />
                 <NumberFieldLabel
