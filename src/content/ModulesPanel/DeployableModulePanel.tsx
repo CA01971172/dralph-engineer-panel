@@ -46,6 +46,11 @@ ${getEnergyCostsText()}`
 ・サポート: 1体の与ダメージに1d6+6を追加(オプションの次ターン開始時まで)
 ${getEnergyCostsText()}`
                 );
+            case "オートバレルスタンド":
+                return(
+`「オートバレルスタンド🔀${levelText}」
+${getEnergyCostsText()}`
+                );
             default:
                 return "";
         }
@@ -105,7 +110,7 @@ ${getEnergyCostsText()}`
                     className="draggable-disable"
                     onClick={handleUseDeployableModule}
                 >
-                    {module.name}設置
+                    {`${(module.name === "オートバレルスタンド") ? "オトバレ" : module.name}設置`}
                 </Button>
             }
             checkbox={
