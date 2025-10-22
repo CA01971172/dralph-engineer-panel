@@ -4,6 +4,12 @@ import { DataContext } from "../DataProvider";
 import { useContext } from "react";
 import DeployableModulePanel from "./DeployableModulePanel";
 
+const deployableModules: string[] = [
+    "バリアホーン",
+    "オプション",
+    "オートバレルスタンド"
+]
+
 export default function ModulesPanel({ref}: {ref?: React.Ref<HTMLDivElement>}) {
     const {
         data,
@@ -27,7 +33,7 @@ export default function ModulesPanel({ref}: {ref?: React.Ref<HTMLDivElement>}) {
             </Box>
             {
                 data.powerArmors[armorIndex]
-                    .modules.filter(module => module.isEquipped)
+                    .modules.filter(module => (module.isEquipped && deployableModules.includes(module.name)))
                     .map((module, index) => (
                         <DeployableModulePanel
                             key={index}

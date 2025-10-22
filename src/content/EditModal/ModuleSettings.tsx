@@ -73,8 +73,10 @@ export default function ModuleSettings(props: Props){
         switch(module.name) {
             case "バリアホーン":
             case "オプション":
+            case "オートバレルスタンド":
                 return (
                     <TextField
+                        style={{width: "10rem"}}
                         label={`${module.name}名`}
                         variant="standard"
                         value={getModule(armorIndex, module.name as ModuleName).pieceName}
@@ -84,7 +86,7 @@ export default function ModuleSettings(props: Props){
             default:
                 return (
                     <TextField
-                        sx={{visibility: "hidden"}}
+                        sx={{visibility: "hidden", width: "10rem"}}
                         variant="standard"
                         value=""
                     />

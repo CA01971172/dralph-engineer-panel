@@ -65,6 +65,10 @@ export default function NamesField(){
                     <IconButton
                         color="primary"
                         onClick={() => {
+                            if(data.powerArmors.length <= 1){
+                                alert("パワーアーマーは最低1台必要です。");
+                                return;
+                            }
                             const text: string = `${armor.armorName || `アーマー${index + 1}`}のデータは消えてしまいますが、本当に削除しますか？`;
                             confirm(text) && removeArmor(index);
                         }}

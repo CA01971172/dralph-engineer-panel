@@ -1,15 +1,10 @@
 import { Button } from "@mui/material";
 import ModuleRow from "../../ui/ModuleRow";
-import { ModuleName, ModuleState } from "../../utils/getPowerArmorData";
+import { ModuleState } from "../../utils/getPowerArmorData";
 import { DataContext, PowerArmorStates } from "../DataProvider";
 import { Fragment, useContext } from "react";
 import CheckBoxLabel from "../../ui/CheckBoxLabel";
 import { changeMessage, changeName, clickSubmitButton, sendCcfoliaMessage } from "../../utils/sendCcfoliaMessage";
-
-const deployableModules: string[] = [
-    "バリアホーン",
-    "オプション"
-]
 
 export default function DeployableModulePanel({module}: {module: ModuleState}){
     const {
@@ -91,40 +86,36 @@ ${getEnergyCostsText()}`
     }
 
     return(
-        <>
-            {deployableModules.includes(module.name) && (
-                <ModuleRow
-                    input={
-                        <span>
-                            {getEnergyCostsText(true)
-                                .split(", ")
-                                .map((text, i) => (
-                                    <Fragment key={i}>
-                                        {text}
-                                        <br />
-                                    </Fragment>
-                                ))
-                            }
-                        </span>
+        <ModuleRow
+            input={
+                <span>
+                    {getEnergyCostsText(true)
+                        .split(", ")
+                        .map((text, i) => (
+                            <Fragment key={i}>
+                                {text}
+                                <br />
+                            </Fragment>
+                        ))
                     }
-                    button={
-                        <Button
-                            className="draggable-disable"
-                            onClick={handleUseDeployableModule}
-                        >
-                            {module.name}設置
-                        </Button>
-                    }
-                    checkbox={
-                        <CheckBoxLabel
-                            label="継続"
-                            isChecked={module.isEnabled}
-                            setIsChecked={() => toggleEnableDeployableModule()}
-                        />
-                    }
+                </span>
+            }
+            button={
+                <Button
+                    className="draggable-disable"
+                    onClick={handleUseDeployableModule}
+                >
+                    {module.name}設置
+                </Button>
+            }
+            checkbox={
+                <CheckBoxLabel
+                    label="継続"
+                    isChecked={module.isEnabled}
+                    setIsChecked={() => toggleEnableDeployableModule()}
                 />
-            )}
-        </>
+            }
+        />
     );
 }
 

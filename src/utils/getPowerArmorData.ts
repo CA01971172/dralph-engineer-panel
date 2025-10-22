@@ -187,7 +187,7 @@ export const modulesList = [
             10: { texts: ["+185"] }
         }
     },
-    /* {
+    {
         name: "ホーリープロテクト",
         shortName: "ホリプロ",
         type: "passive",
@@ -196,7 +196,7 @@ export const modulesList = [
         sustainEnergyCost: 0,
         coolDown: null,
         texts: []
-    }, */
+    },
     {
         name: "パワーブースト",
         shortName: "パワブ",
@@ -502,6 +502,7 @@ export function getInitialArmorData(armorName: string): PowerArmor{
             let pieceName = "";
             if(module.name === "バリアホーン") pieceName = "バリアホーン";
             if(module.name === "オプション") pieceName = "オプション";
+            if(module.name === "オートバレルスタンド") pieceName = "オートバレルスタンド";
             return {
                 ...module,
                 isEquipped: false,
