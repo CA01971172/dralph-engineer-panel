@@ -9,6 +9,7 @@ import { DataContext } from './DataProvider';
 import TabContent from '../ui/TabContent';
 import SkillsPanel from './SkillsPanel/SkillsPanel';
 import ModulesPanel from './ModulesPanel/ModulesPanel';
+import DodgeRoll from './DodgeRoll';
 
 const theme = createTheme({
     palette: {
@@ -198,7 +199,7 @@ export default function App(){
                             elevation={10}
                         >
                             <Header setIsModalOpen={setIsModalOpen}/>
-                            <Box sx={{ p: 2, pb: 4 }}>
+                            <Box sx={{ p: 2, pb: (tabIndex === 0) ? 2 : 4 }} ref={contentRef}>
                                 <TabContent value={tabIndex} index={0}>
                                     <DamageReceived ref={contentRef}/>
                                 </TabContent>
@@ -209,6 +210,7 @@ export default function App(){
                                     <ModulesPanel ref={contentRef}/>
                                 </TabContent>
                             </Box>
+                            {tabIndex === 0 && <DodgeRoll/>}
                         </Paper>
                     </Draggable>
                 </ThemeProvider>
