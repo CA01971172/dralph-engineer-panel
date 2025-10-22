@@ -197,7 +197,7 @@ export const modulesList = [
         coolDown: null,
         texts: []
     }, */
-    /* {
+    {
         name: "パワーブースト",
         shortName: "パワブ",
         type: "passive",
@@ -205,8 +205,42 @@ export const modulesList = [
         energyCost: 0,
         sustainEnergyCost: 2,
         coolDown: null,
-        texts: ["+20", "+1"]
-    }, */
+        texts: ["+20", "+1"],
+        levelDiffs: {
+            3: {
+                sustainEnergyCost: 4,
+                texts: ["+30", "+1"]
+            },
+            4: {
+                sustainEnergyCost: 4,
+                texts: ["+40", "+1"]
+            },
+            5: {
+                sustainEnergyCost: 4,
+                texts: ["+60", "+1"]
+            },
+            6: {
+                sustainEnergyCost: 6,
+                texts: ["+80", "+1"]
+            },
+            7: {
+                sustainEnergyCost: 6,
+                texts: ["+80", "+2"]
+            },
+            8: {
+                sustainEnergyCost: 8,
+                texts: ["+110", "+2"]
+            },
+            9: {
+                sustainEnergyCost: 8,
+                texts: ["+140", "+2"]
+            },
+            10: {
+                sustainEnergyCost: 10,
+                texts: ["+170", "+3"]
+            }
+        }
+    },
     /* {
         name: "応急パック",
         shortName: "応急",
@@ -227,7 +261,7 @@ export const modulesList = [
         coolDown: null,
         texts: ["+20", "1"]
     }, */
-    /* {
+    {
         name: "エリミネート",
         shortName: "エリミ",
         type: "passive",
@@ -236,7 +270,7 @@ export const modulesList = [
         sustainEnergyCost: 2,
         coolDown: null,
         texts: []
-    }, */
+    },
     {
         name: "パイルバンカー",
         shortName: "パイル",
@@ -273,7 +307,7 @@ export const modulesList = [
             10: { texts: ["35"], sustainEnergyCost: 7 },
         }
     },
-    /* {
+    {
         name: "オートバレルスタンド",
         shortName: "オトバレ",
         type: "gadget",
@@ -281,11 +315,47 @@ export const modulesList = [
         energyCost: 3,
         sustainEnergyCost: 2,
         coolDown: null,
-        texts: ["8d6"],
+        texts: ["8d6", "10", "0"], // ダメージ, 装甲, 軽減無視確率
         levelDiffs: {
+            2: {
+                sustainEnergyCost: 2,
+                texts: ["10d6", "10", "0"]
+            },
+            3: {
+                sustainEnergyCost: 3,
+                texts: ["10d6", "12", "0"]
+            },
+            4: {
+                sustainEnergyCost: 3,
+                texts: ["13d6", "12", "0"]
+            },
+            5: {
+                sustainEnergyCost: 3,
+                texts: ["13d6", "12", "25"]
+            },
+            6: {
+                sustainEnergyCost: 4,
+                texts: ["13d6", "17", "25"]
+            },
+            7: {
+                sustainEnergyCost: 4,
+                texts: ["18d6", "17", "25"]
+            },
+            8: {
+                sustainEnergyCost: 4,
+                texts: ["18d6", "22", "25"]
+            },
+            9: {
+                sustainEnergyCost: 5,
+                texts: ["18d6", "22", "25"]
+            },
+            10: {
+                sustainEnergyCost: 6,
+                texts: ["23d6", "32", "25"]
+            }
         }
-    }, */
-    /* {
+    },
+    {
         name: "ホバリング移動",
         shortName: "ホバ",
         type: "passive",
@@ -294,7 +364,7 @@ export const modulesList = [
         sustainEnergyCost: 1,
         coolDown: null,
         texts: []
-    }, */
+    },
     /* {
         name: "パワーナックル",
         shortName: "パワナク",
@@ -362,16 +432,23 @@ export const modulesList = [
         coolDown: 2,
         texts: ["8d8"]
     }, */
-    /* {
+    {
         name: "遠隔操作",
         shortName: "遠操",
-        type: "passive",
+        type: "gadget",
         maxEquip: 1,
         energyCost: 0,
         sustainEnergyCost: 2,
         coolDown: null,
-        texts: ["1"]
-    } */
+        texts: ["1"],
+        levelDiffs: {
+            6: { texts: ["2"] },
+            7: { texts: ["3"] },
+            8: { texts: ["4"] },
+            9: { texts: ["5"] },
+            10: { texts: ["6"] }
+        }
+    }
 ] as const satisfies readonly ModuleData[];
 
 // 搭載能力名から搭載能力データを取得する関数
