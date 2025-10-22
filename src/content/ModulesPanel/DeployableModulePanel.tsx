@@ -129,3 +129,4 @@ ${getEnergyCostsText()}`
 }
 
 // TODO: オプションの能力選択
+// TODO: 継続EN消費処理
