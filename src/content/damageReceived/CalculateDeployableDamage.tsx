@@ -1,15 +1,14 @@
 import { Button } from "@mui/material";
-import { calculateDeployableDamage } from "../../utils/calculateDamage";
 import { useContext } from "react";
 import { DataContext } from "../DataProvider";
+import { changeMessage, changeName } from "../../utils/sendCcfoliaMessage";
 
 type Props = {
-    inputDamage: number;
     moduleType: "オプション" | "バリアホーン";
 }
 
 export default function CalculateDeployableDamage(props: Props) {
-    const { inputDamage, moduleType } = props;
+    const { moduleType } = props;
 
     const {
         armorIndex,
@@ -20,23 +19,12 @@ export default function CalculateDeployableDamage(props: Props) {
         <Button
             className="draggable-disable"
             onClick={() => {
-                let armorValue: number = 0;
-                if(moduleType === "バリアホーン"){
-                    armorValue = Number(getModule(armorIndex, "バリアホーン").texts[0]);
-                }
-                calculateDeployableDamage({
-                    inputDamage,
-                    armorValue,
-                    defenseValue: 0,
-                    additionalDefense: 100,
-                    enableBarrierHorn: false,
-                    name: getModule(armorIndex, moduleType).pieceName
-                });
+                const moduleName: string = getModule(armorIndex, moduleType).pieceName;
+                changeName(moduleName);
+                changeMessage(":耐久力-");
             }}
         >
-            ダメージ計算
-            <br/>
-            {`(${moduleType})`}
+            {`耐久力処理(${moduleType})`}
         </Button>
     );
 };

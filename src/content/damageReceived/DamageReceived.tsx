@@ -76,14 +76,8 @@ export default function DamageReceived({ref}: {ref?: React.Ref<HTMLDivElement>})
                 <RollShield/>
             </Box>
             <Box sx={{ gap: 2, display: "flex", justifyContent: "center", alignItems: "center"}}>
-                <CalculateDeployableDamage
-                    inputDamage={Number(deployableDamage)}
-                    moduleType="バリアホーン"
-                />
-                <CalculateDeployableDamage
-                    inputDamage={Number(deployableDamage)}
-                    moduleType="オプション"
-                />
+                <CalculateDeployableDamage moduleType="バリアホーン" />
+                <CalculateDeployableDamage moduleType="オプション" />
                 <NumberFieldLabel
                     label={["設置物", "被ダメ"]}
                     additionalLabel=""
