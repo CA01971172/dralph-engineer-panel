@@ -97,7 +97,7 @@ export default function App(){
     const draggableRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
 
-    const [size, setSize] = useState<{ width: number, height: number }>({ width: 400, height: 429.5 });
+    const [size, setSize] = useState<{ width: number, height: number }>({ width: 400, height: 473.854 });
     const [windowSize, setWindowSize] = useState<{ width: number, height: number }>({ width: window.innerWidth, height: window.innerHeight });
     const [bounds, setBounds] = useState({
         top: 0,
