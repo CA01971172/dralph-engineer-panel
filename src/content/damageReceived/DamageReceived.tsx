@@ -6,7 +6,7 @@ import { Box, Grid } from "@mui/material";
 import CheckBoxLabel from "../../ui/CheckBoxLabel";
 import NumberFieldLabel from "../../ui/NumberFieldLabel";
 import SelectAdditionalArmors from "./SelectAdditionalArmors";
-import SelectPowerArmor from "./SelectPowerArmor";
+import SelectPowerArmor from "../SelectPowerArmor";
 import { DataContext, PowerArmorStates } from "../DataProvider";
 import RollShield from "./RollShield";
 import CalculateDeployableDamage from "./CalculateDeployableDamage";

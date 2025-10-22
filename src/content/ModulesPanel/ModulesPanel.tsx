@@ -1,8 +1,9 @@
 import { Box } from "@mui/material";
-import SelectPowerArmor from "../DamageReceived/SelectPowerArmor";
+import SelectPowerArmor from "../SelectPowerArmor";
 import { DataContext } from "../DataProvider";
 import { useContext } from "react";
 import DeployableModulePanel from "./DeployableModulePanel";
+import SustainEnergyButton from "../SustainEnergyButton";
 
 const deployableModules: string[] = [
     "バリアホーン",
@@ -25,11 +26,11 @@ export default function ModulesPanel({ref}: {ref?: React.Ref<HTMLDivElement>}) {
                 gap: 1
             }}
         >
-            <Box sx={{ px: 3 }}>
+            <Box sx={{ gap: 3, display: "flex", justifyContent: "center", alignItems: "center"}}>
                 <SelectPowerArmor
                     powerArmorNames={data.powerArmors.map(armor => armor.armorName)}
-                    fullWidth={true}
                 />
+                <SustainEnergyButton/>
             </Box>
             {
                 data.powerArmors[armorIndex]

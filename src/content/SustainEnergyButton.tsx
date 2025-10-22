@@ -1,12 +1,12 @@
 import { Button } from "@mui/material";
-import { changeName } from "../utils/sendCcfoliaMessage";
+import { changeMessage, changeName, clickSubmitButton } from "../utils/sendCcfoliaMessage";
 import { DataContext } from "./DataProvider";
 import { useContext } from "react";
 import { modulesList } from "../utils/getPowerArmorData";
 
 const passiveModuleNames = modulesList.filter(module => module.type === "passive").map(module => module.name);
 
-function SustainEnergyButton(){
+export default function SustainEnergyButton(){
     const {
         data,
         armorIndex,
@@ -15,11 +15,11 @@ function SustainEnergyButton(){
     } = useContext(DataContext);
 
     function calculateSustainEnergyCosts(): {
-        totalCost: number;
-        voucher: string;
+        sustainEnergyCosts: number[];
+        sustainEnergyCostsText: string[];
     }{
-        const sustainEnergyCosts: number[] = [];
-        const sustainEnergyCostsText: string[] = [];
+        const sustainEnergyCosts: number[] = [1];
+        const sustainEnergyCostsText: string[] = ["基礎消費EN: +1"];
 
         // スキルの継続消費ENを算出
         const energyBlade = data.powerArmors[armorIndex].energyBlade;
@@ -54,13 +54,9 @@ function SustainEnergyButton(){
             sustainEnergyCostsText.push(`エネルギー系効率化: ${saveEnergy.texts[0]}`);
         }
 
-        
-
-        const totalCost = sustainEnergyCosts.reduce((a, b) => a + b, 0);
-        const voucher = sustainEnergyCostsText.join("\n");
         return {
-            totalCost,
-            voucher
+            sustainEnergyCosts,
+            sustainEnergyCostsText
         };
     }
 
@@ -68,11 +64,21 @@ function SustainEnergyButton(){
         <Button
             className="draggable-disable"
             onClick={() => {
-
-                changeName(data.powerArmors[armorIndex].armorName);
+                const { sustainEnergyCosts, sustainEnergyCostsText } = calculateSustainEnergyCosts();
+                const text = 
+`C${sustainEnergyCosts.map((cost, index) => (cost > 0 && index !== 0) ? `+${cost}` : cost).join("")} 【継続消費EN】
+${sustainEnergyCostsText.join("\n")}\n`;
+                const totalCost = Math.max(sustainEnergyCosts.reduce((a, b) => a + b, 0), 1);
+                const changedName = changeName(data.powerArmors[armorIndex].armorName);
+                const changedMessage = changeMessage(text);
+                if(!changedName && !changedMessage){
+                    clickSubmitButton();
+                    changeMessage(`:EN-${totalCost}`);
+                    clickSubmitButton();
+                }
             }}
         >
-            継続EN消費
+            継続消費EN処理
         </Button>
     );
 }

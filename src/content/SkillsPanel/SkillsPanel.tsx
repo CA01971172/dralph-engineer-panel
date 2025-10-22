@@ -2,9 +2,10 @@ import { Box } from "@mui/material";
 import EnergyBladePanel from "./EnergyBladePanel";
 import EnergyShieldPanel from "./EnergyShieldPanel";
 import OverloadPanel from "./OverloadPanel";
-import SelectPowerArmor from "../DamageReceived/SelectPowerArmor";
+import SelectPowerArmor from "../SelectPowerArmor";
 import { DataContext } from "../DataProvider";
 import { useContext } from "react";
+import SustainEnergyButton from "../SustainEnergyButton";
 
 export default function SkillsPanel({ref}: {ref?: React.Ref<HTMLDivElement>}) {
     const { data } = useContext(DataContext);
@@ -18,11 +19,11 @@ export default function SkillsPanel({ref}: {ref?: React.Ref<HTMLDivElement>}) {
                 gap: 1
             }}
         >
-            <Box sx={{ px: 3 }}>
+            <Box sx={{ gap: 3, display: "flex", justifyContent: "center", alignItems: "center"}}>
                 <SelectPowerArmor
                     powerArmorNames={data.powerArmors.map(armor => armor.armorName)}
-                    fullWidth={true}
                 />
+                <SustainEnergyButton/>
             </Box>
             <OverloadPanel/>
             <EnergyShieldPanel/>

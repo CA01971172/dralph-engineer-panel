@@ -50,9 +50,28 @@ export async function setStorage<K extends keyof StorageData>(
 // PC名とアーマーデータを一括で取得
 export async function getAllArmorsWithPcName(): Promise<StorageData> {
     const characterName = (await getStorage("characterName")) || "搭乗者";
-    const powerArmors = (await getStorage("powerArmors")) || [getInitialArmorData("アーマー1")];
+    const powerArmors: PowerArmor[] = (await getStorage("powerArmors")) || [getInitialArmorData("アーマー1")];
+    const initializedPowerArmors = initializePowerArmors(powerArmors);
     const enableAdditionalArmors = (await getStorage("enableAdditionalArmors")) || true;
     const additionalArmors: AdditionalArmor[] = (await getStorage("additionalArmors")) || armorsNameList.map(armorName => ({armorName, enable: false}));
 
-    return { characterName, powerArmors, enableAdditionalArmors, additionalArmors };
+    return {
+        characterName,
+        powerArmors: initializedPowerArmors,
+        enableAdditionalArmors,
+        additionalArmors
+    };
+}
+
+function initializePowerArmors(powerArmors: PowerArmor[]): PowerArmor[] {
+    return powerArmors.map(armor => { {
+        const initializedModules = armor.modules.map(module => ({
+            ...module,
+            isEnabled: false,
+        }));
+        return {
+            ...armor,
+            modules: initializedModules,
+        };
+    }});
 }
