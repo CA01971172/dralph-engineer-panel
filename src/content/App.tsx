@@ -98,7 +98,7 @@ export default function App(){
     const draggableRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
 
-    const [size, setSize] = useState<{ width: number, height: number }>({ width: 400, height: 473.854 });
+    const [size, setSize] = useState<{ width: number, height: number }>({ width: 400, height: 541.315 });
     const [windowSize, setWindowSize] = useState<{ width: number, height: number }>({ width: window.innerWidth, height: window.innerHeight });
     const [bounds, setBounds] = useState({
         top: 0,
@@ -106,6 +106,8 @@ export default function App(){
         right: windowSize.width - size.width,
         bottom: windowSize.height - size.height,
     });
+
+    const [visibleOptionalItems, setVisibleOptionalItems] = useState<boolean>(true);
 
     const {
         tabIndex,
@@ -173,7 +175,7 @@ export default function App(){
             if (draggableRef.current) observer.unobserve(draggableRef.current);
             observer.disconnect();
         };
-    }, [tabIndex, windowSize]);
+    }, [tabIndex, windowSize, visibleOptionalItems]);
 
     return (
         <>
@@ -201,7 +203,11 @@ export default function App(){
                             <Header setIsModalOpen={setIsModalOpen}/>
                             <Box sx={{ p: 2, pb: (tabIndex === 0) ? 2 : 4 }} ref={contentRef}>
                                 <TabContent value={tabIndex} index={0}>
-                                    <DamageReceived ref={contentRef}/>
+                                    <DamageReceived
+                                        ref={contentRef}
+                                        visibleOptionalItems={visibleOptionalItems}
+                                        setVisibleOptionalItems={setVisibleOptionalItems}
+                                    />
                                 </TabContent>
                                 <TabContent value={tabIndex} index={1}>
                                     <SkillsPanel ref={contentRef}/>

@@ -32,6 +32,11 @@ export default function DodgeRoll(){
         }
     }
 
+    function enableOption(): boolean{
+        const option =  getModule(armorIndex, "オプション");
+        return option.isEquipped && option.isEnabled;
+    }
+
     return (
         <Box
             sx={{
@@ -40,7 +45,8 @@ export default function DodgeRoll(){
                 gap: 2,
                 flexDirection: "row",
                 justifyContent: "center",
-                alignItems: "center"
+                alignItems: "center",
+                py: enableOption() ? 0 : 2
             }}
         >
             <Box
@@ -53,7 +59,7 @@ export default function DodgeRoll(){
             >
                 <Button
                     className="draggable-disable"
-                    sx={{ width: "7rem" }}
+                    sx={{ width: "6rem" }}
                     onClick={() => {
                         const name = data.characterName;
                         rollDodge(name, dodgeCount, setDodgeCount);
@@ -61,16 +67,18 @@ export default function DodgeRoll(){
                 >
                     回避
                     </Button>
-                <Button
-                    className="draggable-disable"
-                    sx={{ width: "7rem" }}
-                    onClick={() => {
-                        const name = getModule(armorIndex, "オプション").pieceName;
-                        rollDodge(name, dodgeCount, setOptionDodgeCount);
-                    }} 
-                >
-                    回避(オプ)
-                </Button>
+                {enableOption() && (
+                    <Button
+                        className="draggable-disable"
+                        sx={{ width: "6rem" }}
+                        onClick={() => {
+                            const name = getModule(armorIndex, "オプション").pieceName;
+                            rollDodge(name, optionDodgeCount, setOptionDodgeCount);
+                        }} 
+                    >
+                        回避(オプ)
+                    </Button>
+                )}
             </Box>
             <Box
                 sx={{
@@ -86,23 +94,24 @@ export default function DodgeRoll(){
                     incrementNumber={() => incrementDodge(setDodgeCount)}
                     decrementNumber={() => decrementDodge(setDodgeCount)}
                 />
-                <ArrowNumberControlLabel
-                    label="回避回数"
-                    value={optionDodgeCount}
-                    incrementNumber={() => incrementDodge(setOptionDodgeCount)}
-                    decrementNumber={() => decrementDodge(setOptionDodgeCount)}
-                />
+                {enableOption() && (
+                    <ArrowNumberControlLabel
+                        label="回避回数"
+                        value={optionDodgeCount}
+                        incrementNumber={() => incrementDodge(setOptionDodgeCount)}
+                        decrementNumber={() => decrementDodge(setOptionDodgeCount)}
+                    />
+                )}
             </Box>
             <Button
                 className="draggable-disable"
-                sx={{ width: "7rem" }}
+                sx={{ width: "6rem" }}
                 onClick={() => {
                     setDodgeCount(0);
                     setOptionDodgeCount(0);
                 }}
             >
-                回避回数
-                <br/>
+                {enableOption() && (<>回避回数<br/></>)}
                 リセット
             </Button>
         </Box>

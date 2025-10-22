@@ -24,7 +24,7 @@ export default function CalculateDeployableDamage(props: Props) {
                 changeMessage(":耐久力-");
             }}
         >
-            {`耐久力処理(${moduleType})`}
+            {`耐久力処理(${moduleType === "オプション" ? "オプ" : "バリホ"})`}
         </Button>
     );
 };
