@@ -4,7 +4,20 @@ import { DataContext } from "../DataProvider";
 import { changeMessage, changeName } from "../../utils/sendCcfoliaMessage";
 
 type Props = {
-    moduleType: "オプション" | "バリアホーン";
+    moduleType: "オプション" | "バリアホーン" | "オートバレルスタンド";
+}
+
+function getShortName(moduleName: string): string {
+    switch (moduleName) {
+        case "オプション":
+            return "オプ";
+        case "バリアホーン":
+            return "バリホ";
+        case "オートバレルスタンド":
+            return "オトバレ";
+        default:
+            return moduleName;
+    }
 }
 
 export default function CalculateDeployableDamage(props: Props) {
@@ -18,13 +31,14 @@ export default function CalculateDeployableDamage(props: Props) {
     return (
         <Button
             className="draggable-disable"
+            sx={{minWidth: "4rem"}}
             onClick={() => {
                 const moduleName: string = getModule(armorIndex, moduleType).pieceName;
                 changeName(moduleName);
                 changeMessage(":耐久力-");
             }}
         >
-            {`耐久力処理(${moduleType === "オプション" ? "オプ" : "バリホ"})`}
+            {getShortName(moduleType)}
         </Button>
     );
 };

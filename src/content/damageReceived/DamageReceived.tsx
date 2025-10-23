@@ -94,8 +94,10 @@ export default function DamageReceived({
                 />
                 <RollShield/>
             </Box>
-            <Box sx={{ gap: 2, display: "flex", justifyContent: "center", alignItems: "center", }}>
+            <Box sx={{ gap: 1, display: "flex", justifyContent: "center", alignItems: "center"}}>
+                <span>耐久力処理:</span>
                 <CalculateDeployableDamage moduleType="バリアホーン" />
+                <CalculateDeployableDamage moduleType="オートバレルスタンド" />
                 <CalculateDeployableDamage moduleType="オプション" />
                 <RotateIconButton
                     className="draggable-disable"
