@@ -35,7 +35,7 @@ export default function OverloadPanel() {
                     className="draggable-disable"
                     onClick={handleUseOverload}
                 >
-                    オーバーロード発動
+                    オーバーロード
                 </Button>
             }
             checkbox={
