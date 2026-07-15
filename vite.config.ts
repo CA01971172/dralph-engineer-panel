@@ -7,7 +7,7 @@ import { crx } from '@crxjs/vite-plugin';
 const manifest = {
     manifest_version: 3,
     name: "機械技師パネル",
-    version: "0.1.0",
+    version: "0.1.1",
     description: "ドラルフ神話TRPGにおいて、機械技師用の処理を行うためのパネルをココフォリアに追加します。",
     icons: {
     //     "16": "icons/icon16.png",
